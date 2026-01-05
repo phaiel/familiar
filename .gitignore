@@ -15,10 +15,8 @@ Thumbs.db
 # Logs
 *.log
 
-# Schema registry artifacts (but keep the source)
-familiar-schemas/target/
-familiar-schemas/schemas.dot
-familiar-schemas/schemas.svg
+# Schema registry (separate repo)
+familiar-schemas/
 
 # Temporary files
 *.tmp

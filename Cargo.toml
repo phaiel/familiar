@@ -1,9 +1,9 @@
 [workspace]
 members = [
-    "familiar-contracts",
-    "familiar-verify",
-    "familiar-config",
-    "familiar-router",
-    "xtask"
+    "familiar-architecture/familiar-contracts",
+    "familiar-architecture/familiar-verify",
+    "familiar-architecture/familiar-config",
+    "familiar-architecture/familiar-router",
+    "familiar-architecture/xtask"
 ]
 resolver = "2"

@@ -1,5 +1,0 @@
-[workspace]
-members = [
-    "packages/familiar-schemas"
-]
-resolver = "2"
