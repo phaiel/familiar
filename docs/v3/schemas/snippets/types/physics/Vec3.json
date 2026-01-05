@@ -1,0 +1,9 @@
+ {
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/Vec3.v1.json",
+  "title": "3D Physics Vector",
+  "description": "A reusable data type for a vector of three f64 numbers, used for 3D spatial coordinates and cognitive perspectives.",
+  "type": "array",
+  "items": { "type": "number" },
+  "minItems": 3,
+  "maxItems": 3
+}

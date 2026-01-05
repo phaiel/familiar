@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Metadata.v1.schema.json",
+  "title": "Base Metadata",
+  "description": "The common metadata block required for all canonical schemas in the Familiar system. This is the root building block for components, laws, entities, etc. It ensures every canonical object is self-documenting.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string",
+      "pattern": "^[A-Z][a-zA-Z0-9]*$"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string",
+      "minLength": 20
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "schema_version"
+  ]
+}

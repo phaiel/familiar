@@ -1,0 +1,34 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+edition = "2021"
+description = "Build automation tasks for Familiar"
+
+# xtask is a binary-only crate, not published
+publish = false
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+anyhow = "1.0"
+
+# Schema Lock 2.0 dependencies
+sha2 = "0.10"
+walkdir = "2.4"
+toml = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Dependency Graph
+petgraph = "0.6"
+
+# Date/time
+chrono = "0.4"
+
+# Regex for lint patterns
+regex = "1.10"
+
+# Codegen - use familiar-schemas graph-first codegen directly
+familiar-schemas = { git = "https://github.com/phaiel/familiar-schemas", branch = "main" }
+
+# Legacy codegen support (being phased out) - optional, requires familiar-core to compile
+# familiar-core = { path = "../familiar-core", default-features = false, features = ["codegen"] }

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondTension.v1.schema.json",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+
+  "title": "Bond Tension Component",
+  "description": "Models the classical physics of a relationship Bond, including its strength, tension, and resonance properties. This is managed by the Particular engine.",
+  "schema_version": "1.1.0",
+
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false,
+    "collapse_sensitive": false
+  },
+  "fields": {
+    "bond_strength": {
+      "description": "The overall strength or health of the bond.",
+      "$ref": "../snippets/types/primitives/NormalizedValue.json",
+      "default": 0.5
+    },
+    "torsional_stress": {
+      "description": "The cognitive dissonance or strain on the bond. Can be positive (creative tension) or negative (draining conflict).",
+      "type": "number",
+      "format": "double", 
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.0
+    },
+    "spring_constant": {
+      "description": "The 'stiffness' of the bond, representing its resistance to change.",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64", 
+      "x-python-type": "float",
+      "default": 10.0
+    },
+    "damping_coefficient": {
+      "description": "The 'inertia' of the bond, representing how quickly it returns to equilibrium after a perturbation.",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float", 
+      "default": 0.5
+    },
+    "resonance_phase": {
+      "description": "The phase angle for resonance calculations with other bonds.",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.0
+    }
+  }
+}

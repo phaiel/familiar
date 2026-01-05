@@ -1,0 +1,5 @@
+summary: Schema Analyzer
+description: LLM-powered schema analysis for familiar-core
+lock: '!inline u/phaiel/schema_analyzer.script.lock'
+kind: script
+schema: null

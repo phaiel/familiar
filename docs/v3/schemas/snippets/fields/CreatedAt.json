@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/CreatedAt.v1.json",
+  "title": "Created At Field",
+  "description": "A reusable definition for an immutable creation timestamp.",
+  "$ref": "../types/primitives/Timestamp.json"
+}

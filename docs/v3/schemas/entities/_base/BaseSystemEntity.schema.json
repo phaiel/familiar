@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/BaseSystemEntity.v1.schema.json",
+  "title": "Base System Entity",
+  "description": "The base for system-level entities (e.g., Stitch, Tenant) that manage workflows. It inherits identity and infrastructure requirements and enforces the absence of physics components (Rules 17 & 18).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../_base/BaseEntity.schema.json"
+    },
+    {
+      "$ref": "../../_base/BaseInfrastructure.schema.json"
+    }
+  ],
+  "properties": {
+    "entity_type": {
+      "description": "The canonical type of the system entity.",
+      "type": "string",
+      "enum": [
+        "Stitch",
+        "Course",
+        "Shuttle",
+        "Tenant",
+        "WorkflowTask"
+      ]
+    },
+    "workflow_state": {
+      "description": "The current state of the entity's workflow.",
+      "$ref": "../../snippets/types/workflow/WorkflowState.json"
+    }
+  },
+  "required": [
+    "entity_type"
+  ],
+  "not": {
+    "description": "Rule 17.2: System entities MUST NOT have physics components.",
+    "required": ["physics_state"]
+  }
+}

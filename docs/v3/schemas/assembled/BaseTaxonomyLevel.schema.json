@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/TaxonomyLevel.v1.schema.json",
+  "title": "Base Taxonomy Level",
+  "description": "The base schema for a file that defines a single level of the universal classification taxonomy. It is a collection of taxonomy nodes.",
+  "category": "_base",
+  "source_file": "_base/BaseTaxonomyLevel.schema.json",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/TaxonomyNode.v1.schema.json",
+    "title": "Base Taxonomy Node",
+    "description": "Defines the structure for a single node within any given taxonomy.",
+    "type": "object",
+    "required": [
+      "id",
+      "level",
+      "label",
+      "description"
+    ],
+    "properties": {
+      "id": {
+        "description": "The unique ID for this node within its level (e.g., 'simple', 'individual', 'sleep').",
+        "type": "string"
+      },
+      "level": {
+        "description": "The name of the taxonomy level this node belongs to (e.g., 'cognitive_complexity').",
+        "type": "string"
+      },
+      "label": {
+        "description": "The human-readable label (e.g., 'Simple', 'Individual', 'Sleep').",
+        "type": "string"
+      },
+      "description": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+        "title": "Description Field",
+        "description": "A canonical, reusable definition for a human-readable description field.",
+        "type": "string",
+        "default": ""
+      },
+      "embedding_context": {
+        "description": "OPTIONAL: Rich text fed into a Sentence Transformer to generate the canonical embedding for this concept. Omit for rule-based classifications.",
+        "type": "string"
+      },
+      "metadata": {
+        "description": "Optional key-value metadata for this node, such as a physics profile affinity or rule-based triggers.",
+        "type": "object",
+        "additionalProperties": true,
+        "title": "BaseTaxonomyNodeMetadata"
+      }
+    }
+  },
+  "example": [
+    {
+      "id": "simple",
+      "description": "For direct logging, immediate recording, and factual capture of events.",
+      "label": "Simple",
+      "level": "cognitive_complexity",
+      "physics_profile_multiplier": "complexity_simple_v1",
+      "search_method_affinity": "GraphQL"
+    },
+    {
+      "id": "moderate",
+      "description": "For pattern recognition, correlation analysis, and trend identification.",
+      "label": "Moderate",
+      "level": "cognitive_complexity",
+      "physics_profile_multiplier": "complexity_moderate_v1",
+      "search_method_affinity": "PgVectorScale"
+    },
+    {
+      "id": "complex",
+      "description": "For self-reflection, introspection, and meta-cognition. High quantum coherence requirements.",
+      "label": "Complex",
+      "level": "cognitive_complexity",
+      "physics_profile_multiplier": "complexity_complex_v1",
+      "search_method_affinity": "MemoryManifold"
+    }
+  ]
+}

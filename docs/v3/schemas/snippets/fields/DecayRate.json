@@ -1,0 +1,15 @@
+{
+  "description": "The base rate of energy or coherence decay for an entity, before multipliers are applied.",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.01
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}

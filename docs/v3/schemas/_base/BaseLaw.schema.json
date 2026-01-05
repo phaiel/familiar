@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Law.v1.schema.json",
+  "title": "Base Physics Law",
+  "description": "The base schema for all physics laws, defining the execution envelope and affected components.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "./BaseMetadata.schema.json"
+    }
+  ],
+  "properties": {
+    "physics_properties": {
+      "$ref": "./BasePhysics.schema.json"
+    },
+    "execution_envelope": {
+      "type": "object",
+      "properties": {
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "event",
+            "user_request",
+            "observation",
+            "system_schedule"
+          ]
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "default": 500
+        }
+      },
+      "required": [
+        "trigger",
+        "priority"
+      ],
+      "title": "BasePhysicsLawExecutionEnvelope"
+    },
+    "affected_components": {
+      "description": "A list of component schema IDs that this law reads from or writes to.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    }
+  },
+  "required": [
+    "physics_properties",
+    "execution_envelope",
+    "affected_components"
+  ]
+}

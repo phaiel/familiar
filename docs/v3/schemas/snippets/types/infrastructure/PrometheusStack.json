@@ -1,0 +1,125 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/PrometheusStack.v1.json",
+  "title": "Prometheus Monitoring Stack",
+  "description": "The infrastructure stack for Prometheus monitoring with Grafana dashboards and alerting.",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for Prometheus stack deployment.",
+      "default": "familiar-prometheus-stack"
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "prometheus": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "retention_days": { "type": "integer", "default": 15 },
+            "storage_size": { "type": "string", "default": "50Gi" }
+          }
+        },
+        "grafana": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "admin_password": { "type": "string" },
+            "persistence_enabled": { "type": "boolean", "default": true }
+          }
+        },
+        "alertmanager": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "storage_size": { "type": "string", "default": "2Gi" }
+          }
+        }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "job_name": { "type": "string" },
+          "targets": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "scrape_interval": { "type": "string", "default": "30s" },
+          "metrics_path": { "type": "string", "default": "/metrics" }
+        },
+        "required": ["job_name", "targets"]
+      },
+      "description": "Monitoring targets for Prometheus scraping."
+    },
+    "dashboards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "datasource": { "type": "string", "default": "Prometheus" },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["name", "path"]
+      },
+      "description": "Grafana dashboard configurations."
+    },
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "expression": { "type": "string" },
+          "duration": { "type": "string", "default": "5m" },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "warning", "info"],
+            "default": "warning"
+          },
+          "annotations": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        },
+        "required": ["name", "expression"]
+      },
+      "description": "Prometheus alerting rules."
+    },
+    "notification_channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["slack", "email", "webhook", "pagerduty"]
+          },
+          "settings": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": ["name", "type"]
+      },
+      "description": "Alert notification channels."
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the meta-dashboard for monitoring the monitoring stack."
+    }
+  },
+  "required": [
+    "service_template",
+    "targets",
+    "observability_dashboard"
+  ]
+}

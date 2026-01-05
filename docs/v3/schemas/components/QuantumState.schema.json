@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/QuantumState.v1.schema.json",
+  "title": "Quantum State Component",
+  "description": "Manages the quantum properties of an entity, including its superposition and entanglement.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.1.0",
+  "physics_properties": { "engine": "quantum", "is_quantum": true },
+  "fields": {
+    "density_matrix": {
+      "description": "The quantum density matrix representing the entity's superposition of states.",
+      "$ref": "../snippets/types/physics/DensityMatrix.json"
+    },
+    "coherence_score": {
+      "description": "The purity of the quantum state (0.0 = maximally mixed, 1.0 = pure).",
+      "$ref": "../snippets/types/primitives/NormalizedValue.json"
+    },
+    "entanglement_network": {
+      "description": "A map of entangled entity IDs to their entanglement strength.",
+      "$ref": "../snippets/types/physics/EntanglementMap.json"
+    }
+  }
+}

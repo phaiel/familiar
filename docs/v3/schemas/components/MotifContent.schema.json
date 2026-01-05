@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/MotifContent.v1.schema.json",
+  "title": "Motif Content Component",
+  "description": "Defines the emergent pattern content of a Motif entity. This is a quantum component.",
+  "allOf": [
+    {
+      "$ref": "../_base/BaseComponent.schema.json"
+    }
+  ],
+  "schema_version": "1.4.0",
+  "physics_properties": {
+    "engine": "quantum",
+    "is_quantum": true
+  },
+  "properties": {
+    "fields": {
+      "type": "object",
+      "properties": {
+        "motif_description": {
+          "$ref": "../snippets/fields/Description.json"
+        },
+        "motif_type": {
+          "$ref": "../snippets/types/physics/MotifType.json"
+        },
+        "source_entanglements": {
+          "$ref": "../snippets/fields/EntityIdList.json"
+        }
+      },
+      "required": [
+        "motif_description",
+        "motif_type",
+        "source_entanglements"
+      ],
+      "additionalProperties": false,
+      "title": "MotifContentFields"
+    }
+  }
+}

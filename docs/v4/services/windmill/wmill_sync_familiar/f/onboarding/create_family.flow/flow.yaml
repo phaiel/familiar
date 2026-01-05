@@ -1,0 +1,176 @@
+summary: 'Onboarding: Create Family'
+description: DAG for family creation. Uses Windmill variables for database connection.
+value:
+  modules:
+    - id: validate_user
+      summary: Validate user exists and needs a family
+      value:
+        type: rawscript
+        content: '!inline validate_user_exists_and_needs_a_family.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          family_name:
+            type: javascript
+            expr: flow_input.family_name
+          user_id:
+            type: javascript
+            expr: flow_input.user_id
+        lock: '!inline validate_user_exists_and_needs_a_family.inline_script.lock'
+        language: deno
+    - id: create_tenant
+      summary: Create tenant record
+      value:
+        type: rawscript
+        content: '!inline create_tenant_record.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          family_name:
+            type: javascript
+            expr: results.validate_user.family_name
+        lock: '!inline create_tenant_record.inline_script.lock'
+        language: deno
+    - id: add_admin_member
+      summary: Add user as admin member
+      value:
+        type: rawscript
+        content: '!inline add_user_as_admin_member.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          user_email:
+            type: javascript
+            expr: results.validate_user.user_email
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+          user_name:
+            type: javascript
+            expr: results.validate_user.user_name
+        lock: '!inline add_user_as_admin_member.inline_script.lock'
+        language: deno
+    - id: update_user_primary
+      summary: Update user's primary tenant
+      value:
+        type: rawscript
+        content: '!inline update_user''s_primary_tenant.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+        lock: '!inline update_user''s_primary_tenant.inline_script.lock'
+        language: deno
+    - id: create_personal_channel
+      summary: Create personal channel (primary)
+      value:
+        type: rawscript
+        content: '!inline create_personal_channel_(primary).inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+          user_name:
+            type: javascript
+            expr: results.validate_user.user_name
+        lock: '!inline create_personal_channel_(primary).inline_script.lock'
+        language: deno
+    - id: create_family_channel
+      summary: Create family chat channel (secondary)
+      value:
+        type: rawscript
+        content: '!inline create_family_chat_channel_(secondary).inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          family_name:
+            type: javascript
+            expr: results.validate_user.family_name
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+        lock: '!inline create_family_chat_channel_(secondary).inline_script.lock'
+        language: deno
+    - id: audit_log
+      summary: Create audit log entry
+      value:
+        type: rawscript
+        content: '!inline create_audit_log_entry.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          tenant_name:
+            type: javascript
+            expr: results.create_tenant.tenant_name
+          user_email:
+            type: javascript
+            expr: results.validate_user.user_email
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+        lock: '!inline create_audit_log_entry.inline_script.lock'
+        language: deno
+    - id: output
+      summary: Assemble final output
+      value:
+        type: rawscript
+        content: '!inline assemble_final_output.inline_script.deno.ts'
+        input_transforms:
+          family_channel_id:
+            type: javascript
+            expr: results.create_family_channel.family_channel_id
+          family_channel_name:
+            type: javascript
+            expr: results.create_family_channel.family_channel_name
+          personal_channel_id:
+            type: javascript
+            expr: results.create_personal_channel.personal_channel_id
+          personal_channel_name:
+            type: javascript
+            expr: results.create_personal_channel.personal_channel_name
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          tenant_name:
+            type: javascript
+            expr: results.create_tenant.tenant_name
+        lock: ''
+        language: deno
+schema:
+  $schema: 'http://json-schema.org/draft-07/schema#'
+  type: object
+  properties:
+    family_name:
+      type: string
+    request_id:
+      type: string
+    user_id:
+      type: string
+      format: uuid
+  required:
+    - user_id
+    - family_name
+    - request_id

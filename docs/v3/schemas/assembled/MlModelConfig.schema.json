@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/config/MlModelConfig.v1.json",
+  "title": "ML Model Configuration",
+  "description": "Configuration for the Candle ML model used in candidate generation.",
+  "category": "snippets",
+  "source_file": "snippets/types/config/MlModelConfig.json",
+  "type": "object",
+  "properties": {
+    "model_type": {
+      "enum": [
+        "sentence_transformer",
+        "classification",
+        "sentiment_analysis",
+        "named_entity_recognition",
+        "custom"
+      ],
+      "description": "The type of Candle ML model to use for candidate generation."
+    },
+    "model_path": {
+      "type": "string",
+      "description": "Path to the model weights/configuration."
+    },
+    "model_parameters": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/StringValueMap.v1.json",
+      "title": "String Value Map",
+      "description": "A generic key-value map where keys are strings and values can be any JSON type. Used for flexible data structures like parameters or metadata.",
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "integer",
+          "boolean",
+          "object",
+          "array",
+          "null"
+        ]
+      }
+    }
+  },
+  "required": [
+    "model_type",
+    "model_path"
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/VectorDatabase.v1.json",
+  "title": "Vector Database Stack",
+  "description": "The infrastructure stack for Qdrant vector database optimized for embeddings storage and cognitive analysis.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/VectorDatabase.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for Qdrant deployment.",
+      "default": "familiar-vector-database"
+    },
+    "database_engine": {
+      "type": "string",
+      "enum": [
+        "qdrant",
+        "weaviate",
+        "pinecone",
+        "milvus"
+      ],
+      "description": "Vector database engine to use.",
+      "default": "qdrant"
+    },
+    "collections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "vector_size": {
+            "type": "integer"
+          },
+          "distance_metric": {
+            "type": "string",
+            "enum": [
+              "cosine",
+              "euclidean",
+              "dot"
+            ],
+            "default": "cosine"
+          },
+          "entity_schemas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "vector_size"
+        ]
+      },
+      "description": "Vector collections configuration."
+    },
+    "embedding_config": {
+      "type": "object",
+      "properties": {
+        "model_name": {
+          "type": "string",
+          "default": "text-embedding-ada-002"
+        },
+        "dimensions": {
+          "type": "integer",
+          "default": 1536
+        },
+        "batch_size": {
+          "type": "integer",
+          "default": 100
+        }
+      },
+      "required": [
+        "model_name",
+        "dimensions"
+      ]
+    },
+    "indexing_config": {
+      "type": "object",
+      "properties": {
+        "index_type": {
+          "type": "string",
+          "enum": [
+            "hnsw",
+            "flat"
+          ],
+          "default": "hnsw"
+        },
+        "ef_construct": {
+          "type": "integer",
+          "default": 200
+        },
+        "m": {
+          "type": "integer",
+          "default": 16
+        }
+      },
+      "required": [
+        "index_type"
+      ]
+    },
+    "clustering": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "replicas": {
+          "type": "integer",
+          "default": 3
+        },
+        "shards": {
+          "type": "integer",
+          "default": 1
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "search_config": {
+      "type": "object",
+      "properties": {
+        "default_limit": {
+          "type": "integer",
+          "default": 10
+        },
+        "max_limit": {
+          "type": "integer",
+          "default": 100
+        },
+        "similarity_threshold": {
+          "type": "number",
+          "default": 0.8
+        }
+      }
+    },
+    "backup_config": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "backup_schedule": {
+          "type": "string",
+          "default": "0 3 * * *"
+        },
+        "storage_backend": {
+          "type": "string",
+          "enum": [
+            "s3",
+            "gcs",
+            "azure_blob"
+          ],
+          "default": "s3"
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for vector database metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "collections",
+    "embedding_config",
+    "observability_dashboard"
+  ]
+}

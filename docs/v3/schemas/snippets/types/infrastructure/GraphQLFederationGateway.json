@@ -1,0 +1,125 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/GraphQLFederationGateway.v1.json",
+  "title": "GraphQL Federation Gateway Stack",
+  "description": "The infrastructure stack for a GraphQL federation gateway that orchestrates multiple cognitive services into a unified API.",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for the federation gateway.",
+      "default": "familiar-graphql-federation-gateway"
+    },
+    "federation_role": {
+      "type": "string",
+      "const": "gateway",
+      "description": "This is always a federation gateway."
+    },
+    "subgraph_services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "entities": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["name", "url", "entities"]
+      },
+      "description": "List of subgraph services this gateway federates."
+    },
+    "rate_limiting": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "requests_per_minute": {
+          "type": "integer",
+          "default": 1000
+        },
+        "complexity_limit": {
+          "type": "integer",
+          "default": 1000
+        }
+      },
+      "required": ["enabled"]
+    },
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["jwt", "oauth2", "api_key", "none"],
+          "default": "jwt"
+        },
+        "tenant_isolation": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["type"]
+    },
+    "cache_layer": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["redis", "memcached"],
+          "default": "redis"
+        },
+        "ttl_seconds": {
+          "type": "integer",
+          "default": 60
+        },
+        "query_cache": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["type"]
+    },
+    "load_balancing": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["round_robin", "least_connections", "weighted"],
+          "default": "least_connections"
+        },
+        "health_check_interval": {
+          "type": "integer",
+          "default": 30
+        }
+      },
+      "required": ["strategy"]
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for the federation gateway."
+    },
+    "schema_composition": {
+      "type": "object",
+      "properties": {
+        "auto_update": {
+          "type": "boolean",
+          "default": true
+        },
+        "composition_strategy": {
+          "type": "string",
+          "enum": ["apollo", "mesh", "stitching"],
+          "default": "apollo"
+        }
+      },
+      "required": ["auto_update"]
+    }
+  },
+  "required": [
+    "service_template",
+    "subgraph_services", 
+    "observability_dashboard"
+  ]
+} 

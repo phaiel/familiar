@@ -1,0 +1,22 @@
+# Detect type references in function signatures and field types
+# These indicate schema usage patterns in the codebase
+
+id: type-in-function-return
+language: rust
+severity: info
+rule:
+  kind: function_item
+  has:
+    kind: type_identifier
+message: "Function with type reference"
+
+---
+# Detect types in struct fields
+id: type-in-struct-field
+language: rust
+severity: info
+rule:
+  kind: field_declaration
+  has:
+    kind: type_identifier
+message: "Field type reference"

@@ -1,0 +1,392 @@
+summary: 'Onboarding: User Signup'
+description: DAG for user signup flow. Uses Windmill variables for database connection.
+schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  required:
+    - email
+    - name
+    - consents
+    - request_id
+  properties:
+    email:
+      type: string
+      format: email
+    password:
+      type: string
+    name:
+      type: string
+    invite_code:
+      type: string
+    consents:
+      type: object
+      required:
+        - terms
+        - privacy
+      properties:
+        terms:
+          type: boolean
+        privacy:
+          type: boolean
+    request_id:
+      type: string
+    ip_address:
+      type: string
+    user_agent:
+      type: string
+value:
+  modules:
+    - id: validate_input
+      summary: Validate signup input
+      value:
+        type: rawscript
+        language: deno
+        content: |-
+          export async function main(input: any) {
+            const errors: string[] = [];
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.email)) errors.push('Invalid email format');
+            if (input.password && input.password.length < 8) errors.push('Password must be at least 8 characters');
+            if (!input.consents?.terms) errors.push('Terms of service must be accepted');
+            if (!input.consents?.privacy) errors.push('Privacy policy must be accepted');
+            if (errors.length > 0) throw new Error(JSON.stringify({ code: 'VALIDATION_ERROR', errors }));
+            return {
+              valid: true,
+              email: input.email.toLowerCase().trim(),
+              name: input.name.trim(),
+              has_password: !!input.password,
+              has_invite_code: !!input.invite_code,
+              request_id: input.request_id
+            };
+          }
+        input_transforms:
+          input:
+            type: javascript
+            expr: flow_input
+    - id: check_existing_user
+      summary: Check if email already exists
+      value:
+        type: rawscript
+        language: deno
+        content: |-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+          export async function main(email: string, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const result = await client.queryObject('SELECT id FROM users WHERE email = $1', [email]);
+              if (result.rows.length > 0) {
+                throw new Error(JSON.stringify({ code: 'EMAIL_EXISTS', message: 'An account with this email already exists' }));
+              }
+              return { exists: false, email };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          email:
+            type: javascript
+            expr: results.validate_input.email
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: hash_password
+      summary: Hash password if provided
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          export async function main(password: string | null, has_password:
+          boolean) {
+            if (!has_password || !password) return { password_hash: null };
+            const encoder = new TextEncoder();
+            const salt = 'familiar_salt_v1';
+            const data = encoder.encode(password + salt);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return { password_hash: hashHex };
+          }
+        input_transforms:
+          password:
+            type: javascript
+            expr: flow_input.password
+          has_password:
+            type: javascript
+            expr: results.validate_input.has_password
+    - id: create_user
+      summary: Create user record
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(email: string, name: string, password_hash:
+          string | null, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const result = await client.queryObject(
+                `INSERT INTO users (email, name, password_hash, email_verified, created_at, updated_at)
+                 VALUES ($1, $2, $3, false, NOW(), NOW())
+                 RETURNING id, email, name, created_at`,
+                [email, name, password_hash]
+              );
+              const user = result.rows[0] as any;
+              return { user_id: user.id, email: user.email, name: user.name, created_at: user.created_at };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          email:
+            type: javascript
+            expr: results.validate_input.email
+          name:
+            type: javascript
+            expr: results.validate_input.name
+          password_hash:
+            type: javascript
+            expr: results.hash_password.password_hash
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: record_consents
+      summary: Record GDPR consent records
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, consents: any, ip_address:
+          string | null, user_agent: string | null, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const records = [];
+              if (consents.terms) {
+                await client.queryObject(
+                  `INSERT INTO consent_records (user_id, consent_type, granted, version, ip_address, user_agent) VALUES ($1, 'terms_of_service', true, 'v1', $2, $3)`,
+                  [user_id, ip_address, user_agent]
+                );
+                records.push('terms_of_service');
+              }
+              if (consents.privacy) {
+                await client.queryObject(
+                  `INSERT INTO consent_records (user_id, consent_type, granted, version, ip_address, user_agent) VALUES ($1, 'privacy_policy', true, 'v1', $2, $3)`,
+                  [user_id, ip_address, user_agent]
+                );
+                records.push('privacy_policy');
+              }
+              return { consents_recorded: records };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+          consents:
+            type: javascript
+            expr: flow_input.consents
+          ip_address:
+            type: javascript
+            expr: flow_input.ip_address
+          user_agent:
+            type: javascript
+            expr: flow_input.user_agent
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: create_session
+      summary: Create auth session
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, ip_address: string | null,
+          user_agent: string | null, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const token = crypto.randomUUID() + crypto.randomUUID();
+              const encoder = new TextEncoder();
+              const data = encoder.encode(token);
+              const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+              const hashArray = Array.from(new Uint8Array(hashBuffer));
+              const tokenHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+              const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+              const result = await client.queryObject(
+                `INSERT INTO auth_sessions (user_id, token_hash, user_agent, ip_address, expires_at) VALUES ($1, $2, $3, $4, $5) RETURNING id, expires_at`,
+                [user_id, tokenHash, user_agent, ip_address, expiresAt]
+              );
+              const session = result.rows[0] as any;
+              return { session_id: session.id, token: token, expires_at: session.expires_at };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+          ip_address:
+            type: javascript
+            expr: flow_input.ip_address
+          user_agent:
+            type: javascript
+            expr: flow_input.user_agent
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: process_invite
+      summary: Process invite code if present
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, user_name: string,
+          user_email: string, invite_code: string | null, has_invite_code:
+          boolean, database_url: string) {
+            if (!has_invite_code || !invite_code) {
+              return { needs_family: true, joined_family_id: null, joined_family_name: null };
+            }
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const invResult = await client.queryObject(
+                `SELECT fi.id, fi.tenant_id, fi.role, fi.max_uses, fi.use_count, fi.expires_at, t.name as tenant_name
+                 FROM family_invitations fi JOIN tenants t ON t.id = fi.tenant_id
+                 WHERE fi.invite_code = $1 AND fi.invite_type = 'code'`,
+                [invite_code]
+              );
+              if (invResult.rows.length === 0) return { needs_family: true, joined_family_id: null, invite_error: 'Invalid invite code' };
+              const inv = invResult.rows[0] as any;
+              if (inv.expires_at && new Date(inv.expires_at) < new Date()) return { needs_family: true, joined_family_id: null, invite_error: 'Invite code expired' };
+              if (inv.use_count >= inv.max_uses) return { needs_family: true, joined_family_id: null, invite_error: 'Invite code limit reached' };
+              await client.queryObject(
+                `INSERT INTO tenant_members (tenant_id, user_id, name, email, role, is_primary, joined_at) VALUES ($1, $2, $3, $4, $5, true, NOW())`,
+                [inv.tenant_id, user_id, user_name, user_email, inv.role]
+              );
+              await client.queryObject(`UPDATE users SET primary_tenant_id = $1, updated_at = NOW() WHERE id = $2`, [inv.tenant_id, user_id]);
+              await client.queryObject(`UPDATE family_invitations SET use_count = use_count + 1 WHERE id = $1`, [inv.id]);
+              return { needs_family: false, joined_family_id: inv.tenant_id, joined_family_name: inv.tenant_name, role: inv.role };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+          user_name:
+            type: javascript
+            expr: results.create_user.name
+          user_email:
+            type: javascript
+            expr: results.create_user.email
+          invite_code:
+            type: javascript
+            expr: flow_input.invite_code
+          has_invite_code:
+            type: javascript
+            expr: results.validate_input.has_invite_code
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: audit_log
+      summary: Create audit log entry
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, email: string, ip_address:
+          string | null, user_agent: string | null, joined_family_id: string |
+          null, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              await client.queryObject(
+                `INSERT INTO audit_log (user_id, user_email, action, resource_type, resource_id, ip_address, user_agent, metadata, success) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, true)`,
+                [user_id, email, 'signup', 'user', user_id, ip_address, user_agent, JSON.stringify({ joined_family_id })]
+              );
+              return { logged: true };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+          email:
+            type: javascript
+            expr: results.create_user.email
+          ip_address:
+            type: javascript
+            expr: flow_input.ip_address
+          user_agent:
+            type: javascript
+            expr: flow_input.user_agent
+          joined_family_id:
+            type: javascript
+            expr: results.process_invite.joined_family_id
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: output
+      summary: Assemble final output
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          export async function main(user_id: string, email: string, name:
+          string, session_id: string, session_token: string, session_expires_at:
+          string, needs_family: boolean, joined_family_id: string | null,
+          joined_family_name: string | null) {
+            return { user_id, email, name, session_id, session_token, session_expires_at, is_new_user: true, needs_family, joined_family_id, joined_family_name };
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+          email:
+            type: javascript
+            expr: results.create_user.email
+          name:
+            type: javascript
+            expr: results.create_user.name
+          session_id:
+            type: javascript
+            expr: results.create_session.session_id
+          session_token:
+            type: javascript
+            expr: results.create_session.token
+          session_expires_at:
+            type: javascript
+            expr: results.create_session.expires_at
+          needs_family:
+            type: javascript
+            expr: results.process_invite.needs_family
+          joined_family_id:
+            type: javascript
+            expr: results.process_invite.joined_family_id
+          joined_family_name:
+            type: javascript
+            expr: results.process_invite.joined_family_name
+

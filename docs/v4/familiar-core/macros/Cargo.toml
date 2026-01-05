@@ -1,0 +1,24 @@
+[package]
+name = "familiar-core-macros"
+version = "0.1.0"
+edition = "2021"
+description = "Procedural macros for generating Rust types from JSON schemas"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full", "parsing"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Schema lock parsing
+toml = "0.8"
+
+# Use typify for professional-grade JSON Schema -> Rust struct generation
+# This handles oneOf, anyOf, complex validation, and edge cases
+typify = "0.4"
+schemars = "0.8"
+

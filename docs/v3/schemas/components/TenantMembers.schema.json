@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TenantMembers.v1.schema.json",
+  "title": "Tenant Members Component",
+  "description": "Manages the users and their roles within a Tenant.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.0.0",
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "fields": {
+    "members": {
+      "description": "A list of users who are members of this tenant.",
+      "type": "array",
+      "items": {
+        "$ref": "../snippets/types/security/Member.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/Aliases.v1.schema.json",
+  "title": "Aliases",
+  "description": "A list of alternative names for this Thread (e.g., nicknames).",
+  "category": "snippets",
+  "source_file": "snippets/fields/Aliases.json",
+  "type": "array",
+  "items": {
+    "type": "string"
+  }
+}

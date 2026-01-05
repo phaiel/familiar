@@ -1,0 +1,137 @@
+name: Schema Drift Detection
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'familiar-core/src/**/*.rs'
+      - 'familiar-primitives/src/**/*.rs'
+      - 'familiar-contracts/src/**/*.rs'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'familiar-core/src/**/*.rs'
+      - 'familiar-primitives/src/**/*.rs'
+      - 'familiar-contracts/src/**/*.rs'
+  workflow_dispatch:
+
+jobs:
+  schema-drift:
+    name: Check Schema Drift
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout workspace
+        uses: actions/checkout@v4
+        with:
+          path: docs/v4
+
+      - name: Checkout schema registry
+        uses: actions/checkout@v4
+        with:
+          repository: familiar/familiar-schemas
+          path: familiar-schemas
+
+      - name: Setup Rust
+        uses: dtolnay/rust-action@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            docs/v4/target
+            familiar-schemas/target
+          key: ${{ runner.os }}-cargo-schema-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Install ast-grep
+        run: cargo install ast-grep --locked
+
+      - name: Build workspace
+        working-directory: docs/v4
+        run: cargo build -p familiar-core -p familiar-primitives -p familiar-contracts
+
+      - name: Generate fresh schemas
+        working-directory: docs/v4
+        run: cargo xtask schemas generate
+
+      - name: Check for drift
+        working-directory: docs/v4
+        run: |
+          cargo xtask schemas drift \
+            --registry ../familiar-schemas \
+            --format text \
+            --verbose
+
+      - name: Validate with ast-grep rules
+        working-directory: docs/v4
+        run: |
+          echo "🔍 Running ast-grep schema validation rules..."
+          
+          # Check for direct env access violations
+          ast-grep scan \
+            --rule familiar-core/rules/schema/direct-env-access.yml \
+            familiar-core/src/ \
+            services/familiar-api/src/ \
+            services/familiar-worker/src/ \
+            || echo "⚠️ Direct env access violations detected"
+          
+          # Check for missing schema derives  
+          ast-grep scan \
+            --rule familiar-core/rules/schema/suggest-schema.yml \
+            familiar-core/src/ \
+            || echo "⚠️ Types missing JsonSchema derive detected"
+
+      - name: Upload drift report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema-drift-report
+          path: docs/v4/reports/schema_drift_report.json
+          retention-days: 7
+
+  validate-compatibility:
+    name: Validate Schema Compatibility
+    runs-on: ubuntu-latest
+    needs: schema-drift
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout workspace
+        uses: actions/checkout@v4
+        with:
+          path: docs/v4
+
+      - name: Checkout schema registry
+        uses: actions/checkout@v4
+        with:
+          repository: familiar/familiar-schemas
+          path: familiar-schemas
+
+      - name: Setup Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Check compatibility
+        working-directory: docs/v4
+        run: cargo xtask schemas validate
+
+      - name: Comment PR with results
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Schema Compatibility Check Failed**\n\nBreaking changes detected in schemas. Please review the schema drift report before merging.\n\nRun `cargo xtask schemas drift --verbose` locally for details.'
+            })
+
+
+
+
+
+
+
+

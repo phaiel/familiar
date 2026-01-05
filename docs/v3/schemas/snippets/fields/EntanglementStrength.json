@@ -1,0 +1,7 @@
+{
+  "description": "The overall entanglement strength of this entity with others. Null for classical entities.",
+  "type": ["number", "null"],
+  "minimum": 0.0,
+  "maximum": 1.0,
+  "default": null
+}

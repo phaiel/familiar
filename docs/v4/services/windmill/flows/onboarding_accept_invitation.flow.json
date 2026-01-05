@@ -1,0 +1,109 @@
+{
+  "summary": "Onboarding: Accept Invitation",
+  "description": "DAG for accepting a family invitation. Uses Windmill variables for database connection.",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["user_id", "invite_code", "request_id"],
+    "properties": {
+      "user_id": { "type": "string", "format": "uuid" },
+      "invite_code": { "type": "string" },
+      "request_id": { "type": "string" }
+    }
+  },
+  "value": {
+    "modules": [
+      {
+        "id": "get_user_and_invitation",
+        "summary": "Get user info and validate invitation",
+        "value": {
+          "type": "rawscript",
+          "language": "deno",
+          "content": "import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';\n\nexport async function main(user_id: string, invite_code: string, database_url: string) {\n  const client = new Client(database_url);\n  await client.connect();\n  try {\n    // Get user info\n    const userResult = await client.queryObject('SELECT id, name, email FROM users WHERE id = $1', [user_id]);\n    if (userResult.rows.length === 0) throw new Error(JSON.stringify({ code: 'USER_NOT_FOUND', message: 'User not found' }));\n    const user = userResult.rows[0] as any;\n    \n    // Get invitation\n    const invResult = await client.queryObject(\n      `SELECT fi.id, fi.tenant_id, fi.role, fi.max_uses, fi.use_count, fi.expires_at, t.name as tenant_name\n       FROM family_invitations fi JOIN tenants t ON t.id = fi.tenant_id\n       WHERE fi.invite_code = $1 AND fi.invite_type = 'code'`,\n      [invite_code]\n    );\n    if (invResult.rows.length === 0) throw new Error(JSON.stringify({ code: 'INVALID_CODE', message: 'Invalid invitation code' }));\n    const inv = invResult.rows[0] as any;\n    \n    // Validate invitation\n    if (inv.expires_at && new Date(inv.expires_at) < new Date()) throw new Error(JSON.stringify({ code: 'EXPIRED', message: 'This invitation has expired' }));\n    if (inv.use_count >= inv.max_uses) throw new Error(JSON.stringify({ code: 'LIMIT_REACHED', message: 'This invitation has reached its usage limit' }));\n    \n    // Check if already member\n    const memberResult = await client.queryObject('SELECT 1 FROM tenant_members WHERE tenant_id = $1 AND user_id = $2', [inv.tenant_id, user_id]);\n    if (memberResult.rows.length > 0) throw new Error(JSON.stringify({ code: 'ALREADY_MEMBER', message: 'You are already a member of this family' }));\n    \n    return {\n      user_id: user.id, user_name: user.name, user_email: user.email,\n      invitation_id: inv.id, tenant_id: inv.tenant_id, tenant_name: inv.tenant_name, role: inv.role\n    };\n  } finally {\n    await client.end();\n  }\n}",
+          "input_transforms": {
+            "user_id": { "type": "javascript", "expr": "flow_input.user_id" },
+            "invite_code": { "type": "javascript", "expr": "flow_input.invite_code" },
+            "database_url": { "type": "static", "value": "$var:f/familiar/DATABASE_URL" }
+          }
+        }
+      },
+      {
+        "id": "add_member",
+        "summary": "Add user as family member",
+        "value": {
+          "type": "rawscript",
+          "language": "deno",
+          "content": "import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';\n\nexport async function main(tenant_id: string, user_id: string, user_name: string, user_email: string, role: string, database_url: string) {\n  const client = new Client(database_url);\n  await client.connect();\n  try {\n    // Check if this is user's first membership\n    const existingResult = await client.queryObject('SELECT 1 FROM tenant_members WHERE user_id = $1', [user_id]);\n    const is_primary = existingResult.rows.length === 0;\n    \n    await client.queryObject(\n      `INSERT INTO tenant_members (tenant_id, user_id, name, email, role, is_primary, joined_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())`,\n      [tenant_id, user_id, user_name, user_email, role, is_primary]\n    );\n    \n    if (is_primary) {\n      await client.queryObject(`UPDATE users SET primary_tenant_id = $1, updated_at = NOW() WHERE id = $2`, [tenant_id, user_id]);\n    }\n    return { added: true, is_primary };\n  } finally {\n    await client.end();\n  }\n}",
+          "input_transforms": {
+            "tenant_id": { "type": "javascript", "expr": "results.get_user_and_invitation.tenant_id" },
+            "user_id": { "type": "javascript", "expr": "results.get_user_and_invitation.user_id" },
+            "user_name": { "type": "javascript", "expr": "results.get_user_and_invitation.user_name" },
+            "user_email": { "type": "javascript", "expr": "results.get_user_and_invitation.user_email" },
+            "role": { "type": "javascript", "expr": "results.get_user_and_invitation.role" },
+            "database_url": { "type": "static", "value": "$var:f/familiar/DATABASE_URL" }
+          }
+        }
+      },
+      {
+        "id": "increment_usage",
+        "summary": "Increment invitation usage count",
+        "value": {
+          "type": "rawscript",
+          "language": "deno",
+          "content": "import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';\n\nexport async function main(invitation_id: string, database_url: string) {\n  const client = new Client(database_url);\n  await client.connect();\n  try {\n    await client.queryObject(`UPDATE family_invitations SET use_count = use_count + 1 WHERE id = $1`, [invitation_id]);\n    return { incremented: true };\n  } finally {\n    await client.end();\n  }\n}",
+          "input_transforms": {
+            "invitation_id": { "type": "javascript", "expr": "results.get_user_and_invitation.invitation_id" },
+            "database_url": { "type": "static", "value": "$var:f/familiar/DATABASE_URL" }
+          }
+        }
+      },
+      {
+        "id": "create_personal_channel",
+        "summary": "Create personal channel for new member",
+        "value": {
+          "type": "rawscript",
+          "language": "deno",
+          "content": "import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';\n\nexport async function main(tenant_id: string, user_id: string, user_name: string, database_url: string) {\n  const client = new Client(database_url);\n  await client.connect();\n  try {\n    const result = await client.queryObject(\n      `INSERT INTO channels (tenant_id, name, description, channel_type, settings, created_at, updated_at)\n       VALUES ($1, $2, $3, 'personal', $4, NOW(), NOW()) RETURNING id, name`,\n      [tenant_id, `${user_name}'s Channel`, 'Your personal channel', JSON.stringify({ owner_user_id: user_id })]\n    );\n    const channel = result.rows[0] as any;\n    return { channel_id: channel.id, channel_name: channel.name };\n  } finally {\n    await client.end();\n  }\n}",
+          "input_transforms": {
+            "tenant_id": { "type": "javascript", "expr": "results.get_user_and_invitation.tenant_id" },
+            "user_id": { "type": "javascript", "expr": "results.get_user_and_invitation.user_id" },
+            "user_name": { "type": "javascript", "expr": "results.get_user_and_invitation.user_name" },
+            "database_url": { "type": "static", "value": "$var:f/familiar/DATABASE_URL" }
+          }
+        }
+      },
+      {
+        "id": "audit_log",
+        "summary": "Create audit log entry",
+        "value": {
+          "type": "rawscript",
+          "language": "deno",
+          "content": "import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';\n\nexport async function main(user_id: string, user_email: string, tenant_id: string, tenant_name: string, role: string, database_url: string) {\n  const client = new Client(database_url);\n  await client.connect();\n  try {\n    await client.queryObject(\n      `INSERT INTO audit_log (user_id, user_email, action, resource_type, resource_id, metadata, success) VALUES ($1, $2, $3, $4, $5, $6, true)`,\n      [user_id, user_email, 'invitation_accepted', 'tenant', tenant_id, JSON.stringify({ tenant_name, role, via: 'code' })]\n    );\n    return { logged: true };\n  } finally {\n    await client.end();\n  }\n}",
+          "input_transforms": {
+            "user_id": { "type": "javascript", "expr": "results.get_user_and_invitation.user_id" },
+            "user_email": { "type": "javascript", "expr": "results.get_user_and_invitation.user_email" },
+            "tenant_id": { "type": "javascript", "expr": "results.get_user_and_invitation.tenant_id" },
+            "tenant_name": { "type": "javascript", "expr": "results.get_user_and_invitation.tenant_name" },
+            "role": { "type": "javascript", "expr": "results.get_user_and_invitation.role" },
+            "database_url": { "type": "static", "value": "$var:f/familiar/DATABASE_URL" }
+          }
+        }
+      },
+      {
+        "id": "output",
+        "summary": "Assemble final output",
+        "value": {
+          "type": "rawscript",
+          "language": "deno",
+          "content": "export async function main(tenant_id: string, tenant_name: string, role: string, personal_channel_id: string) {\n  return { tenant_id, tenant_name, role, personal_channel_id };\n}",
+          "input_transforms": {
+            "tenant_id": { "type": "javascript", "expr": "results.get_user_and_invitation.tenant_id" },
+            "tenant_name": { "type": "javascript", "expr": "results.get_user_and_invitation.tenant_name" },
+            "role": { "type": "javascript", "expr": "results.get_user_and_invitation.role" },
+            "personal_channel_id": { "type": "javascript", "expr": "results.create_personal_channel.channel_id" }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/StandardApiServiceStack.v1.json",
+  "title": "Standard API Service Stack",
+  "description": "The canonical infrastructure stack for a standard entity service, including a Poem API, TimescaleDB with vector support, and basic event topics.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/StandardApiService.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for the service.",
+      "default": "familiar-poem-api-service"
+    },
+    "database_module": {
+      "type": "string",
+      "description": "The Terraform module for the database.",
+      "default": "timescaledb"
+    },
+    "required_extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required database extensions.",
+      "default": [
+        "pgvector",
+        "vectorscale"
+      ]
+    },
+    "streaming_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of Redpanda topics this service interacts with."
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for this service."
+    }
+  },
+  "required": [
+    "service_template",
+    "database_module",
+    "streaming_topics",
+    "observability_dashboard"
+  ]
+}

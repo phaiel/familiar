@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/TenantManagementService.v1.json",
+  "title": "Tenant Management Service",
+  "description": "Infrastructure stack for tenant management, isolation, and multi-tenant resource provisioning.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/TenantManagementService.json",
+  "type": "object",
+  "properties": {
+    "tenant_isolation_strategy": {
+      "type": "string",
+      "description": "The tenant isolation approach.",
+      "enum": [
+        "database-per-tenant",
+        "schema-per-tenant",
+        "row-level-security"
+      ],
+      "default": "schema-per-tenant"
+    },
+    "database_module": {
+      "type": "string",
+      "description": "The Terraform module for tenant data storage.",
+      "default": "timescaledb"
+    },
+    "identity_provider": {
+      "type": "string",
+      "description": "The identity and access management system.",
+      "default": "oauth2-proxy"
+    },
+    "tenant_provisioning": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of resources provisioned per tenant.",
+      "default": [
+        "database-schema",
+        "api-keys",
+        "rate-limits",
+        "storage-bucket"
+      ]
+    },
+    "streaming_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Redpanda topics for tenant events.",
+      "default": [
+        "tenant-events",
+        "tenant-provisioning",
+        "tenant-billing"
+      ]
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for tenant monitoring.",
+      "default": "/dashboards/tenant-management"
+    }
+  },
+  "required": [
+    "tenant_isolation_strategy",
+    "database_module",
+    "identity_provider",
+    "tenant_provisioning",
+    "streaming_topics",
+    "observability_dashboard"
+  ]
+}

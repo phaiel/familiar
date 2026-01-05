@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/fields/ConsolidationRate.v1.json",
+  "title": "Consolidation Rate Field",
+  "description": "The base rate of memory consolidation for an entity, before multipliers are applied. Represents how quickly an unstable memory becomes stable.",
+  "category": "snippets",
+  "source_file": "snippets/fields/ConsolidationRate.json",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.0
+    }
+  },
+  "required": [
+    "value"
+  ],
+  "additionalProperties": false
+}

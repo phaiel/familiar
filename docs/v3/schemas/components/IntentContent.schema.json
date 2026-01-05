@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/IntentContent.v1.schema.json",
+  "title": "Intent Content Component",
+  "description": "Defines the content of a specific task or intention.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.2.0",
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "fields": {
+    "description": { "$ref": "../snippets/fields/Description.json" },
+    "due_date": { "$ref": "../snippets/fields/DueDate.json" },
+    "priority": { "$ref": "../snippets/fields/Priority.json" }
+  }
+}

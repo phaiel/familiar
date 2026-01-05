@@ -1,0 +1,144 @@
+summary: 'Onboarding: Accept Invitation'
+description: >-
+  DAG for accepting a family invitation. Uses Windmill variables for database
+  connection.
+value:
+  modules:
+    - id: get_user_and_invitation
+      summary: Get user info and validate invitation
+      value:
+        type: rawscript
+        content: '!inline get_user_info_and_validate_invitation.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          invite_code:
+            type: javascript
+            expr: flow_input.invite_code
+          user_id:
+            type: javascript
+            expr: flow_input.user_id
+        lock: '!inline get_user_info_and_validate_invitation.inline_script.lock'
+        language: deno
+    - id: add_member
+      summary: Add user as family member
+      value:
+        type: rawscript
+        content: '!inline add_user_as_family_member.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          role:
+            type: javascript
+            expr: results.get_user_and_invitation.role
+          tenant_id:
+            type: javascript
+            expr: results.get_user_and_invitation.tenant_id
+          user_email:
+            type: javascript
+            expr: results.get_user_and_invitation.user_email
+          user_id:
+            type: javascript
+            expr: results.get_user_and_invitation.user_id
+          user_name:
+            type: javascript
+            expr: results.get_user_and_invitation.user_name
+        lock: '!inline add_user_as_family_member.inline_script.lock'
+        language: deno
+    - id: increment_usage
+      summary: Increment invitation usage count
+      value:
+        type: rawscript
+        content: '!inline increment_invitation_usage_count.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          invitation_id:
+            type: javascript
+            expr: results.get_user_and_invitation.invitation_id
+        lock: '!inline increment_invitation_usage_count.inline_script.lock'
+        language: deno
+    - id: create_personal_channel
+      summary: Create personal channel for new member
+      value:
+        type: rawscript
+        content: '!inline create_personal_channel_for_new_member.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          tenant_id:
+            type: javascript
+            expr: results.get_user_and_invitation.tenant_id
+          user_id:
+            type: javascript
+            expr: results.get_user_and_invitation.user_id
+          user_name:
+            type: javascript
+            expr: results.get_user_and_invitation.user_name
+        lock: '!inline create_personal_channel_for_new_member.inline_script.lock'
+        language: deno
+    - id: audit_log
+      summary: Create audit log entry
+      value:
+        type: rawscript
+        content: '!inline create_audit_log_entry.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          role:
+            type: javascript
+            expr: results.get_user_and_invitation.role
+          tenant_id:
+            type: javascript
+            expr: results.get_user_and_invitation.tenant_id
+          tenant_name:
+            type: javascript
+            expr: results.get_user_and_invitation.tenant_name
+          user_email:
+            type: javascript
+            expr: results.get_user_and_invitation.user_email
+          user_id:
+            type: javascript
+            expr: results.get_user_and_invitation.user_id
+        lock: '!inline create_audit_log_entry.inline_script.lock'
+        language: deno
+    - id: output
+      summary: Assemble final output
+      value:
+        type: rawscript
+        content: '!inline assemble_final_output.inline_script.deno.ts'
+        input_transforms:
+          personal_channel_id:
+            type: javascript
+            expr: results.create_personal_channel.channel_id
+          role:
+            type: javascript
+            expr: results.get_user_and_invitation.role
+          tenant_id:
+            type: javascript
+            expr: results.get_user_and_invitation.tenant_id
+          tenant_name:
+            type: javascript
+            expr: results.get_user_and_invitation.tenant_name
+        lock: ''
+        language: deno
+schema:
+  $schema: 'http://json-schema.org/draft-07/schema#'
+  type: object
+  properties:
+    invite_code:
+      type: string
+    request_id:
+      type: string
+    user_id:
+      type: string
+      format: uuid
+  required:
+    - user_id
+    - invite_code
+    - request_id

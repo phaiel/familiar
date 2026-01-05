@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/ConstantsFile.v1.schema.json",
+  "title": "Base Constants File",
+  "description": "Defines the structure for the canonical physics_constants.yaml file, which is the single source of truth for all base physics values.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "./BaseMetadata.schema.json"
+    }
+  ],
+  "required": [
+    "quantum_physics_constants",
+    "classical_physics_constants"
+  ],
+  "properties": {
+    "classical_physics_constants": {
+      "$ref": "../snippets/types/physics/PhysicsConstants.json"
+    },
+    "cognitive_enhancement_parameters": {
+      "type": "object",
+      "title": "BaseConstantsFileCognitiveEnhancementParameters"
+    },
+    "quantum_physics_constants": {
+      "$ref": "../snippets/types/physics/PhysicsConstants.json"
+    }
+  }
+}

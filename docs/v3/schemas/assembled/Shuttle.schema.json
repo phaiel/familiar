@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Shuttle.v1.schema.json",
+  "title": "Shuttle Entity",
+  "description": "A system entity that represents a single, traceable execution run for a WeaveUnit within a parent Course.",
+  "category": "entities",
+  "source_file": "entities/Shuttle.schema.json",
+  "type": "object",
+  "schema_version": "1.1.0",
+  "properties": {
+    "entity_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "tenant_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+      "title": "UUID",
+      "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+      "type": "string"
+    },
+    "created_at": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    },
+    "x-infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/InfrastructureBlock.v1.json",
+      "title": "Infrastructure Block",
+      "description": "A canonical block defining the infrastructure components required to support a specific data entity or service.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/ServiceTemplate.v1.json",
+          "title": "Service Template",
+          "description": "A Backstage template identifier for generating microservices.",
+          "type": "string",
+          "enum": [
+            "familiar-poem-api-service",
+            "familiar-quantum-service",
+            "familiar-workflow-service",
+            "familiar-tenant-service"
+          ],
+          "default": "familiar-poem-api-service"
+        },
+        "database_module": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/DatabaseModule.v1.json",
+          "title": "Database Module",
+          "description": "A Terraform module identifier for database infrastructure.",
+          "type": "string",
+          "enum": [
+            "timescaledb",
+            "postgres",
+            "redis",
+            "vector-database"
+          ],
+          "default": "timescaledb"
+        },
+        "streaming_topics": {
+          "description": "A list of Redpanda topics this entity produces or consumes.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "observability_dashboard": {
+          "description": "The Grafana dashboard template for monitoring this entity.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_template",
+        "database_module"
+      ]
+    },
+    "entity_type": {
+      "description": "The canonical type of the system entity.",
+      "type": "string",
+      "enum": [
+        "Stitch",
+        "Course",
+        "Shuttle",
+        "Tenant",
+        "WorkflowTask"
+      ],
+      "const": "Shuttle"
+    },
+    "workflow_state": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/workflow/WorkflowState.v1.json",
+      "title": "Workflow State",
+      "description": "Represents the state of a long-running, orchestrated workflow.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+          "title": "Status Field",
+          "description": "The current status of a task or process.",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "InProgress",
+            "Completed",
+            "Cancelled"
+          ],
+          "default": "Pending"
+        },
+        "current_step": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "last_updated": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NullableTimestamp.v1.json",
+          "title": "Nullable Timestamp",
+          "description": "A canonical definition for an optional ISO 8601 timestamp with timezone.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "current_step",
+        "last_updated"
+      ]
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/ShuttleDetails.v1.schema.json",
+          "title": "Shuttle Details Component",
+          "description": "The data component for a Shuttle entity, linking it to its parent Course and the WeaveUnit it processes.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          },
+          "fields": {
+            "course_id": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+              "title": "Entity ID Field",
+              "description": "A reusable definition for a unique entity identifier.",
+              "type": "string"
+            },
+            "weave_unit_id": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+              "title": "Entity ID Field",
+              "description": "A reusable definition for a unique entity identifier.",
+              "type": "string"
+            },
+            "status": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+              "title": "Status Field",
+              "description": "The current status of a task or process.",
+              "type": "string",
+              "enum": [
+                "Pending",
+                "InProgress",
+                "Completed",
+                "Cancelled"
+              ],
+              "default": "Pending"
+            }
+          }
+        }
+      },
+      "required": [
+        "details"
+      ]
+    },
+    "infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/WorkflowOrchestrator.v1.json",
+      "title": "Workflow Orchestrator",
+      "description": "Infrastructure stack for workflow orchestration and execution, including Windmill workflows, event processing, and state management.",
+      "type": "object",
+      "properties": {
+        "workflow_engine": {
+          "type": "string",
+          "description": "The workflow execution engine.",
+          "default": "windmill"
+        },
+        "database_module": {
+          "type": "string",
+          "description": "The Terraform module for workflow state storage.",
+          "default": "timescaledb"
+        },
+        "event_processors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of event processors for workflow triggers.",
+          "default": [
+            "workflow-trigger",
+            "state-change",
+            "completion-handler"
+          ]
+        },
+        "streaming_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Redpanda topics for workflow events.",
+          "default": [
+            "workflow-events",
+            "workflow-state",
+            "workflow-completion"
+          ]
+        },
+        "observability_dashboard": {
+          "type": "string",
+          "description": "Path to the Grafana dashboard for workflow monitoring.",
+          "default": "grafana/dashboards/shuttle-execution-trace.json"
+        },
+        "trigger_topics": {
+          "default": [
+            "workflow.course.started"
+          ]
+        },
+        "status_topics": {
+          "default": [
+            "workflow.shuttle.status.updates",
+            "system.agent.trace.log"
+          ]
+        }
+      },
+      "required": [
+        "workflow_engine",
+        "database_module",
+        "event_processors",
+        "streaming_topics",
+        "observability_dashboard"
+      ]
+    }
+  },
+  "required": [
+    "entity_type"
+  ],
+  "not": {
+    "description": "Rule 17.2: System entities MUST NOT have physics components.",
+    "required": [
+      "physics_state"
+    ]
+  }
+}

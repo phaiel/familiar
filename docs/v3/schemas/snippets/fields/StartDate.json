@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/StartDate.v1.json",
+  "title": "Start Date Field",
+  "description": "The timestamp when an event, task, or focus becomes active.",
+  "$ref": "../types/primitives/Timestamp.json"
+}

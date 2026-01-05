@@ -1,0 +1,23 @@
+summary: Agentic State Management
+description: >-
+  Global state management for the agentic system. Manages shared state across
+  all  agents in the orchestration loop. State is passed between agents and
+  Windmill flow steps.
+lock: '!inline f/agentic/state.script.lock'
+kind: script
+no_main_func: true
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties: {}
+  required: []
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+# Schema Analysis CI Workflow
+# Runs ast-grep schema validation on every PR
+#
+# Checks for:
+# - Raw Uuid fields that should use semantic primitives
+# - Types in services that should be in familiar-core
+# - Duplicate TypeScript/Python types
+# - Missing derives (TS, OpenAPI, etc.)
+
+name: Schema Analysis
+
+on:
+  pull_request:
+    paths:
+      - 'familiar-core/src/**/*.rs'
+      - 'services/**/*.rs'
+      - 'services/familiar-ui/**/*.ts'
+      - 'services/familiar-ui/**/*.tsx'
+      - 'services/windmill/scripts/**/*.py'
+      - 'familiar-core/rules/**/*.yml'
+
+jobs:
+  schema-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ast-grep
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/ast-grep/ast-grep/main/install.sh | sudo bash
+
+      - name: Run Schema Analysis
+        run: |
+          cd familiar-core
+          sg scan -c sgconfig.yml --json > ../schema-results.json || true
+          
+      - name: Check for Errors
+        run: |
+          ERRORS=$(cat schema-results.json | jq '[.[] | select(.severity == "error")] | length')
+          WARNINGS=$(cat schema-results.json | jq '[.[] | select(.severity == "warning")] | length')
+          INFO=$(cat schema-results.json | jq '[.[] | select(.severity == "hint" or .severity == "info")] | length')
+          
+          echo "📊 Schema Analysis Results"
+          echo "   Errors:   $ERRORS"
+          echo "   Warnings: $WARNINGS"
+          echo "   Info:     $INFO"
+          
+          if [ "$ERRORS" -gt 0 ]; then
+            echo ""
+            echo "❌ Found schema errors:"
+            cat schema-results.json | jq -r '.[] | select(.severity == "error") | "\(.file):\(.range.start.line) - \(.message)"'
+            exit 1
+          fi
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema-analysis-results
+          path: schema-results.json
+
+
+
+

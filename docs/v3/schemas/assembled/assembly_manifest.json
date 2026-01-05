@@ -1,0 +1,856 @@
+{
+  "generated_at": "2024-01-01T00:00:00Z",
+  "total_schemas": 171,
+  "categories": {
+    "tables": 2,
+    "laws": 4,
+    "workflows": 1,
+    "components": 26,
+    "taxonomy": 2,
+    "_base": 19,
+    "entities": 15,
+    "snippets": 102
+  },
+  "schemas": [
+    {
+      "name": "AbstractionLevel",
+      "file": "AbstractionLevel.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "AccessType",
+      "file": "AccessType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Aliases",
+      "file": "Aliases.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "AnyValue",
+      "file": "AnyValue.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseAgentOutput",
+      "file": "BaseAgentOutput.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseAgentPersona",
+      "file": "BaseAgentPersona.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseApiEndpoint",
+      "file": "BaseApiEndpoint.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseCognitiveEntity",
+      "file": "BaseCognitiveEntity.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseComponent",
+      "file": "BaseComponent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseConstantsFile",
+      "file": "BaseConstantsFile.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseEntity",
+      "file": "BaseEntity.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseEvent",
+      "file": "BaseEvent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseInfrastructure",
+      "file": "BaseInfrastructure.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseLaw",
+      "file": "BaseLaw.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseMetadata",
+      "file": "BaseMetadata.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BasePayload",
+      "file": "BasePayload.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BasePhysics",
+      "file": "BasePhysics.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BasePhysicsProfile",
+      "file": "BasePhysicsProfile.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseSystemEntity",
+      "file": "BaseSystemEntity.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseTable",
+      "file": "BaseTable.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseTaxonomy",
+      "file": "BaseTaxonomy.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseTaxonomyLevel",
+      "file": "BaseTaxonomyLevel.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseTaxonomyNode",
+      "file": "BaseTaxonomyNode.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseTool",
+      "file": "BaseTool.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BaseWorkflow",
+      "file": "BaseWorkflow.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Bond",
+      "file": "Bond.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondContent",
+      "file": "BondContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondDampingFactor",
+      "file": "BondDampingFactor.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondEvent",
+      "file": "BondEvent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondPermissions",
+      "file": "BondPermissions.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondPhysicsConfig",
+      "file": "BondPhysicsConfig.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondState",
+      "file": "BondState.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondStateReason",
+      "file": "BondStateReason.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondTension",
+      "file": "BondTension.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "BondTensionDynamics",
+      "file": "BondTensionDynamics.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Bond_state_log",
+      "file": "Bond_state_log.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CandidateKnowledgeBase",
+      "file": "CandidateKnowledgeBase.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CognitiveAnalysisApi",
+      "file": "CognitiveAnalysisApi.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CognitiveBaseline",
+      "file": "CognitiveBaseline.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CognitivePerspective",
+      "file": "CognitivePerspective.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ColumnDefinition",
+      "file": "ColumnDefinition.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CompletedAt",
+      "file": "CompletedAt.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ComplexNumber",
+      "file": "ComplexNumber.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ConnectionStatus",
+      "file": "ConnectionStatus.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ConsolidationLevel",
+      "file": "ConsolidationLevel.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ConsolidationRate",
+      "file": "ConsolidationRate.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ConsolidationRateModifier",
+      "file": "ConsolidationRateModifier.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ConsolidationState",
+      "file": "ConsolidationState.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ConstraintDefinition",
+      "file": "ConstraintDefinition.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Course",
+      "file": "Course.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CourseCompletionReason",
+      "file": "CourseCompletionReason.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CourseDetails",
+      "file": "CourseDetails.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CreatedAt",
+      "file": "CreatedAt.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "CrossTenantLink",
+      "file": "CrossTenantLink.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "DatabaseModule",
+      "file": "DatabaseModule.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "DecayRate",
+      "file": "DecayRate.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "DensityMatrix",
+      "file": "DensityMatrix.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Description",
+      "file": "Description.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "DissonanceType",
+      "file": "DissonanceType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "DueDate",
+      "file": "DueDate.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EffectiveAt",
+      "file": "EffectiveAt.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EmotionalValence",
+      "file": "EmotionalValence.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EmotionalVolatility",
+      "file": "EmotionalVolatility.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EndDate",
+      "file": "EndDate.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Energy",
+      "file": "Energy.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EntanglementMap",
+      "file": "EntanglementMap.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EntanglementState",
+      "file": "EntanglementState.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EntanglementStrength",
+      "file": "EntanglementStrength.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EntityId",
+      "file": "EntityId.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EntityIdList",
+      "file": "EntityIdList.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EntityType",
+      "file": "EntityType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EnvoyProxy",
+      "file": "EnvoyProxy.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EventProcessingHub",
+      "file": "EventProcessingHub.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "EventProcessors",
+      "file": "EventProcessors.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ExplorationBias",
+      "file": "ExplorationBias.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "FeatureFlagMap",
+      "file": "FeatureFlagMap.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Filament",
+      "file": "Filament.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "FilamentContent",
+      "file": "FilamentContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "FilamentType",
+      "file": "FilamentType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Focus",
+      "file": "Focus.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "FocusContent",
+      "file": "FocusContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "GDPRDependency",
+      "file": "GDPRDependency.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "GenericThread",
+      "file": "GenericThread.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "GraphQLCognitiveService",
+      "file": "GraphQLCognitiveService.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "GraphQLFederationGateway",
+      "file": "GraphQLFederationGateway.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "HealthStatus",
+      "file": "HealthStatus.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "InfrastructureBlock",
+      "file": "InfrastructureBlock.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "IngestionWorkflow",
+      "file": "IngestionWorkflow.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "InstanceComponent",
+      "file": "InstanceComponent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Intent",
+      "file": "Intent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "IntentContent",
+      "file": "IntentContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "KeyValue",
+      "file": "KeyValue.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Label",
+      "file": "Label.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "LinkStatus",
+      "file": "LinkStatus.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Member",
+      "file": "Member.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MemoryConsolidation",
+      "file": "MemoryConsolidation.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MemoryManifoldPosition",
+      "file": "MemoryManifoldPosition.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MlModelConfig",
+      "file": "MlModelConfig.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Moment",
+      "file": "Moment.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MomentContent",
+      "file": "MomentContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MomentType",
+      "file": "MomentType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Motif",
+      "file": "Motif.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MotifCollapse",
+      "file": "MotifCollapse.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MotifContent",
+      "file": "MotifContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "MotifType",
+      "file": "MotifType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Name",
+      "file": "Name.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "NormalizedValue",
+      "file": "NormalizedValue.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "NullableTimestamp",
+      "file": "NullableTimestamp.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "OpenTelemetryCollector",
+      "file": "OpenTelemetryCollector.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "PersonThread",
+      "file": "PersonThread.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "PhysicsConstants",
+      "file": "PhysicsConstants.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "PhysicsProfile",
+      "file": "PhysicsProfile.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Platform",
+      "file": "Platform.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Priority",
+      "file": "Priority.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "PrometheusStack",
+      "file": "PrometheusStack.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "QuantumCoherence",
+      "file": "QuantumCoherence.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "QuantumComputeStack",
+      "file": "QuantumComputeStack.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "QuantumState",
+      "file": "QuantumState.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ReconciliationTaskType",
+      "file": "ReconciliationTaskType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "RedpandaCluster",
+      "file": "RedpandaCluster.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "RelationshipType",
+      "file": "RelationshipType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Role",
+      "file": "Role.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "SchemaRegistry",
+      "file": "SchemaRegistry.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ServiceTemplate",
+      "file": "ServiceTemplate.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Shuttle",
+      "file": "Shuttle.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ShuttleDetails",
+      "file": "ShuttleDetails.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "SignedNormalizedValue",
+      "file": "SignedNormalizedValue.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "SocialEnergyFactor",
+      "file": "SocialEnergyFactor.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "SourceThreadAndBonds",
+      "file": "SourceThreadAndBonds.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "StandardApiService",
+      "file": "StandardApiService.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "StandardApiServiceStack",
+      "file": "StandardApiServiceStack.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "StartDate",
+      "file": "StartDate.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Status",
+      "file": "Status.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Stitch",
+      "file": "Stitch.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "StringValueMap",
+      "file": "StringValueMap.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "SubscriptionPlan",
+      "file": "SubscriptionPlan.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TaskDefinition",
+      "file": "TaskDefinition.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TaskList",
+      "file": "TaskList.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TaskStatus",
+      "file": "TaskStatus.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TemporalAnchor",
+      "file": "TemporalAnchor.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TemporalScope",
+      "file": "TemporalScope.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Tenant",
+      "file": "Tenant.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TenantConfig",
+      "file": "TenantConfig.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TenantId",
+      "file": "TenantId.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TenantIdentity",
+      "file": "TenantIdentity.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TenantManagementService",
+      "file": "TenantManagementService.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TenantMembers",
+      "file": "TenantMembers.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TenantPermission",
+      "file": "TenantPermission.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Theme",
+      "file": "Theme.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Thread",
+      "file": "Thread.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ThreadContent",
+      "file": "ThreadContent.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ThreadEnergyDecay",
+      "file": "ThreadEnergyDecay.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ThreadState",
+      "file": "ThreadState.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ThreadStateReason",
+      "file": "ThreadStateReason.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "ThreadType",
+      "file": "ThreadType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Thread_state_log",
+      "file": "Thread_state_log.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "TimescaleDbAnalytics",
+      "file": "TimescaleDbAnalytics.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Timestamp",
+      "file": "Timestamp.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "UUID",
+      "file": "UUID.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "UniversalPhysicsState",
+      "file": "UniversalPhysicsState.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "UserId",
+      "file": "UserId.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Vec3",
+      "file": "Vec3.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "Vec6",
+      "file": "Vec6.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "VectorDatabase",
+      "file": "VectorDatabase.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "WeaveType",
+      "file": "WeaveType.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "WindmillWorkflows",
+      "file": "WindmillWorkflows.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "WorkflowOrchestrator",
+      "file": "WorkflowOrchestrator.schema.json",
+      "category": "unknown"
+    },
+    {
+      "name": "WorkflowState",
+      "file": "WorkflowState.schema.json",
+      "category": "unknown"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/RedpandaCluster.v1.json",
+  "title": "Redpanda Cluster Stack",
+  "description": "The infrastructure stack for a production-ready Redpanda streaming cluster with schema registry.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/RedpandaCluster.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for Redpanda cluster deployment.",
+      "default": "familiar-redpanda-cluster"
+    },
+    "cluster_config": {
+      "type": "object",
+      "properties": {
+        "broker_count": {
+          "type": "integer",
+          "minimum": 3,
+          "default": 3
+        },
+        "replication_factor": {
+          "type": "integer",
+          "minimum": 2,
+          "default": 3
+        },
+        "min_insync_replicas": {
+          "type": "integer",
+          "default": 2
+        }
+      },
+      "required": [
+        "broker_count"
+      ]
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "partitions": {
+            "type": "integer",
+            "default": 6
+          },
+          "retention_ms": {
+            "type": "integer",
+            "default": 604800000
+          },
+          "cleanup_policy": {
+            "type": "string",
+            "enum": [
+              "delete",
+              "compact",
+              "compact,delete"
+            ],
+            "default": "delete"
+          },
+          "schema_validation": {
+            "type": "boolean",
+            "default": true
+          },
+          "event_schemas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "event_schemas"
+        ]
+      },
+      "description": "Topic configurations for event streaming."
+    },
+    "schema_registry": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "compatibility_level": {
+          "type": "string",
+          "enum": [
+            "BACKWARD",
+            "FORWARD",
+            "FULL",
+            "NONE"
+          ],
+          "default": "BACKWARD"
+        },
+        "schema_validation": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "permissive"
+          ],
+          "default": "strict"
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "sasl_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "tls_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "acl_enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "properties": {
+        "batch_size": {
+          "type": "integer",
+          "default": 16384
+        },
+        "linger_ms": {
+          "type": "integer",
+          "default": 5
+        },
+        "compression_type": {
+          "type": "string",
+          "enum": [
+            "none",
+            "gzip",
+            "snappy",
+            "lz4",
+            "zstd"
+          ],
+          "default": "zstd"
+        }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "properties": {
+        "jmx_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "prometheus_metrics": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for Redpanda cluster metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "cluster_config",
+    "topics",
+    "observability_dashboard"
+  ]
+}

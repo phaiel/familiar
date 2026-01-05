@@ -1,0 +1,7 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/TenantPermission.v1.json",
+  "title": "Tenant Permission",
+  "description": "A canonical enum of permissions a user can have within a Tenant.",
+  "type": "string",
+  "enum": ["Read", "Write", "Contribute", "Administer"]
+}

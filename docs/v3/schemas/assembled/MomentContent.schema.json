@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/MomentContent.v1.schema.json",
+  "title": "Moment Content Component",
+  "description": "Defines the objective, factual content of a Moment entity, representing a specific event in time.",
+  "category": "components",
+  "source_file": "components/MomentContent.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+          "title": "Description Field",
+          "description": "A canonical, reusable definition for a human-readable description field.",
+          "type": "string",
+          "default": ""
+        },
+        "moment_type": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/MomentType.v1.json",
+          "title": "Moment Type",
+          "description": "A canonical enum for the classification of a Moment entity's content.",
+          "type": "string",
+          "enum": [
+            "Event",
+            "Experience",
+            "Observation",
+            "Interaction"
+          ]
+        },
+        "participants": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/EntityIdList.v1.json",
+          "title": "Entity ID List",
+          "description": "A canonical definition for a list of unique entity identifiers (UUIDs).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "objective_facts": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/StringValueMap.v1.json",
+          "title": "String Value Map",
+          "description": "A generic key-value map where keys are strings and values can be any JSON type. Used for flexible data structures like parameters or metadata.",
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "integer",
+              "boolean",
+              "object",
+              "array",
+              "null"
+            ]
+          }
+        }
+      },
+      "required": [
+        "description",
+        "moment_type"
+      ],
+      "title": "MomentContentFields"
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.3.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  }
+}

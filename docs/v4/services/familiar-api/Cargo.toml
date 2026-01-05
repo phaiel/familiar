@@ -1,0 +1,60 @@
+[package]
+name = "familiar-api"
+version = "0.1.0"
+edition = "2021"
+description = "Familiar API - The central API gateway for the Familiar physics engine"
+
+[dependencies]
+# Core schema library (single source of truth)
+# Enable protobuf feature for Protobuf serialization support
+# Enable kafka-codegen for generated Kafka producers/consumers
+# Enable password-hashing for Argon2 support
+familiar-core = { path = "../../familiar-core", features = ["protobuf", "kafka-codegen", "password-hashing"] }
+
+# Web framework
+axum = { version = "0.7", features = ["multipart", "ws"] }
+tower-http = { version = "0.5", features = ["cors"] }
+
+# HTTP client (for Windmill API)
+reqwest = { version = "0.11", features = ["json"] }
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Database
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres", "chrono", "uuid"] }
+sea-orm = { version = "1.0", features = ["runtime-tokio-rustls", "sqlx-postgres"] }
+
+# Utilities
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+base64 = "0.22.1"
+dotenvy = "0.15.7"
+schemars = "1.1.0"
+config = "0.14"
+sha2 = "0.10"
+thiserror = "1.0"
+
+# Note: Password hashing now comes from familiar-core with password-hashing feature
+
+# OpenAPI generation
+utoipa = { version = "4", features = ["axum_extras", "chrono", "uuid"] }
+utoipa-swagger-ui = { version = "7", features = ["axum"] }
+
+# Kafka/Redpanda client
+rdkafka = { version = "0.36", features = ["cmake-build"] }
+
+# JWT Authentication
+jsonwebtoken = "9"
+
+# Async broadcast channels for internal pub/sub
+tokio-stream = "0.1"
+
+[dev-dependencies]
+tokio-test = "0.4"

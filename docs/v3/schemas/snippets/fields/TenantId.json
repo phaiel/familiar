@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/TenantId.v1.json",
+  "title": "Tenant ID Field",
+  "description": "A reusable definition for the user tenant identifier.",
+  "$ref": "../types/primitives/UUID.json"
+}

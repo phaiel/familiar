@@ -1,0 +1,4 @@
+---
+alwaysApply: true
+use ast-grep mcp for any code search, pattern search over grep. 
+---

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+  "title": "Status Field",
+  "description": "The current status of a task or process.",
+  "category": "snippets",
+  "source_file": "snippets/fields/Status.json",
+  "type": "string",
+  "enum": [
+    "Pending",
+    "InProgress",
+    "Completed",
+    "Cancelled"
+  ],
+  "default": "Pending"
+}

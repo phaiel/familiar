@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Focus.v1.schema.json",
+  "title": "Focus Entity",
+  "description": "A quantum entity representing a high-level, user-declared thematic goal or life chapter.",
+  "allOf": [
+    { "$ref": "./_base/BaseCognitiveEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Focus" },
+        "components": {
+          "title": "FocusComponents",
+          "properties": { "content": { "$ref": "../components/FocusContent.schema.json" } },
+          "required": ["content"]
+        },
+        "physics_state": {
+          "title": "FocusPhysicsState",
+          "properties": {
+            "universal": { "$ref": "../components/UniversalPhysicsState.schema.json" },
+            "quantum": { "$ref": "../components/QuantumState.schema.json" }
+          },
+          "required": ["universal", "quantum"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/QuantumComputeStack.json" }],
+          "properties": {
+            "streaming_topics": { "default": ["entity.focus.lifecycle.events", "physics.focus.field.updates"] },
+            "observability_dashboard": { "default": "grafana/dashboards/focus-entity-overview.json" },
+            "classical_service_dependency": { "default": "cognitive-analysis-api" }
+          }
+        }
+      },
+      "required": ["components", "physics_state"]
+    }
+  ]
+}

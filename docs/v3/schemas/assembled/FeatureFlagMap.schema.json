@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/FeatureFlagMap.v1.schema.json",
+  "title": "FeatureFlagMap",
+  "description": "Schema for FeatureFlagMap",
+  "category": "snippets",
+  "source_file": "snippets/types/config/FeatureFlagMap.json",
+  "type": "object",
+  "additionalProperties": {
+    "type": "boolean"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/SourceThreadsAndBonds.v1.json",
+  "title": "Source Threads and Bonds Field",
+  "description": "A list of Thread and Bond entity IDs that are the source for a derived cognitive entity like a Filament.",
+  "type": "array",
+  "items": { "$ref": "./EntityId.json" }
+}

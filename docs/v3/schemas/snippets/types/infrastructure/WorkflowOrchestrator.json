@@ -1,0 +1,36 @@
+ {
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/WorkflowOrchestrator.v1.json",
+  "title": "Workflow Orchestrator",
+  "description": "Infrastructure stack for workflow orchestration and execution, including Windmill workflows, event processing, and state management.",
+  "type": "object",
+  "properties": {
+    "workflow_engine": {
+      "type": "string",
+      "description": "The workflow execution engine.",
+      "default": "windmill"
+    },
+    "database_module": {
+      "type": "string",
+      "description": "The Terraform module for workflow state storage.",
+      "default": "timescaledb"
+    },
+    "event_processors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of event processors for workflow triggers.",
+      "default": ["workflow-trigger", "state-change", "completion-handler"]
+    },
+    "streaming_topics": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Redpanda topics for workflow events.",
+      "default": ["workflow-events", "workflow-state", "workflow-completion"]
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for workflow monitoring.",
+      "default": "/dashboards/workflow-orchestrator"
+    }
+  },
+  "required": ["workflow_engine", "database_module", "event_processors", "streaming_topics", "observability_dashboard"]
+} 

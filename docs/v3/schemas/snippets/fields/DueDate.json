@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/DueDate.v1.json",
+  "title": "Due Date Field",
+  "description": "An optional due date for a task or goal.",
+  "$ref": "../types/primitives/NullableTimestamp.json"
+}

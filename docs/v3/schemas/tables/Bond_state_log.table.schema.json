@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/tables/bond_state_log.v1.schema.json",
+  "title": "Bond State Log Table",
+  "description": "Defines the schema for the 'bond_state_log' database table, which stores an append-only history of a Bond's lifecycle state.",
+  "allOf": [{ "$ref": "../_base/BaseTable.schema.json" }],
+  "schema_version": "1.0.0",
+  "tableName": "bond_state_log",
+  "columns": {
+    "bond_id": {
+      "type": "uuid",
+      "description": "The ID of the Bond whose state is being logged.",
+      "primary_key": true
+    },
+    "effective_at": {
+      "type": "date-time",
+      "description": "The immutable timestamp at which this state became effective.",
+      "primary_key": true
+    },
+    "state": {
+      "description": "The new state of the Bond.",
+      "$ref": "../snippets/types/lifecycles/BondState.json"
+    },
+    "reason": {
+      "description": "The machine-readable reason for the state change.",
+      "$ref": "../snippets/types/lifecycles/BondStateReason.json",
+      "nullable": true
+    }
+  },
+  "indexes": [{
+    "name": "idx_bond_state_log_latest",
+    "columns": ["bond_id", "effective_at DESC"]
+  }],
+  "timescale": { "is_hypertable": true, "time_column_name": "effective_at" }
+}

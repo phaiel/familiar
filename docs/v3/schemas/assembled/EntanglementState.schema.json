@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/EntanglementState.v1.schema.json",
+  "title": "Entanglement State Component",
+  "description": "Captures the subjective experience of a Moment by a specific Thread, linking them with quantum properties.",
+  "category": "components",
+  "source_file": "components/EntanglementState.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.0.0",
+  "physics_properties": {
+    "engine": "hybrid",
+    "is_quantum": true
+  },
+  "fields": {
+    "thread_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "moment_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "perspective_superposition": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/DensityMatrix.v1.json",
+      "title": "Density Matrix",
+      "description": "A 2x2 matrix of complex numbers representing a quantum state.",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/ComplexNumber.v1.json",
+          "title": "Complex Number",
+          "description": "Represents a complex number with real and imaginary parts.",
+          "type": "object",
+          "properties": {
+            "real": {
+              "type": "number"
+            },
+            "imaginary": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "real",
+            "imaginary"
+          ]
+        },
+        "minItems": 2,
+        "maxItems": 2
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "instance_details": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/InstanceComponent.v1.schema.json",
+      "title": "Instance Component",
+      "description": "Captures the specific attributes of a generic object within the context of a single event (Entanglement).",
+      "type": "object",
+      "properties": {
+        "physics_properties": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+          "title": "Base Physics Properties",
+          "description": "Defines the common physics-related properties for components and laws.",
+          "type": "object",
+          "required": [
+            "engine",
+            "is_quantum"
+          ],
+          "properties": {
+            "collapse_sensitive": {
+              "description": "Indicates if the object is affected by or triggers quantum collapse.",
+              "type": "boolean"
+            },
+            "engine": {
+              "description": "The physics engine responsible for this object.",
+              "enum": [
+                "quantum",
+                "classical",
+                "hybrid"
+              ]
+            },
+            "is_quantum": {
+              "description": "Indicates if the object has quantum properties.",
+              "type": "boolean"
+            }
+          }
+        },
+        "fields": {
+          "description": "Component-specific fields",
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "physics_properties",
+        "fields"
+      ],
+      "schema_version": "1.1.0",
+      "physics_properties": {
+        "engine": "classical",
+        "is_quantum": false
+      },
+      "fields": {
+        "generic_thread_id": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+          "title": "Entity ID Field",
+          "description": "A reusable definition for a unique entity identifier.",
+          "type": "string"
+        },
+        "specific_attributes": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/StringValueMap.v1.json",
+          "title": "String Value Map",
+          "description": "A generic key-value map where keys are strings and values can be any JSON type. Used for flexible data structures like parameters or metadata.",
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "integer",
+              "boolean",
+              "object",
+              "array",
+              "null"
+            ]
+          }
+        },
+        "significance_score": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NormalizedValue.v1.json",
+          "title": "Normalized Value",
+          "description": "A reusable definition for a floating-point number normalized between 0.0 and 1.0.",
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      }
+    }
+  }
+}

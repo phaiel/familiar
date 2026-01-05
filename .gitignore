@@ -1,0 +1,25 @@
+# Rust
+target/
+Cargo.lock
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Schema registry artifacts (but keep the source)
+familiar-schemas/target/
+familiar-schemas/schemas.dot
+familiar-schemas/schemas.svg
+
+# Temporary files
+*.tmp
+*.bak

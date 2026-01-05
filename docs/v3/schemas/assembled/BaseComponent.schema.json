@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Component.v1.schema.json",
+  "title": "Base Component",
+  "description": "The base schema for all ECS components.",
+  "category": "_base",
+  "source_file": "_base/BaseComponent.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ]
+}

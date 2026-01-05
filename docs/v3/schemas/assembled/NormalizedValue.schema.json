@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NormalizedValue.v1.json",
+  "title": "Normalized Value",
+  "description": "A reusable definition for a floating-point number normalized between 0.0 and 1.0.",
+  "category": "snippets",
+  "source_file": "snippets/types/primitives/NormalizedValue.json",
+  "type": "number",
+  "minimum": 0.0,
+  "maximum": 1.0
+}

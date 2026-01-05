@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/FilamentContent.v1.schema.json",
+  "title": "Filament Content Component",
+  "description": "Defines the high-level narrative or belief content of a Filament entity. This is a quantum component.",
+  "allOf": [
+    {
+      "$ref": "../_base/BaseComponent.schema.json"
+    }
+  ],
+  "schema_version": "1.2.0",
+  "physics_properties": {
+    "engine": "quantum",
+    "is_quantum": true
+  },
+  "properties": {
+    "fields": {
+      "type": "object",
+      "properties": {
+        "narrative_description": {
+          "$ref": "../snippets/fields/Description.json"
+        },
+        "filament_type": {
+          "$ref": "../snippets/types/physics/FilamentType.json"
+        },
+        "abstraction_level": {
+          "$ref": "../snippets/types/physics/AbstractionLevel.json"
+        },
+        "source_threads_and_bonds": {
+          "$ref": "../snippets/fields/SourceThreadAndBonds.json"
+        }
+      },
+      "required": [
+        "narrative_description",
+        "filament_type",
+        "abstraction_level",
+        "source_threads_and_bonds"
+      ],
+      "additionalProperties": false,
+      "title": "FilamentContentFields"
+    }
+  }
+}

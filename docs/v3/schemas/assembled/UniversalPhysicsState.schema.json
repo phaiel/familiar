@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json",
+  "title": "Universal Physics State Component",
+  "description": "The transient, mutable physics state of an entity.",
+  "category": "components",
+  "source_file": "components/UniversalPhysicsState.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "energy": {
+          "type": "object",
+          "description": "The current energy level of an entity.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "default": 0.1
+            }
+          },
+          "required": [
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "momentum": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/Vec6.v1.json",
+          "title": "6D Physics Vector",
+          "description": "A reusable data type for a vector of six f64 numbers, used for momentum and forces in the 6 spatial dimensions of the manifold.",
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "cognitive_perspective": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/CognitivePerspective.v1.schema.json",
+          "title": "Cognitive Perspective Field",
+          "description": "The intrinsic 'spin' or 'flavor' of the entity, which generates cognitive dissonance (torsion).",
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "ui_label": "Cognitive Perspective"
+        },
+        "decay_rate": {
+          "description": "The base rate of energy or coherence decay for an entity, before multipliers are applied.",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "default": 0.01
+            }
+          },
+          "required": [
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "consolidation_rate": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/fields/ConsolidationRate.v1.json",
+          "title": "Consolidation Rate Field",
+          "type": "object",
+          "description": "The base rate of memory consolidation for an entity, before multipliers are applied. Represents how quickly an unstable memory becomes stable.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "default": 0.0
+            }
+          },
+          "required": [
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        "quantum_coherence": {
+          "description": "The quantum coherence level of the entity, representing its degree of superposition. Null for classical entities.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": null
+        },
+        "entanglement_strength": {
+          "description": "The overall entanglement strength of this entity with others. Null for classical entities.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": null
+        }
+      },
+      "required": [
+        "energy",
+        "momentum",
+        "cognitive_perspective",
+        "decay_rate",
+        "consolidation_rate",
+        "quantum_coherence",
+        "entanglement_strength"
+      ],
+      "title": "UniversalPhysicsStateFields"
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "3.0.0"
+}

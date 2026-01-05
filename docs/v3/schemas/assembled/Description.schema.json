@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+  "title": "Description Field",
+  "description": "A canonical, reusable definition for a human-readable description field.",
+  "category": "snippets",
+  "source_file": "snippets/fields/Description.json",
+  "type": "string",
+  "default": ""
+}

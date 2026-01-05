@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/HealthStatus.v1.json",
+  "title": "System Health Status",
+  "description": "A canonical enum for system health states.",
+  "category": "snippets",
+  "source_file": "snippets/types/system/HealthStatus.json",
+  "type": "string",
+  "enum": [
+    "Healthy",
+    "Degraded",
+    "Critical"
+  ]
+}

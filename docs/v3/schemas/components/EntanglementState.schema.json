@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/EntanglementState.v1.schema.json",
+  "title": "Entanglement State Component",
+  "description": "Captures the subjective experience of a Moment by a specific Thread, linking them with quantum properties.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.0.0",
+  "physics_properties": { "engine": "hybrid", "is_quantum": true },
+  "fields": {
+    "thread_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "moment_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "perspective_superposition": {
+      "description": "Quantum state representing the Thread's subjective perspective of the Moment.",
+      "$ref": "../snippets/types/physics/DensityMatrix.json"
+    },
+    "instance_details": {
+      "description": "Specific instance details of any objects involved in the experience.",
+      "$ref": "./InstanceComponent.schema.json"
+    }
+  }
+}

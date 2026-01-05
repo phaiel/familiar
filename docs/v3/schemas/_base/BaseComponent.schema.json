@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Component.v1.schema.json",
+  "title": "Base Component",
+  "description": "The base schema for all ECS components.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "./BaseMetadata.schema.json"
+    }
+  ],
+  "properties": {
+    "physics_properties": {
+      "$ref": "./BasePhysics.schema.json"
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ]
+}

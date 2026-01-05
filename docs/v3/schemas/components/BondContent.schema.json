@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondContent.v1.schema.json",
+  "title": "Bond Content Component",
+  "description": "Defines the descriptive content and history of a relationship Bond.",
+  "allOf": [
+    {
+      "$ref": "../_base/BaseComponent.schema.json"
+    }
+  ],
+  "schema_version": "1.1.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  },
+  "properties": {
+    "fields": {
+      "type": "object",
+      "properties": {
+        "relationship_type": {
+          "$ref": "../snippets/types/social/RelationshipType.json"
+        },
+        "description": {
+          "$ref": "../snippets/fields/Description.json"
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "../snippets/types/social/BondEvent.json"
+          }
+        }
+      },
+      "required": [
+        "relationship_type"
+      ],
+      "additionalProperties": false,
+      "title": "BondContentFields"
+    }
+  }
+}

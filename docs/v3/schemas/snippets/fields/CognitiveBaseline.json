@@ -1,0 +1,12 @@
+{
+  "description": "Defines the innate 'personality' or temperament of a Thread, modulating its physics interactions.",
+  "type": "object",
+  "properties": {
+    "emotional_volatility": { "$ref": "./EmotionalVolatility.json" },
+    "social_energy_factor": { "$ref": "./SocialEnergyFactor.json" },
+    "consolidation_rate_modifier": { "$ref": "./ConsolidationRateModifier.json" },
+    "bond_damping_factor": { "$ref": "./BondDampingFactor.json" },
+    "exploration_bias": { "$ref": "./ExplorationBias.json" }
+  },
+  "required": ["emotional_volatility", "social_energy_factor", "consolidation_rate_modifier", "bond_damping_factor", "exploration_bias"]
+}

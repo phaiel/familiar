@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EndDate.v1.json",
+  "title": "End Date Field",
+  "description": "The timestamp when an event, task, or focus is scheduled to end or be reviewed.",
+  "$ref": "../types/primitives/NullableTimestamp.json"
+}

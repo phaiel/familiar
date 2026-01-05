@@ -1,0 +1,135 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/WindmillWorkflows.v1.json",
+  "title": "Windmill Workflows Stack",
+  "description": "The infrastructure stack for Windmill self-hosted workflow automation platform.",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for Windmill deployment.",
+      "default": "familiar-windmill-workflows"
+    },
+    "deployment_config": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["standalone", "cluster"],
+          "default": "cluster"
+        },
+        "worker_replicas": {
+          "type": "integer",
+          "default": 3
+        },
+        "database_type": {
+          "type": "string",
+          "enum": ["postgresql", "mysql"],
+          "default": "postgresql"
+        }
+      }
+    },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "trigger_type": {
+            "type": "string",
+            "enum": ["schedule", "webhook", "event", "manual"]
+          },
+          "trigger_config": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "type": {
+                  "type": "string",
+                  "enum": ["script", "flow", "approval", "sleep"]
+                },
+                "language": {
+                  "type": "string",
+                  "enum": ["python", "typescript", "go", "bash", "sql"]
+                }
+              }
+            }
+          }
+        },
+        "required": ["name", "trigger_type"]
+      },
+      "description": "Workflow definitions for automation."
+    },
+    "integrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["kafka", "postgresql", "redis", "s3", "slack", "github"]
+          },
+          "connection_config": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": ["name", "type"]
+      },
+      "description": "External system integrations."
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "authentication": {
+          "type": "string",
+          "enum": ["oauth2", "saml", "ldap", "local"],
+          "default": "oauth2"
+        },
+        "rbac_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "audit_logs": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "scaling": {
+      "type": "object",
+      "properties": {
+        "auto_scaling": {
+          "type": "boolean",
+          "default": true
+        },
+        "min_workers": {
+          "type": "integer",
+          "default": 1
+        },
+        "max_workers": {
+          "type": "integer",
+          "default": 10
+        },
+        "cpu_threshold": {
+          "type": "integer",
+          "default": 70
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for Windmill metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "workflows",
+    "observability_dashboard"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/workflows/IngestionWorkflow.v1.schema.json",
+  "title": "Ingestion Workflow",
+  "description": "The canonical DAG for processing a user's Weave, performing reconciliation, and producing a Draft entity ready for creation.",
+  "allOf": [{ "$ref": "../_base/BaseWorkflow.schema.json" }],
+  "schema_version": "1.1.0",
+  "properties": {
+    "tasks": {
+      "$ref": "../snippets/types/primitives/TaskList.json"
+    }
+  }
+}

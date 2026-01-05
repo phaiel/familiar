@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/tables/thread_state_log.v1.schema.json",
+  "title": "Thread State Log Table",
+  "description": "Defines the schema for the 'thread_state_log' database table, which stores an append-only history of a Thread's lifecycle state.",
+  "category": "tables",
+  "source_file": "tables/Thread_state_log.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "tableName": {
+      "description": "The physical name of the table in the database.",
+      "type": "string"
+    },
+    "columns": {
+      "description": "A map of column names to their definitions.",
+      "type": "object",
+      "additionalProperties": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/database/ColumnDefinition.v1.json",
+        "title": "Column Definition",
+        "description": "Schema for defining a database table column.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name Field",
+            "description": "The primary, human-readable name of an entity.",
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string",
+              "integer",
+              "boolean",
+              "timestamp",
+              "uuid"
+            ]
+          },
+          "nullable": {
+            "type": "boolean",
+            "default": false
+          },
+          "primary_key": {
+            "type": "boolean",
+            "default": false
+          },
+          "unique": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "title": "BaseDatabaseColumns"
+    }
+  },
+  "required": [
+    "tableName",
+    "columns"
+  ],
+  "schema_version": "1.3.0",
+  "tableName": "thread_state_log",
+  "columns": {
+    "thread_id": {
+      "type": "uuid",
+      "description": "The ID of the Thread whose state is being logged.",
+      "primary_key": true
+    },
+    "effective_at": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    },
+    "state": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/lifecycles/ThreadState.v1.json",
+      "title": "Thread State",
+      "description": "A canonical enum of all possible lifecycle states for a Thread entity.",
+      "type": "string",
+      "enum": [
+        "Active",
+        "Inactive",
+        "Fading",
+        "Archived"
+      ]
+    },
+    "reason": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/lifecycles/ThreadStateReason.v1.json",
+      "title": "Thread State Reason",
+      "description": "A canonical enum of the machine-readable reasons for a Thread state change.",
+      "type": "string",
+      "enum": [
+        "UserMarkedInactive",
+        "UserMarkedDeceased",
+        "SystemDetectedInactivity",
+        "LifecycleCompleted"
+      ]
+    },
+    "metadata": {
+      "title": "Key Value",
+      "description": "A generic nested key-value map structure where outer keys map to objects, and inner keys map to string, number, or boolean values.",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "indexes": [
+    {
+      "name": "idx_thread_state_log_latest",
+      "columns": [
+        "thread_id",
+        "effective_at DESC"
+      ]
+    }
+  ],
+  "timescale": {
+    "is_hypertable": true,
+    "time_column_name": "effective_at"
+  }
+}

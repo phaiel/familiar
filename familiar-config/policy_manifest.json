@@ -1,0 +1,461 @@
+{
+  "version": "0.1.0",
+  "config_keys": {
+    "queues.routing_queue.retention_hours": {
+      "path": "queues.routing_queue.retention_hours",
+      "value_type": "integer",
+      "default_value": 24,
+      "description": "Hours to retain messages in routing queue"
+    },
+    "nodes.classifier.resources.gpu": {
+      "path": "nodes.classifier.resources.gpu",
+      "value_type": "integer",
+      "default_value": null,
+      "description": "GPU allocation for classifier node"
+    },
+    "infra.queues.feature_retention": {
+      "path": "infra.queues.feature_retention",
+      "value_type": "string",
+      "default_value": "1d",
+      "description": "Message retention period for feature queues"
+    },
+    "pgo.default_min_improvement_percent": {
+      "path": "pgo.default_min_improvement_percent",
+      "value_type": "number",
+      "default_value": 5.0,
+      "description": "Default minimum performance improvement required for PGO (percentage)"
+    },
+    "routing.max_routing_retries": {
+      "path": "routing.max_routing_retries",
+      "value_type": "integer",
+      "default_value": 3,
+      "description": "Maximum number of routing retries on failure"
+    },
+    "systems.fates_gate.retries.search": {
+      "path": "systems.fates_gate.retries.search",
+      "value_type": "integer",
+      "default_value": 2,
+      "description": "Retry count for FatesGate search operations"
+    },
+    "nodes.classifier.resources.memory": {
+      "path": "nodes.classifier.resources.memory",
+      "value_type": "string",
+      "default_value": "1Gi",
+      "description": "Memory allocation for classifier node"
+    },
+    "pgo.enable_by_default": {
+      "path": "pgo.enable_by_default",
+      "value_type": "boolean",
+      "default_value": false,
+      "description": "Whether to enable PGO by default for new systems"
+    },
+    "observability.queue_monitoring.max_queue_depth": {
+      "path": "observability.queue_monitoring.max_queue_depth",
+      "value_type": "integer",
+      "default_value": 10000,
+      "description": "Maximum acceptable queue depth"
+    },
+    "observability.load_shedding.cpu_threshold": {
+      "path": "observability.load_shedding.cpu_threshold",
+      "value_type": "number",
+      "default_value": 0.8,
+      "description": "CPU threshold to trigger load shedding"
+    },
+    "nodes.familiar_daemon.constraints.error_rate_threshold": {
+      "path": "nodes.familiar_daemon.constraints.error_rate_threshold",
+      "value_type": "number",
+      "default_value": 0.05,
+      "description": "Error rate threshold for familiar-daemon health checks"
+    },
+    "systems.classifier_system.timeouts.classification": {
+      "path": "systems.classifier_system.timeouts.classification",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 120
+      },
+      "description": "Timeout for classification operations"
+    },
+    "systems.classifier_system.retries.entity_segment": {
+      "path": "systems.classifier_system.retries.entity_segment",
+      "value_type": "integer",
+      "default_value": 3,
+      "description": "Retry count for entity segmentation operations"
+    },
+    "pgo.default_profile_retention_days": {
+      "path": "pgo.default_profile_retention_days",
+      "value_type": "integer",
+      "default_value": 30,
+      "description": "Default days to retain PGO profile data before expiration"
+    },
+    "nodes.familiar_router.resources.storage": {
+      "path": "nodes.familiar_router.resources.storage",
+      "value_type": "string",
+      "default_value": "10Gi",
+      "description": "Storage allocation for routing node"
+    },
+    "nodes.familiar_daemon.resources.storage": {
+      "path": "nodes.familiar_daemon.resources.storage",
+      "value_type": "string",
+      "default_value": "10Gi",
+      "description": "Storage allocation for familiar-daemon node"
+    },
+    "nodes.familiar_daemon.constraints.cpu_threshold": {
+      "path": "nodes.familiar_daemon.constraints.cpu_threshold",
+      "value_type": "number",
+      "default_value": 0.8,
+      "description": "CPU threshold for familiar-daemon health checks"
+    },
+    "nodes.familiar_router.constraints.cpu_threshold": {
+      "path": "nodes.familiar_router.constraints.cpu_threshold",
+      "value_type": "number",
+      "default_value": 0.8,
+      "description": "Maximum CPU usage threshold for routing node"
+    },
+    "observability.circuit_breaker.recovery_timeout": {
+      "path": "observability.circuit_breaker.recovery_timeout",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 30
+      },
+      "description": "Time to wait before attempting recovery"
+    },
+    "nodes.familiar_worker.resources.cpu": {
+      "path": "nodes.familiar_worker.resources.cpu",
+      "value_type": "string",
+      "default_value": "1000m",
+      "description": "CPU allocation for familiar-worker node"
+    },
+    "nodes.familiar_daemon.resources.memory": {
+      "path": "nodes.familiar_daemon.resources.memory",
+      "value_type": "string",
+      "default_value": "1Gi",
+      "description": "Memory allocation for familiar-daemon node"
+    },
+    "pgo.default_profile_cache_ttl_days": {
+      "path": "pgo.default_profile_cache_ttl_days",
+      "value_type": "integer",
+      "default_value": 30,
+      "description": "Default TTL for PGO profile cache in days"
+    },
+    "observability.resilience.request_timeout": {
+      "path": "observability.resilience.request_timeout",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 30
+      },
+      "description": "Default request timeout"
+    },
+    "systems.classifier_system.timeouts.entity_segment": {
+      "path": "systems.classifier_system.timeouts.entity_segment",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 30
+      },
+      "description": "Timeout for entity segmentation operations"
+    },
+    "systems.classifier_system.retries.purpose_classification": {
+      "path": "systems.classifier_system.retries.purpose_classification",
+      "value_type": "integer",
+      "default_value": 2,
+      "description": "Retry count for purpose classification operations"
+    },
+    "nodes.classifier.constraints.memory_threshold": {
+      "path": "nodes.classifier.constraints.memory_threshold",
+      "value_type": "integer",
+      "default_value": 1000000,
+      "description": "Memory threshold for classifier health checks"
+    },
+    "systems.fates_gate.retries.weave": {
+      "path": "systems.fates_gate.retries.weave",
+      "value_type": "integer",
+      "default_value": 3,
+      "description": "Retry count for FatesGate weave operations"
+    },
+    "infra.queues.classifier_retention": {
+      "path": "infra.queues.classifier_retention",
+      "value_type": "string",
+      "default_value": "7d",
+      "description": "Message retention period for classifier queues"
+    },
+    "observability.circuit_breaker.success_threshold": {
+      "path": "observability.circuit_breaker.success_threshold",
+      "value_type": "integer",
+      "default_value": 3,
+      "description": "Number of successes to close circuit breaker"
+    },
+    "pgo.default_warmup_iterations": {
+      "path": "pgo.default_warmup_iterations",
+      "value_type": "integer",
+      "default_value": 10,
+      "description": "Default number of warmup iterations before PGO profiling"
+    },
+    "queues.routing_queue.capacity": {
+      "path": "queues.routing_queue.capacity",
+      "value_type": "integer",
+      "default_value": 10000,
+      "description": "Maximum capacity of routing queue"
+    },
+    "techniques.routing.core_routing.memory_requirement_mb": {
+      "path": "techniques.routing.core_routing.memory_requirement_mb",
+      "value_type": "integer",
+      "default_value": 128,
+      "description": "Memory requirement for core routing technique"
+    },
+    "nodes.familiar_router.resources.memory": {
+      "path": "nodes.familiar_router.resources.memory",
+      "value_type": "string",
+      "default_value": "1Gi",
+      "description": "Memory allocation for routing node"
+    },
+    "routing.decision_timeout_ms": {
+      "path": "routing.decision_timeout_ms",
+      "value_type": "integer",
+      "default_value": 5000,
+      "description": "Maximum time allowed for routing decision (milliseconds)"
+    },
+    "queues.routing_queue.max_size_mb": {
+      "path": "queues.routing_queue.max_size_mb",
+      "value_type": "integer",
+      "default_value": 1024,
+      "description": "Maximum size of routing queue in MB"
+    },
+    "nodes.familiar_worker.constraints.cpu_threshold": {
+      "path": "nodes.familiar_worker.constraints.cpu_threshold",
+      "value_type": "number",
+      "default_value": 0.8,
+      "description": "CPU threshold for familiar-worker health checks"
+    },
+    "physics.block.chunk_size": {
+      "path": "physics.block.chunk_size",
+      "value_type": "string",
+      "default_value": "1h",
+      "description": "TimescaleDB chunk time interval for hypertables (e.g., '1h', '1d')"
+    },
+    "observability.metrics.collection_interval": {
+      "path": "observability.metrics.collection_interval",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 15
+      },
+      "description": "How often to collect metrics"
+    },
+    "nodes.familiar_router.constraints.memory_threshold": {
+      "path": "nodes.familiar_router.constraints.memory_threshold",
+      "value_type": "string",
+      "default_value": "512Mi",
+      "description": "Minimum available memory for routing node"
+    },
+    "pgo.default_max_regression_percent": {
+      "path": "pgo.default_max_regression_percent",
+      "value_type": "number",
+      "default_value": 2.0,
+      "description": "Default maximum allowed performance regression for PGO (percentage)"
+    },
+    "nodes.familiar_worker.resources.memory": {
+      "path": "nodes.familiar_worker.resources.memory",
+      "value_type": "string",
+      "default_value": "1Gi",
+      "description": "Memory allocation for familiar-worker node"
+    },
+    "systems.classifier_system.timeouts.purpose_classification": {
+      "path": "systems.classifier_system.timeouts.purpose_classification",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 60
+      },
+      "description": "Timeout for purpose classification operations"
+    },
+    "pgo.default_sample_count": {
+      "path": "pgo.default_sample_count",
+      "value_type": "integer",
+      "default_value": 100,
+      "description": "Default number of workload samples to use for PGO training"
+    },
+    "nodes.familiar_router.constraints.max_concurrent_decisions": {
+      "path": "nodes.familiar_router.constraints.max_concurrent_decisions",
+      "value_type": "integer",
+      "default_value": 1000,
+      "description": "Maximum concurrent routing decisions allowed"
+    },
+    "nodes.familiar_worker.constraints.memory_threshold": {
+      "path": "nodes.familiar_worker.constraints.memory_threshold",
+      "value_type": "integer",
+      "default_value": 1000000,
+      "description": "Memory threshold for familiar-worker health checks"
+    },
+    "observability.load_shedding.memory_threshold": {
+      "path": "observability.load_shedding.memory_threshold",
+      "value_type": "number",
+      "default_value": 0.9,
+      "description": "Memory threshold to trigger load shedding"
+    },
+    "nodes.familiar_router.resources.cpu": {
+      "path": "nodes.familiar_router.resources.cpu",
+      "value_type": "string",
+      "default_value": "500m",
+      "description": "CPU allocation for routing node"
+    },
+    "observability.health_check.readiness_period": {
+      "path": "observability.health_check.readiness_period",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 10
+      },
+      "description": "How often to run readiness checks"
+    },
+    "infra.timeouts.default_activity_timeout": {
+      "path": "infra.timeouts.default_activity_timeout",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 300
+      },
+      "description": "Default timeout for activities"
+    },
+    "observability.health_check.liveness_period": {
+      "path": "observability.health_check.liveness_period",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 30
+      },
+      "description": "How often to run liveness checks"
+    },
+    "systems.classifier_system.retries.classification": {
+      "path": "systems.classifier_system.retries.classification",
+      "value_type": "integer",
+      "default_value": 2,
+      "description": "Retry count for classification operations"
+    },
+    "infra.scaling.cooldown_period": {
+      "path": "infra.scaling.cooldown_period",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 300
+      },
+      "description": "Cooldown period between scaling actions"
+    },
+    "nodes.familiar_router.constraints.network_latency_threshold": {
+      "path": "nodes.familiar_router.constraints.network_latency_threshold",
+      "value_type": "integer",
+      "default_value": 100,
+      "description": "Maximum network latency threshold (ms) for routing node"
+    },
+    "nodes.familiar_daemon.resources.cpu": {
+      "path": "nodes.familiar_daemon.resources.cpu",
+      "value_type": "string",
+      "default_value": "1000m",
+      "description": "CPU allocation for familiar-daemon node"
+    },
+    "physics.block.compression_delay": {
+      "path": "physics.block.compression_delay",
+      "value_type": "string",
+      "default_value": "7d",
+      "description": "Delay before compressing old data chunks (e.g., '7d', '30d')"
+    },
+    "techniques.routing.core_routing.max_concurrent_executions": {
+      "path": "techniques.routing.core_routing.max_concurrent_executions",
+      "value_type": "integer",
+      "default_value": 100,
+      "description": "Maximum concurrent executions of core routing technique"
+    },
+    "nodes.familiar_daemon.constraints.queue_depth_threshold": {
+      "path": "nodes.familiar_daemon.constraints.queue_depth_threshold",
+      "value_type": "integer",
+      "default_value": 100,
+      "description": "Queue depth threshold for familiar-daemon health checks"
+    },
+    "systems.fates_gate.timeouts.classify": {
+      "path": "systems.fates_gate.timeouts.classify",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 120
+      },
+      "description": "Timeout for FatesGate classify operations"
+    },
+    "systems.fates_gate.retries.classify": {
+      "path": "systems.fates_gate.retries.classify",
+      "value_type": "integer",
+      "default_value": 1,
+      "description": "Retry count for FatesGate classify operations"
+    },
+    "pgo.profile_data_directory": {
+      "path": "pgo.profile_data_directory",
+      "value_type": "string",
+      "default_value": "/tmp/familiar-pgo-data",
+      "description": "Directory where PGO profile data is stored"
+    },
+    "observability.circuit_breaker.failure_threshold": {
+      "path": "observability.circuit_breaker.failure_threshold",
+      "value_type": "integer",
+      "default_value": 5,
+      "description": "Number of failures to trigger circuit breaker"
+    },
+    "nodes.classifier.resources.cpu": {
+      "path": "nodes.classifier.resources.cpu",
+      "value_type": "string",
+      "default_value": "1000m",
+      "description": "CPU allocation for classifier node"
+    },
+    "techniques.routing.core_routing.expected_latency_ms": {
+      "path": "techniques.routing.core_routing.expected_latency_ms",
+      "value_type": "integer",
+      "default_value": 50,
+      "description": "Expected latency for core routing technique"
+    },
+    "systems.fates_gate.timeouts.weave": {
+      "path": "systems.fates_gate.timeouts.weave",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 30
+      },
+      "description": "Timeout for FatesGate weave operations"
+    },
+    "observability.queue_monitoring.max_processing_latency": {
+      "path": "observability.queue_monitoring.max_processing_latency",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 30
+      },
+      "description": "Maximum acceptable processing latency"
+    },
+    "nodes.familiar_daemon.constraints.memory_threshold": {
+      "path": "nodes.familiar_daemon.constraints.memory_threshold",
+      "value_type": "integer",
+      "default_value": 1000000,
+      "description": "Memory threshold for familiar-daemon health checks"
+    },
+    "nodes.familiar_worker.resources.storage": {
+      "path": "nodes.familiar_worker.resources.storage",
+      "value_type": "string",
+      "default_value": "10Gi",
+      "description": "Storage allocation for familiar-worker node"
+    },
+    "systems.fates_gate.timeouts.search": {
+      "path": "systems.fates_gate.timeouts.search",
+      "value_type": "duration",
+      "default_value": {
+        "nanos": 0,
+        "secs": 60
+      },
+      "description": "Timeout for FatesGate search operations"
+    },
+    "observability.resilience.max_attempts": {
+      "path": "observability.resilience.max_attempts",
+      "value_type": "integer",
+      "default_value": 3,
+      "description": "Maximum number of retry attempts"
+    }
+  }
+}

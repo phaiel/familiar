@@ -1,0 +1,13 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/ServiceTemplate.v1.json",
+  "title": "Service Template",
+  "description": "A Backstage template identifier for generating microservices.",
+  "type": "string",
+  "enum": [
+    "familiar-poem-api-service",
+    "familiar-quantum-service", 
+    "familiar-workflow-service",
+    "familiar-tenant-service"
+  ],
+  "default": "familiar-poem-api-service"
+} 

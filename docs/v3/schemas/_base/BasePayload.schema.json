@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Payload.v1.schema.json",
+  "title": "Base Event Payload",
+  "description": "The base schema for all event payloads, ensuring they contain essential operational context for processing, security, and observability.",
+  "allOf": [
+    {
+      "$ref": "./BaseMetadata.schema.json"
+    }
+  ],
+  "schema_version": "1.2.0",
+  "properties": {
+    "context": {
+      "title": "BasePayloadContext",
+      "description": "The operational context in which the payload was generated.",
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "description": "The tenant this payload belongs to. Mandatory for security and data partitioning.",
+          "$ref": "../snippets/fields/TenantId.json"
+        },
+        "user_id": {
+          "description": "The user associated with this payload.",
+          "$ref": "../snippets/fields/UserId.json"
+        },
+        "trace_id": {
+          "description": "The distributed trace ID for end-to-end observability.",
+          "$ref": "../snippets/fields/EntityId.json"
+        },
+        "session_id": {
+          "description": "The user's session ID, if applicable.",
+          "$ref": "../snippets/fields/EntityId.json"
+        },
+        "source_event_id": {
+          "description": "The ID of the event that carried this payload, for explicit linkage.",
+          "$ref": "../snippets/fields/EntityId.json"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "user_id",
+        "trace_id"
+      ]
+    },
+    "data": {
+      "description": "The specific data for this payload type. This property will be overridden by the inheriting schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "context",
+    "data"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/Vec6.v1.json",
+  "title": "6D Physics Vector",
+  "description": "A reusable data type for a vector of six f64 numbers, used for momentum and forces in the 6 spatial dimensions of the manifold.",
+  "category": "snippets",
+  "source_file": "snippets/types/physics/Vec6.json",
+  "type": "array",
+  "items": {
+    "type": "number"
+  },
+  "minItems": 6,
+  "maxItems": 6
+}

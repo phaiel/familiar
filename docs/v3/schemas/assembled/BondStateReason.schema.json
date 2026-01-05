@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/lifecycles/BondStateReason.v1.json",
+  "title": "Bond State Reason",
+  "description": "A canonical enum of the machine-readable reasons for a Bond state change.",
+  "category": "snippets",
+  "source_file": "snippets/types/lifecycles/BondStateReason.json",
+  "type": "string",
+  "enum": [
+    "UserInitiated",
+    "SystemDetectedStrain",
+    "PartnerAccountErased",
+    "RelationshipEnded"
+  ]
+}

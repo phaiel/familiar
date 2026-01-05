@@ -1,0 +1,31 @@
+# Familiar Worker Configuration
+# Environment variables override these values (use APP_ prefix)
+
+[kafka]
+bootstrap_servers = "localhost:19092"
+group_id = "familiar-worker-v3"
+commands_topic = "course.commands"
+events_topic = "course.events"
+trace_topic = "course.trace"
+envelope_schema_id = 1
+event_schema_id = 2
+trace_schema_id = 3
+
+[windmill]
+url = "http://localhost:8000"
+workspace = "familiar"
+token = "HyNC8vEupABLF0UkwWXuNOQ5OT7OvY1W"
+
+[database]
+url = "postgres://familiar:familiarpass@localhost:5433/familiar"
+
+# Course context configuration (token-based pruning)
+[course]
+# Maximum tokens for context window (default: 8000)
+max_context_tokens = 8000
+# Reserved tokens for response generation (default: 2000)
+reserved_tokens = 2000
+# Minimum messages to always include (default: 2)
+min_messages = 2
+# Token estimation method: "char4" | "wordbased" | "tiktoken" (default: "char4")
+estimation_method = "char4"

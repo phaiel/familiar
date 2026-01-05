@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/ConsolidationState.v1.schema.json",
+  "title": "Consolidation State Component",
+  "description": "Tracks the temporal consolidation state of a Motif or Filament.",
+  "allOf": [
+    {
+      "$ref": "../_base/BaseComponent.schema.json"
+    }
+  ],
+  "schema_version": "1.3.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  },
+  "properties": {
+    "fields": {
+      "type": "object",
+      "properties": {
+        "consolidation_level": {
+          "description": "The current level of temporal consolidation.",
+          "$ref": "../snippets/types/system/ConsolidationLevel.json"
+        },
+        "last_consolidated_at": {
+          "$ref": "../snippets/fields/CompletedAt.json"
+        },
+        "next_consolidation_due": {
+          "$ref": "../snippets/fields/DueDate.json"
+        },
+        "source_entity_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "consolidation_level",
+        "last_consolidated_at",
+        "next_consolidation_due",
+        "source_entity_count"
+      ],
+      "additionalProperties": false,
+      "title": "ConsolidationStateFields"
+    }
+  }
+}

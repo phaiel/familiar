@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Bond.v1.schema.json",
+  "title": "Bond Entity",
+  "description": "A classical entity representing a persistent relationship between two Thread entities.",
+  "allOf": [
+    { "$ref": "./_base/BaseCognitiveEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Bond" },
+        "thread_a_id": { "$ref": "../snippets/fields/EntityId.json" },
+        "thread_b_id": { "$ref": "../snippets/fields/EntityId.json" },
+        "components": {
+          "title": "BondComponents",
+          "properties": {
+            "content": { "$ref": "../components/BondContent.schema.json" },
+            "permissions": { "$ref": "../components/BondPermissions.schema.json" },
+            "physics_config": { "$ref": "../components/BondPhysicsConfig.schema.json" }
+          },
+          "required": ["content", "permissions", "physics_config"]
+        },
+        "physics_state": {
+          "title": "BondPhysicsState",
+          "properties": {
+            "universal": { "$ref": "../components/UniversalPhysicsState.schema.json" },
+            "tension": { "$ref": "../components/BondTension.schema.json" }
+          },
+          "required": ["universal", "tension"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/StandardApiServiceStack.json" }],
+          "properties": {
+            "streaming_topics": { "default": ["entity.bond.lifecycle.events", "physics.bond.tension.updates"] },
+            "observability_dashboard": { "default": "grafana/dashboards/bond-entity-overview.json" }
+          }
+        }
+      },
+      "required": ["thread_a_id", "thread_b_id", "components", "physics_state"]
+    }
+  ]
+}

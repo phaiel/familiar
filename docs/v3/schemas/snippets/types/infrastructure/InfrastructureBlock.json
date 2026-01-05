@@ -1,0 +1,28 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/InfrastructureBlock.v1.json",
+  "title": "Infrastructure Block",
+  "description": "A canonical block defining the infrastructure components required to support a specific data entity or service.",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "description": "The Backstage template for the primary microservice that manages this entity.",
+      "$ref": "./ServiceTemplate.json"
+    },
+    "database_module": {
+      "description": "The Terraform module required for the entity's primary data store.",
+      "$ref": "./DatabaseModule.json"
+    },
+    "streaming_topics": {
+      "description": "A list of Redpanda topics this entity produces or consumes.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "observability_dashboard": {
+      "description": "The Grafana dashboard template for monitoring this entity.",
+      "type": "string"
+    }
+  },
+  "required": ["service_template", "database_module"]
+}

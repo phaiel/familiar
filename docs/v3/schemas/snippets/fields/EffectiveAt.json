@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EffectiveAt.v1.json",
+  "title": "Effective At Field",
+  "description": "A reusable definition for an immutable effective timestamp.",
+  "$ref": "../types/primitives/Timestamp.json"
+}

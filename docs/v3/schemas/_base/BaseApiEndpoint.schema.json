@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/ApiEndpoint.v1.schema.json",
+  "title": "Base API Endpoint",
+  "description": "The base schema for defining API endpoints, including path, method, and request/response schemas.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "./BaseMetadata.schema.json"
+    }
+  ],
+  "required": [ "path", "method", "response_schema" ],
+  "properties": {
+    "method": {
+      "enum": [ "GET", "POST", "PUT", "DELETE", "PATCH" ]
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^\\/.*"
+    },
+    "request_schema": {
+      "description": "A reference to the JSON schema for the request body or parameters.",
+      "type": "string",
+      "format": "uri"
+    },
+    "response_schema": {
+      "description": "A reference to the JSON schema for the success response body.",
+      "type": "string",
+      "format": "uri"
+    },
+    "security": {
+      "description": "Security requirements for this endpoint.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

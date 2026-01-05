@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/GDPRDependency.v1.schema.json",
+  "title": "GDPR Dependency Component",
+  "description": "Tracks data provenance to enable compliant cascading deletions for GDPR's Right to Erasure.",
+  "category": "components",
+  "source_file": "components/GDPRDependency.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.1.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  },
+  "fields": {
+    "contributing_users": {
+      "description": "A set of User IDs whose data contributed to this entity's existence or state.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "upstream_dependencies": {
+      "description": "A list of source entity IDs (e.g., Moments) that this entity (e.g., a Motif) depends on.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "user_evidence_weights": {
+      "description": "A map of User ID to an evidence weight (0.0-1.0), used to decide if an entity should be deleted or just recomputed upon user erasure.",
+      "type": "object",
+      "additionalProperties": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NormalizedValue.v1.json",
+        "title": "Normalized Value",
+        "description": "A reusable definition for a floating-point number normalized between 0.0 and 1.0.",
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    }
+  }
+}

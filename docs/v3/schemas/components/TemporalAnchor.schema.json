@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TemporalAnchor.v1.schema.json",
+  "title": "Temporal Anchor Component",
+  "description": "Provides an immutable, fixed timestamp for a Moment entity, anchoring it to a specific point in the Growing Block Universe.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.3.0",
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "properties": {
+    "fields": {
+      "type": "object",
+      "properties": {
+        "event_timestamp": {
+          "description": "The absolute, immutable wall-clock time at which the event occurred.",
+          "$ref": "../snippets/fields/EffectiveAt.json"
+        },
+        "duration_seconds": {
+          "description": "The duration of the event in seconds, if applicable.",
+          "type": "number",
+          "minimum": 0,
+          "default": 0
+        }
+      },
+      "required": ["event_timestamp"]
+    }
+  }
+}

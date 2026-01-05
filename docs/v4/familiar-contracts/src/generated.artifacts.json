@@ -1,0 +1,3514 @@
+[
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 25,
+    "schema_path": "tool/QueryAnalysis.schema.json",
+    "type_kind": "struct",
+    "type_name": "QueryAnalysis"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 34,
+    "schema_path": "type/CreateMemberInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateMemberInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 45,
+    "schema_path": "auth/MagicLinkPurpose.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MagicLinkPurpose"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 49,
+    "schema_path": "primitives/Segment.schema.json",
+    "type_kind": "struct",
+    "type_name": "Segment"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 61,
+    "schema_path": "auth/AuthSession.schema.json",
+    "type_kind": "struct",
+    "type_name": "AuthSession"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 73,
+    "schema_path": "primitives/AIProvider.schema.json",
+    "type_kind": "newtype",
+    "type_name": "AIProvider"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 77,
+    "schema_path": "type/MemberRole.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MemberRole"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 81,
+    "schema_path": "type/ObserverError.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "ObserverError"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 85,
+    "schema_path": "primitives/Directionality.schema.json",
+    "type_kind": "enum",
+    "type_name": "Directionality"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 96,
+    "schema_path": "components/ObservationRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "ObservationRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 104,
+    "schema_path": "components/WeightedClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "WeightedClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 111,
+    "schema_path": "tool/ThreadHintOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadHintOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 119,
+    "schema_path": "primitives/MessageRole.schema.json",
+    "type_kind": "enum",
+    "type_name": "MessageRole"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 130,
+    "schema_path": "primitives/ApiKey.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ApiKey"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 134,
+    "schema_path": "ui/MarkdownTextObject.schema.json",
+    "type_kind": "struct",
+    "type_name": "MarkdownTextObject"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 140,
+    "schema_path": "conversation/EntityPhysics.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityPhysics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 149,
+    "schema_path": "config/SystemTrigger.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "SystemTrigger"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 152,
+    "schema_path": "tool/FilterOperator.schema.json",
+    "type_kind": "newtype",
+    "type_name": "FilterOperator"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 156,
+    "schema_path": "tool/SpawnHints.schema.json",
+    "type_kind": "struct",
+    "type_name": "SpawnHints"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 165,
+    "schema_path": "auth/MagicLink.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLink"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 177,
+    "schema_path": "primitives/Timestamp.schema.json",
+    "type_kind": "newtype",
+    "type_name": "Timestamp"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 181,
+    "schema_path": "primitives/NormalizedFloat.schema.json",
+    "type_kind": "newtype",
+    "type_name": "NormalizedFloat"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 185,
+    "schema_path": "tool/ToolError.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolError"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 194,
+    "schema_path": "database/FieldExcitationModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "FieldExcitationModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 209,
+    "schema_path": "tool/ExecutionOrder.schema.json",
+    "type_kind": "enum",
+    "type_name": "ExecutionOrder"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 222,
+    "schema_path": "tool/VAEPosition.schema.json",
+    "type_kind": "struct",
+    "type_name": "VAEPosition"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 230,
+    "schema_path": "tool/TemporalProperties.schema.json",
+    "type_kind": "struct",
+    "type_name": "TemporalProperties"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 238,
+    "schema_path": "error/DbStoreError.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "DbStoreError"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 242,
+    "schema_path": "auth/JoinRequestStatus.schema.json",
+    "type_kind": "newtype",
+    "type_name": "JoinRequestStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 246,
+    "schema_path": "entities_api/WeaveUnitResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "WeaveUnitResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 260,
+    "schema_path": "tool/TemporalScope.schema.json",
+    "type_kind": "struct",
+    "type_name": "TemporalScope"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 268,
+    "schema_path": "tool/ParameterConstraints.schema.json",
+    "type_kind": "struct",
+    "type_name": "ParameterConstraints"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 277,
+    "schema_path": "windmill/ContinuationInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContinuationInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 285,
+    "schema_path": "agentic/ToolCallResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolCallResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 294,
+    "schema_path": "type/AgenticFlowResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "AgenticFlowResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 309,
+    "schema_path": "tool/TriggerType.schema.json",
+    "type_kind": "enum",
+    "type_name": "TriggerType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 324,
+    "schema_path": "tool/KnownEntity.schema.json",
+    "type_kind": "struct",
+    "type_name": "KnownEntity"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 333,
+    "schema_path": "primitives/TemporalMarker.schema.json",
+    "type_kind": "struct",
+    "type_name": "TemporalMarker"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 341,
+    "schema_path": "primitives/TemporalMarkerType.schema.json",
+    "type_kind": "enum",
+    "type_name": "TemporalMarkerType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 356,
+    "schema_path": "contract/ProducerInfo.schema.json",
+    "type_kind": "struct",
+    "type_name": "ProducerInfo"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 364,
+    "schema_path": "primitives/Temperature.schema.json",
+    "type_kind": "newtype",
+    "type_name": "Temperature"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 368,
+    "schema_path": "primitives/ShuttleId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ShuttleId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 372,
+    "schema_path": "tool/SpawnConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "SpawnConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 383,
+    "schema_path": "primitives/InviteCode.schema.json",
+    "type_kind": "newtype",
+    "type_name": "InviteCode"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 386,
+    "schema_path": "tool/DurationCategory.schema.json",
+    "type_kind": "newtype",
+    "type_name": "DurationCategory"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 390,
+    "schema_path": "primitives/AuditLogId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "AuditLogId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 394,
+    "schema_path": "database/MessageModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "MessageModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 410,
+    "schema_path": "type/Tenant.schema.json",
+    "type_kind": "struct",
+    "type_name": "Tenant"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 420,
+    "schema_path": "tool/SpawnSuggestion.schema.json",
+    "type_kind": "struct",
+    "type_name": "SpawnSuggestion"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 431,
+    "schema_path": "auth/RecordConsentInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "RecordConsentInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 439,
+    "schema_path": "entities/Thread.schema.json",
+    "type_kind": "struct",
+    "type_name": "Thread"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 455,
+    "schema_path": "conversation/ListChannelsOptions.schema.json",
+    "type_kind": "struct",
+    "type_name": "ListChannelsOptions"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 462,
+    "schema_path": "primitives/TokenUsage.schema.json",
+    "type_kind": "struct",
+    "type_name": "TokenUsage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 470,
+    "schema_path": "primitives/QueryTarget.schema.json",
+    "type_kind": "struct",
+    "type_name": "QueryTarget"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 479,
+    "schema_path": "tool/SpawnAction.schema.json",
+    "type_kind": "enum",
+    "type_name": "SpawnAction"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 492,
+    "schema_path": "windmill/PhysicsState.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsState"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 502,
+    "schema_path": "components/QuantumState.schema.json",
+    "type_kind": "struct",
+    "type_name": "QuantumState"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 510,
+    "schema_path": "tool/BindingGraphUpdate.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingGraphUpdate"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 519,
+    "schema_path": "tool/ContextStrategy.schema.json",
+    "type_kind": "enum",
+    "type_name": "ContextStrategy"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 532,
+    "schema_path": "component/AudioBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "AudioBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 540,
+    "schema_path": "entities_api/HealthResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "HealthResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 548,
+    "schema_path": "tool/LinguisticAnalysis.schema.json",
+    "type_kind": "struct",
+    "type_name": "LinguisticAnalysis"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 557,
+    "schema_path": "tool/ThreadHintValues.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadHintValues"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 568,
+    "schema_path": "primitives/MessageIntent.schema.json",
+    "type_kind": "enum",
+    "type_name": "MessageIntent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 580,
+    "schema_path": "api/ApiError.schema.json",
+    "type_kind": "struct",
+    "type_name": "ApiError"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 588,
+    "schema_path": "conversation/CreateEntityInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateEntityInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 602,
+    "schema_path": "type/MomentType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MomentType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 605,
+    "schema_path": "conversation/ChannelType.schema.json",
+    "type_kind": "enum",
+    "type_name": "ChannelType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 616,
+    "schema_path": "auth/AuditLogEntry.schema.json",
+    "type_kind": "struct",
+    "type_name": "AuditLogEntry"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 633,
+    "schema_path": "components/ChatMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "ChatMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 640,
+    "schema_path": "entities/Bond.schema.json",
+    "type_kind": "struct",
+    "type_name": "Bond"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 660,
+    "schema_path": "contract/SignupConsents.schema.json",
+    "type_kind": "struct",
+    "type_name": "SignupConsents"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 667,
+    "schema_path": "conversation/UpdateEntityStatusInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "UpdateEntityStatusInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 674,
+    "schema_path": "entities/MessageTokenInfo.schema.json",
+    "type_kind": "struct",
+    "type_name": "MessageTokenInfo"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 683,
+    "schema_path": "ui/AccordionState.schema.json",
+    "type_kind": "newtype",
+    "type_name": "AccordionState"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 686,
+    "schema_path": "tool/SegmentationConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentationConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 696,
+    "schema_path": "ui/SectionBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "SectionBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 704,
+    "schema_path": "input/AgenticCommand.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "AgenticCommand"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 708,
+    "schema_path": "tool/BindingEvidence.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingEvidence"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 717,
+    "schema_path": "type/UIToolCall.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIToolCall"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 727,
+    "schema_path": "request/CreateFamilyFlowInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateFamilyFlowInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 735,
+    "schema_path": "tool/TemporalBinding.schema.json",
+    "type_kind": "struct",
+    "type_name": "TemporalBinding"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 742,
+    "schema_path": "type/MessageClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "MessageClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 752,
+    "schema_path": "primitives/PasswordHash.schema.json",
+    "type_kind": "newtype",
+    "type_name": "PasswordHash"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 755,
+    "schema_path": "type/PromptConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "PromptConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 764,
+    "schema_path": "components/Identity.schema.json",
+    "type_kind": "struct",
+    "type_name": "Identity"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 772,
+    "schema_path": "primitives/EntityId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "EntityId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 776,
+    "schema_path": "conversation/FamiliarEntity.schema.json",
+    "type_kind": "struct",
+    "type_name": "FamiliarEntity"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 797,
+    "schema_path": "windmill/ClassifierOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassifierOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 811,
+    "schema_path": "ui/AccordionBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "AccordionBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 819,
+    "schema_path": "meta/DbEntityTable.schema.json",
+    "type_kind": "newtype",
+    "type_name": "DbEntityTable"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 823,
+    "schema_path": "type/WsMessage.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "WsMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 827,
+    "schema_path": "auth/User.schema.json",
+    "type_kind": "struct",
+    "type_name": "User"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 843,
+    "schema_path": "tool/ClassificationEvidence.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassificationEvidence"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 851,
+    "schema_path": "request/MagicLinkFlowInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLinkFlowInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 864,
+    "schema_path": "tool/SegmentationInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentationInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 872,
+    "schema_path": "windmill/RAGOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "RAGOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 883,
+    "schema_path": "primitives/EntityMention.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityMention"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 894,
+    "schema_path": "component/WeaveBlock.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "WeaveBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 898,
+    "schema_path": "primitives/EntityType.schema.json",
+    "type_kind": "enum",
+    "type_name": "EntityType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 911,
+    "schema_path": "components/WeaveUnit.schema.json",
+    "type_kind": "struct",
+    "type_name": "WeaveUnit"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 924,
+    "schema_path": "components/DbPoolConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "DbPoolConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 934,
+    "schema_path": "auth/DeletionStatus.schema.json",
+    "type_kind": "newtype",
+    "type_name": "DeletionStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 938,
+    "schema_path": "tool/EntityReference.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityReference"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 946,
+    "schema_path": "conversation/ListEntitiesOptions.schema.json",
+    "type_kind": "struct",
+    "type_name": "ListEntitiesOptions"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 954,
+    "schema_path": "database/AuthSessionModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "AuthSessionModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 966,
+    "schema_path": "conversation/ConversationMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConversationMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 973,
+    "schema_path": "primitives/ThreadReference.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadReference"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 982,
+    "schema_path": "tool/BoundingBox.schema.json",
+    "type_kind": "struct",
+    "type_name": "BoundingBox"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 991,
+    "schema_path": "tool/ClassifiedPurpose.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassifiedPurpose"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 999,
+    "schema_path": "primitives/TextObject.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "TextObject"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1002,
+    "schema_path": "entities/Model.schema.json",
+    "type_kind": "struct",
+    "type_name": "Model"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1016,
+    "schema_path": "tool/DetectedBinding.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedBinding"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1026,
+    "schema_path": "tool/BondHintInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondHintInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1034,
+    "schema_path": "component/DocumentBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "DocumentBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1042,
+    "schema_path": "primitives/ToolPurpose.schema.json",
+    "type_kind": "enum",
+    "type_name": "ToolPurpose"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1056,
+    "schema_path": "primitives/JoinRequestId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "JoinRequestId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1060,
+    "schema_path": "type/RawPhysicsHint.schema.json",
+    "type_kind": "struct",
+    "type_name": "RawPhysicsHint"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1071,
+    "schema_path": "enum/AsyncTaskStatus.schema.json",
+    "type_kind": "newtype",
+    "type_name": "AsyncTaskStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1075,
+    "schema_path": "contract/SchemaInfo.schema.json",
+    "type_kind": "struct",
+    "type_name": "SchemaInfo"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1083,
+    "schema_path": "tool/SubjectType.schema.json",
+    "type_kind": "enum",
+    "type_name": "SubjectType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1104,
+    "schema_path": "components/OpenAIMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "OpenAIMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1111,
+    "schema_path": "tool/ClassificationReasoning.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassificationReasoning"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1120,
+    "schema_path": "type/UIHeddleResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIHeddleResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1129,
+    "schema_path": "auth/CreateEmailInviteInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateEmailInviteInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1138,
+    "schema_path": "tool/UserPurposePatterns.schema.json",
+    "type_kind": "struct",
+    "type_name": "UserPurposePatterns"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1145,
+    "schema_path": "tool/DetectedObject.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedObject"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1153,
+    "schema_path": "agentic/AgentSpeaker.schema.json",
+    "type_kind": "enum",
+    "type_name": "AgentSpeaker"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1170,
+    "schema_path": "database/AuditLogEntryModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "AuditLogEntryModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1186,
+    "schema_path": "components/ContentPayload.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContentPayload"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1192,
+    "schema_path": "components/EntityMeta.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityMeta"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1201,
+    "schema_path": "enum/OnboardingState.schema.json",
+    "type_kind": "newtype",
+    "type_name": "OnboardingState"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1205,
+    "schema_path": "primitives/VerbCategory.schema.json",
+    "type_kind": "enum",
+    "type_name": "VerbCategory"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1222,
+    "schema_path": "primitives/ButtonStyle.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ButtonStyle"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1225,
+    "schema_path": "entities/ConversationThread.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConversationThread"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1240,
+    "schema_path": "conversation/FamiliarEntityType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "FamiliarEntityType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1244,
+    "schema_path": "type/RawSegment.schema.json",
+    "type_kind": "struct",
+    "type_name": "RawSegment"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1253,
+    "schema_path": "primitives/TemporalRelation.schema.json",
+    "type_kind": "newtype",
+    "type_name": "TemporalRelation"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1257,
+    "schema_path": "primitives/ParsedTemporal.schema.json",
+    "type_kind": "struct",
+    "type_name": "ParsedTemporal"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1265,
+    "schema_path": "primitives/SegmentFeatures.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentFeatures"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1276,
+    "schema_path": "entities/Focus.schema.json",
+    "type_kind": "struct",
+    "type_name": "Focus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1292,
+    "schema_path": "tool/DetectedThread.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedThread"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1302,
+    "schema_path": "type/HeddleResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "HeddleResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1309,
+    "schema_path": "auth/CreateJoinRequestInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateJoinRequestInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1316,
+    "schema_path": "primitives/EntityMentionType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "EntityMentionType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1320,
+    "schema_path": "primitives/CourseId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "CourseId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1324,
+    "schema_path": "tool/PurposeContext.schema.json",
+    "type_kind": "struct",
+    "type_name": "PurposeContext"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1332,
+    "schema_path": "entities/Filament.schema.json",
+    "type_kind": "struct",
+    "type_name": "Filament"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1348,
+    "schema_path": "auth/MagicLinkRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLinkRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1355,
+    "schema_path": "entities_api/PhysicsHintResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsHintResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1366,
+    "schema_path": "tool/PhysicsAnalysis.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsAnalysis"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1375,
+    "schema_path": "auth/LoginRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "LoginRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1382,
+    "schema_path": "component/TextBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "TextBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1388,
+    "schema_path": "conversation/ListMessagesOptions.schema.json",
+    "type_kind": "struct",
+    "type_name": "ListMessagesOptions"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1396,
+    "schema_path": "request/CreateAsyncTaskInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateAsyncTaskInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1408,
+    "schema_path": "auth/ReviewJoinRequestInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ReviewJoinRequestInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1415,
+    "schema_path": "ui/OverflowElement.schema.json",
+    "type_kind": "struct",
+    "type_name": "OverflowElement"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1421,
+    "schema_path": "tool/BondChanges.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondChanges"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1430,
+    "schema_path": "type/ContentClassificationResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContentClassificationResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1436,
+    "schema_path": "tool/PhysicsHintValues.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsHintValues"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1447,
+    "schema_path": "type/ClassificationPhysics.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassificationPhysics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1456,
+    "schema_path": "type/MessageStatusType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MessageStatusType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1460,
+    "schema_path": "auth/ExportStatus.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ExportStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1464,
+    "schema_path": "entities_api/MediaType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MediaType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1467,
+    "schema_path": "tool/BondCharacteristics.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondCharacteristics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1480,
+    "schema_path": "auth/InviteType.schema.json",
+    "type_kind": "enum",
+    "type_name": "InviteType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1489,
+    "schema_path": "agentic/OrchestrationInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "OrchestrationInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1497,
+    "schema_path": "primitives/DbPoolSize.schema.json",
+    "type_kind": "newtype",
+    "type_name": "DbPoolSize"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1501,
+    "schema_path": "auth/CreateCodeInviteInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateCodeInviteInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1510,
+    "schema_path": "database/ContentPayloadModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContentPayloadModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1517,
+    "schema_path": "primitives/ConsentRecordId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ConsentRecordId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1521,
+    "schema_path": "primitives/SignedNormalizedFloat.schema.json",
+    "type_kind": "newtype",
+    "type_name": "SignedNormalizedFloat"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1525,
+    "schema_path": "tool/SegmentationOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentationOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1532,
+    "schema_path": "type/UIThinkingStep.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIThinkingStep"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1541,
+    "schema_path": "tool/ModalityInput.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "ModalityInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1545,
+    "schema_path": "database/MagicLinkModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLinkModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1557,
+    "schema_path": "tool/ParameterType.schema.json",
+    "type_kind": "enum",
+    "type_name": "ParameterType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1578,
+    "schema_path": "tool/EntityPatterns.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityPatterns"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1585,
+    "schema_path": "tool/PurposePipeline.schema.json",
+    "type_kind": "enum",
+    "type_name": "PurposePipeline"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1600,
+    "schema_path": "components/ResponseMetadata.schema.json",
+    "type_kind": "struct",
+    "type_name": "ResponseMetadata"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1611,
+    "schema_path": "entities/Shuttle.schema.json",
+    "type_kind": "struct",
+    "type_name": "Shuttle"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1627,
+    "schema_path": "components/Weave.schema.json",
+    "type_kind": "struct",
+    "type_name": "Weave"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1634,
+    "schema_path": "event/OnboardingEvent.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "OnboardingEvent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1638,
+    "schema_path": "tool/RecentThread.schema.json",
+    "type_kind": "struct",
+    "type_name": "RecentThread"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1646,
+    "schema_path": "type/ShuttleStatus.schema.json",
+    "type_kind": "enum",
+    "type_name": "ShuttleStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1661,
+    "schema_path": "entities/Motif.schema.json",
+    "type_kind": "struct",
+    "type_name": "Motif"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1677,
+    "schema_path": "component/ImageBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "ImageBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1685,
+    "schema_path": "database/FamiliarEntityModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "FamiliarEntityModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1705,
+    "schema_path": "tool/BindingHintOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingHintOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1712,
+    "schema_path": "primitives/BlockElement.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "BlockElement"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1715,
+    "schema_path": "ui/HeaderBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "HeaderBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1721,
+    "schema_path": "components/PhysicsHint.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsHint"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1732,
+    "schema_path": "input/CommandResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "CommandResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1743,
+    "schema_path": "meta/DbComponentTable.schema.json",
+    "type_kind": "enum",
+    "type_name": "DbComponentTable"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1755,
+    "schema_path": "tool/EvidenceType.schema.json",
+    "type_kind": "enum",
+    "type_name": "EvidenceType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1776,
+    "schema_path": "auth/SessionCreated.schema.json",
+    "type_kind": "struct",
+    "type_name": "SessionCreated"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1784,
+    "schema_path": "type/CourseStatus.schema.json",
+    "type_kind": "enum",
+    "type_name": "CourseStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1801,
+    "schema_path": "contract/TraceStatus.schema.json",
+    "type_kind": "enum",
+    "type_name": "TraceStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1816,
+    "schema_path": "primitives/ContextElement.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "ContextElement"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1819,
+    "schema_path": "primitives/RetryConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "RetryConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1828,
+    "schema_path": "tool/VerbTense.schema.json",
+    "type_kind": "newtype",
+    "type_name": "VerbTense"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1832,
+    "schema_path": "entities/ContextWindowInfo.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContextWindowInfo"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1843,
+    "schema_path": "tool/DetectedPerson.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedPerson"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1851,
+    "schema_path": "tool/PurposeClassifierInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "PurposeClassifierInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1858,
+    "schema_path": "type/PromptPhase.schema.json",
+    "type_kind": "newtype",
+    "type_name": "PromptPhase"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1861,
+    "schema_path": "config/SystemManifest.schema.json",
+    "type_kind": "struct",
+    "type_name": "SystemManifest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1871,
+    "schema_path": "auth/ConsentType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ConsentType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1875,
+    "schema_path": "tool/IdentifiedVerb.schema.json",
+    "type_kind": "struct",
+    "type_name": "IdentifiedVerb"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1884,
+    "schema_path": "entities_api/PhysicsResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1893,
+    "schema_path": "conversation/Message.schema.json",
+    "type_kind": "struct",
+    "type_name": "Message"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1910,
+    "schema_path": "tool/ContextWindow.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContextWindow"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1918,
+    "schema_path": "response/MagicLinkConsumeOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLinkConsumeOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1930,
+    "schema_path": "database/UserModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "UserModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1946,
+    "schema_path": "tool/GraphUpdateType.schema.json",
+    "type_kind": "enum",
+    "type_name": "GraphUpdateType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1961,
+    "schema_path": "tool/SemanticProperties.schema.json",
+    "type_kind": "struct",
+    "type_name": "SemanticProperties"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1969,
+    "schema_path": "ui/BlockMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "BlockMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1975,
+    "schema_path": "entity/AsyncTask.schema.json",
+    "type_kind": "struct",
+    "type_name": "AsyncTask"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 1997,
+    "schema_path": "tool/SpawnSuggesterOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "SpawnSuggesterOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2004,
+    "schema_path": "tool/EntityContent.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityContent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2013,
+    "schema_path": "auth/MagicLinkCreated.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLinkCreated"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2021,
+    "schema_path": "agentic/OrchestrationOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "OrchestrationOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2030,
+    "schema_path": "primitives/InvitationId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "InvitationId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2034,
+    "schema_path": "primitives/ExportRequestId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ExportRequestId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2038,
+    "schema_path": "api/SuccessResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "SuccessResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2045,
+    "schema_path": "entities/CourseMetadata.schema.json",
+    "type_kind": "struct",
+    "type_name": "CourseMetadata"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2057,
+    "schema_path": "tool/EntityClassifierOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityClassifierOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2068,
+    "schema_path": "tool-payload/GateInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "GateInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2076,
+    "schema_path": "tool/SegmentationMetadata.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentationMetadata"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2087,
+    "schema_path": "primitives/HeddleEntityType.schema.json",
+    "type_kind": "enum",
+    "type_name": "HeddleEntityType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2100,
+    "schema_path": "components/RequestConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "RequestConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2111,
+    "schema_path": "tool/EntityClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2119,
+    "schema_path": "contract/Payload.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "Payload"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2123,
+    "schema_path": "auth/InvitationInfo.schema.json",
+    "type_kind": "struct",
+    "type_name": "InvitationInfo"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2133,
+    "schema_path": "tool/ConditionOperator.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ConditionOperator"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2137,
+    "schema_path": "database/TenantMemberModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "TenantMemberModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2151,
+    "schema_path": "contract/EnvelopeV1.schema.json",
+    "type_kind": "struct",
+    "type_name": "EnvelopeV1"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2169,
+    "schema_path": "agentic/LogLevel.schema.json",
+    "type_kind": "newtype",
+    "type_name": "LogLevel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2173,
+    "schema_path": "tool/EntityClassificationContext.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityClassificationContext"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2182,
+    "schema_path": "request/SignupFlowInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "SignupFlowInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2195,
+    "schema_path": "type/ConversationHistoryItem.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConversationHistoryItem"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2202,
+    "schema_path": "auth/CreateUserInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateUserInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2212,
+    "schema_path": "ui/ButtonElement.schema.json",
+    "type_kind": "struct",
+    "type_name": "ButtonElement"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2221,
+    "schema_path": "primitives/SessionId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "SessionId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2225,
+    "schema_path": "tool/PhysicsHintInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsHintInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2234,
+    "schema_path": "primitives/ChannelId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ChannelId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2238,
+    "schema_path": "components/RelationalDynamics.schema.json",
+    "type_kind": "struct",
+    "type_name": "RelationalDynamics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2248,
+    "schema_path": "tool/CommandType.schema.json",
+    "type_kind": "enum",
+    "type_name": "CommandType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2262,
+    "schema_path": "components/SystemEntityMeta.schema.json",
+    "type_kind": "struct",
+    "type_name": "SystemEntityMeta"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2270,
+    "schema_path": "tool/ToolErrorCode.schema.json",
+    "type_kind": "enum",
+    "type_name": "ToolErrorCode"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2294,
+    "schema_path": "tool/ConditionType.schema.json",
+    "type_kind": "enum",
+    "type_name": "ConditionType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2307,
+    "schema_path": "conversation/EntityStatus.schema.json",
+    "type_kind": "newtype",
+    "type_name": "EntityStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2311,
+    "schema_path": "primitives/EmotionalTone.schema.json",
+    "type_kind": "struct",
+    "type_name": "EmotionalTone"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2320,
+    "schema_path": "tool/ToolParameter.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolParameter"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2331,
+    "schema_path": "tool/SpawnSummary.schema.json",
+    "type_kind": "struct",
+    "type_name": "SpawnSummary"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2341,
+    "schema_path": "response/MagicLinkRequestOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "MagicLinkRequestOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2350,
+    "schema_path": "primitives/Modality.schema.json",
+    "type_kind": "newtype",
+    "type_name": "Modality"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2354,
+    "schema_path": "conversation/CreateMessageInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateMessageInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2369,
+    "schema_path": "windmill/ContinuationOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContinuationOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2378,
+    "schema_path": "components/SimLOD.schema.json",
+    "type_kind": "struct",
+    "type_name": "SimLOD"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2384,
+    "schema_path": "tool/CommandAnalysis.schema.json",
+    "type_kind": "struct",
+    "type_name": "CommandAnalysis"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2394,
+    "schema_path": "auth/PublicUser.schema.json",
+    "type_kind": "struct",
+    "type_name": "PublicUser"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2402,
+    "schema_path": "ui/PlainTextInputElement.schema.json",
+    "type_kind": "struct",
+    "type_name": "PlainTextInputElement"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2410,
+    "schema_path": "tool/DetectedAction.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedAction"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2418,
+    "schema_path": "auth/SignupRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "SignupRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2431,
+    "schema_path": "request/AcceptInvitationFlowInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "AcceptInvitationFlowInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2439,
+    "schema_path": "tool/SegmentationContext.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentationContext"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2448,
+    "schema_path": "auth/RequestDeletionInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "RequestDeletionInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2454,
+    "schema_path": "primitives/MaxTokens.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MaxTokens"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2458,
+    "schema_path": "tool/ToolExecutionMetadata.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolExecutionMetadata"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2469,
+    "schema_path": "tool/ToolChain.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolChain"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2480,
+    "schema_path": "response/SignupFlowOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "SignupFlowOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2491,
+    "schema_path": "entities_api/SegmentResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2500,
+    "schema_path": "primitives/InviteRole.schema.json",
+    "type_kind": "newtype",
+    "type_name": "InviteRole"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2504,
+    "schema_path": "primitives/TimeGap.schema.json",
+    "type_kind": "struct",
+    "type_name": "TimeGap"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2512,
+    "schema_path": "tool/RelationshipDuration.schema.json",
+    "type_kind": "struct",
+    "type_name": "RelationshipDuration"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2520,
+    "schema_path": "tool/PipelineType.schema.json",
+    "type_kind": "enum",
+    "type_name": "PipelineType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2537,
+    "schema_path": "agentic/Finding.schema.json",
+    "type_kind": "struct",
+    "type_name": "Finding"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2546,
+    "schema_path": "primitives/SegmentBoundaries.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentBoundaries"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2554,
+    "schema_path": "database/ChannelModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "ChannelModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2568,
+    "schema_path": "response/CreateFamilyFlowOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateFamilyFlowOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2577,
+    "schema_path": "tool/DetectedEmotion.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedEmotion"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2585,
+    "schema_path": "entities_api/CourseResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "CourseResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2605,
+    "schema_path": "database/QuantumStateModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "QuantumStateModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2613,
+    "schema_path": "tool/ToolDefinition.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolDefinition"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2625,
+    "schema_path": "windmill/ClassifierInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassifierInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2633,
+    "schema_path": "primitives/UIHeddleSegment.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIHeddleSegment"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2640,
+    "schema_path": "tool/BindingHints.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingHints"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2652,
+    "schema_path": "components/LlmRequestDebug.schema.json",
+    "type_kind": "struct",
+    "type_name": "LlmRequestDebug"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2659,
+    "schema_path": "components/AnthropicMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "AnthropicMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2666,
+    "schema_path": "primitives/PlainTextObject.schema.json",
+    "type_kind": "struct",
+    "type_name": "PlainTextObject"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2672,
+    "schema_path": "components/Timestamps.schema.json",
+    "type_kind": "struct",
+    "type_name": "Timestamps"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2679,
+    "schema_path": "entities/ThreadSummary.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadSummary"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2689,
+    "schema_path": "primitives/OptionObject.schema.json",
+    "type_kind": "struct",
+    "type_name": "OptionObject"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2697,
+    "schema_path": "type/UIThreadItem.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIThreadItem"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2714,
+    "schema_path": "ui/ImageElement.schema.json",
+    "type_kind": "struct",
+    "type_name": "ImageElement"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2720,
+    "schema_path": "primitives/UIPhysicsResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIPhysicsResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2728,
+    "schema_path": "component/SimulationTier.schema.json",
+    "type_kind": "newtype",
+    "type_name": "SimulationTier"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2731,
+    "schema_path": "config/SystemDomain.schema.json",
+    "type_kind": "newtype",
+    "type_name": "SystemDomain"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2734,
+    "schema_path": "tool/BindingCharacteristics.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingCharacteristics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2745,
+    "schema_path": "primitives/RelationshipType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "RelationshipType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2749,
+    "schema_path": "windmill/ConciergeInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConciergeInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2758,
+    "schema_path": "entities/Intent.schema.json",
+    "type_kind": "struct",
+    "type_name": "Intent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2774,
+    "schema_path": "windmill/ConciergeOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConciergeOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2782,
+    "schema_path": "conversation/Channel.schema.json",
+    "type_kind": "struct",
+    "type_name": "Channel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2796,
+    "schema_path": "conversation/CreateChannelInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateChannelInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2806,
+    "schema_path": "type/RawClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "RawClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2813,
+    "schema_path": "primitives/Email.schema.json",
+    "type_kind": "newtype",
+    "type_name": "Email"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2816,
+    "schema_path": "tool/DetectionMethod.schema.json",
+    "type_kind": "enum",
+    "type_name": "DetectionMethod"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2833,
+    "schema_path": "agentic/AgentState.schema.json",
+    "type_kind": "struct",
+    "type_name": "AgentState"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2845,
+    "schema_path": "tool-payload/GateOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "GateOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2854,
+    "schema_path": "auth/ConsentRecord.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConsentRecord"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2867,
+    "schema_path": "tool/SubjectReference.schema.json",
+    "type_kind": "struct",
+    "type_name": "SubjectReference"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2876,
+    "schema_path": "auth/CurrentUser.schema.json",
+    "type_kind": "struct",
+    "type_name": "CurrentUser"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2883,
+    "schema_path": "primitives/TenantId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "TenantId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2887,
+    "schema_path": "components/Conversation.schema.json",
+    "type_kind": "struct",
+    "type_name": "Conversation"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2893,
+    "schema_path": "components/ClassificationSuperposition.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassificationSuperposition"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2899,
+    "schema_path": "entities/CourseMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "CourseMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2912,
+    "schema_path": "database/JoinRequestModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "JoinRequestModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2925,
+    "schema_path": "tool/InputMapping.schema.json",
+    "type_kind": "struct",
+    "type_name": "InputMapping"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2934,
+    "schema_path": "tool/ToolCategory.schema.json",
+    "type_kind": "enum",
+    "type_name": "ToolCategory"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2951,
+    "schema_path": "contract/TraceKind.schema.json",
+    "type_kind": "enum",
+    "type_name": "TraceKind"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2968,
+    "schema_path": "tool/StepCondition.schema.json",
+    "type_kind": "struct",
+    "type_name": "StepCondition"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2978,
+    "schema_path": "agentic/ToolCallRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolCallRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 2986,
+    "schema_path": "tool/ThreadRelationType.schema.json",
+    "type_kind": "enum",
+    "type_name": "ThreadRelationType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3003,
+    "schema_path": "primitives/MessageId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MessageId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3007,
+    "schema_path": "tool/BindingEvidenceType.schema.json",
+    "type_kind": "enum",
+    "type_name": "BindingEvidenceType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3028,
+    "schema_path": "components/BondPhysics.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondPhysics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3036,
+    "schema_path": "auth/JoinRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "JoinRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3050,
+    "schema_path": "primitives/ThreadRole.schema.json",
+    "type_kind": "enum",
+    "type_name": "ThreadRole"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3067,
+    "schema_path": "entities_api/MessageIntentResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "MessageIntentResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3076,
+    "schema_path": "database/TenantModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "TenantModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3085,
+    "schema_path": "components/TaskDynamics.schema.json",
+    "type_kind": "struct",
+    "type_name": "TaskDynamics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3094,
+    "schema_path": "entities_api/EntityResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3104,
+    "schema_path": "components/CourseDetails.schema.json",
+    "type_kind": "struct",
+    "type_name": "CourseDetails"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3114,
+    "schema_path": "tool/ThreadRelation.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadRelation"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3123,
+    "schema_path": "tool/StandardPipeline.schema.json",
+    "type_kind": "struct",
+    "type_name": "StandardPipeline"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3131,
+    "schema_path": "entities/ThreadMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3144,
+    "schema_path": "type/SegmentClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3154,
+    "schema_path": "config/ModelConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "ModelConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3167,
+    "schema_path": "tool/InteractionFrequency.schema.json",
+    "type_kind": "newtype",
+    "type_name": "InteractionFrequency"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3171,
+    "schema_path": "tool/SpawnSuggesterInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "SpawnSuggesterInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3179,
+    "schema_path": "response/AsyncTaskPollResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "AsyncTaskPollResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3191,
+    "schema_path": "type/AgenticEvent.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "AgenticEvent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3195,
+    "schema_path": "database/FamilyInvitationModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "FamilyInvitationModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3210,
+    "schema_path": "tool/EntityRef.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityRef"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3219,
+    "schema_path": "type/RawWeaveUnit.schema.json",
+    "type_kind": "struct",
+    "type_name": "RawWeaveUnit"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3231,
+    "schema_path": "entities_api/MediaRef.schema.json",
+    "type_kind": "struct",
+    "type_name": "MediaRef"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3240,
+    "schema_path": "tool/ThreadCategory.schema.json",
+    "type_kind": "enum",
+    "type_name": "ThreadCategory"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3265,
+    "schema_path": "tool/ThreadHintInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadHintInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3274,
+    "schema_path": "primitives/TimeUnit.schema.json",
+    "type_kind": "newtype",
+    "type_name": "TimeUnit"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3278,
+    "schema_path": "component/WebpageBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "WebpageBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3286,
+    "schema_path": "database/EntityRegistryModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityRegistryModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3294,
+    "schema_path": "windmill/ClassificationResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassificationResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3301,
+    "schema_path": "tool/ExistingBond.schema.json",
+    "type_kind": "struct",
+    "type_name": "ExistingBond"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3311,
+    "schema_path": "components/ObservationResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "ObservationResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3324,
+    "schema_path": "components/GoogleContent.schema.json",
+    "type_kind": "struct",
+    "type_name": "GoogleContent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3331,
+    "schema_path": "primitives/TaskId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "TaskId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3335,
+    "schema_path": "primitives/UIClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3342,
+    "schema_path": "entities/ShuttleDetails.schema.json",
+    "type_kind": "struct",
+    "type_name": "ShuttleDetails"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3353,
+    "schema_path": "primitives/QuantizedCoord.schema.json",
+    "type_kind": "newtype",
+    "type_name": "QuantizedCoord"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3357,
+    "schema_path": "agentic/AgentMessageType.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "AgentMessageType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3361,
+    "schema_path": "windmill/AgentResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "AgentResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3369,
+    "schema_path": "primitives/QueryType.schema.json",
+    "type_kind": "enum",
+    "type_name": "QueryType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3384,
+    "schema_path": "tool/AudioSegmentFeatures.schema.json",
+    "type_kind": "struct",
+    "type_name": "AudioSegmentFeatures"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3392,
+    "schema_path": "ui/ActionsBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "ActionsBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3398,
+    "schema_path": "tool/BondIndicatorType.schema.json",
+    "type_kind": "enum",
+    "type_name": "BondIndicatorType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3415,
+    "schema_path": "entities/Moment.schema.json",
+    "type_kind": "struct",
+    "type_name": "Moment"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3431,
+    "schema_path": "components/WeaveUnitClassification.schema.json",
+    "type_kind": "struct",
+    "type_name": "WeaveUnitClassification"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3438,
+    "schema_path": "components/ProviderConfig.schema.json",
+    "type_kind": "struct",
+    "type_name": "ProviderConfig"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3448,
+    "schema_path": "tool/VisionSegmentFeatures.schema.json",
+    "type_kind": "struct",
+    "type_name": "VisionSegmentFeatures"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3458,
+    "schema_path": "tool/SuggestedThread.schema.json",
+    "type_kind": "struct",
+    "type_name": "SuggestedThread"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3469,
+    "schema_path": "primitives/DeletionRequestId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "DeletionRequestId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3473,
+    "schema_path": "tool/DetectedBond.schema.json",
+    "type_kind": "struct",
+    "type_name": "DetectedBond"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3483,
+    "schema_path": "tool/BindingPattern.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingPattern"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3492,
+    "schema_path": "tool/BindingHintInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "BindingHintInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3501,
+    "schema_path": "ui/ContextBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "ContextBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3507,
+    "schema_path": "tool/PhysicsHintOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsHintOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3515,
+    "schema_path": "primitives/BindingType.schema.json",
+    "type_kind": "enum",
+    "type_name": "BindingType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3536,
+    "schema_path": "components/CognitiveDimensions.schema.json",
+    "type_kind": "struct",
+    "type_name": "CognitiveDimensions"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3546,
+    "schema_path": "tool/PipelineTrigger.schema.json",
+    "type_kind": "struct",
+    "type_name": "PipelineTrigger"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3554,
+    "schema_path": "tool/PhysicsHints.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsHints"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3564,
+    "schema_path": "entities/Course.schema.json",
+    "type_kind": "struct",
+    "type_name": "Course"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3578,
+    "schema_path": "enum/MagicLinkAction.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MagicLinkAction"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3582,
+    "schema_path": "tenant/CreateTenantInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateTenantInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3589,
+    "schema_path": "primitives/SessionToken.schema.json",
+    "type_kind": "newtype",
+    "type_name": "SessionToken"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3592,
+    "schema_path": "type/InternalStateType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "InternalStateType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3595,
+    "schema_path": "auth/ConsentStatus.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConsentStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3606,
+    "schema_path": "tool/BondUpdate.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondUpdate"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3614,
+    "schema_path": "auth/AuthResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "AuthResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3623,
+    "schema_path": "tool/AudioFeatures.schema.json",
+    "type_kind": "struct",
+    "type_name": "AudioFeatures"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3632,
+    "schema_path": "entities_api/ClassificationResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "ClassificationResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3639,
+    "schema_path": "ui/Block.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "Block"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3643,
+    "schema_path": "tool/ThreadHints.schema.json",
+    "type_kind": "struct",
+    "type_name": "ThreadHints"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3653,
+    "schema_path": "windmill/PhysicsOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3663,
+    "schema_path": "primitives/ThreadId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ThreadId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3667,
+    "schema_path": "auth/CreateMagicLinkInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "CreateMagicLinkInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3676,
+    "schema_path": "windmill/RAGInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "RAGInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3686,
+    "schema_path": "primitives/MagicLinkId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "MagicLinkId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3690,
+    "schema_path": "tool/EntityClassifierInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "EntityClassifierInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3698,
+    "schema_path": "primitives/ConversationTurn.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConversationTurn"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3707,
+    "schema_path": "components/GooglePart.schema.json",
+    "type_kind": "struct",
+    "type_name": "GooglePart"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3713,
+    "schema_path": "tool/InputTransform.schema.json",
+    "type_kind": "type_alias",
+    "type_name": "InputTransform"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3717,
+    "schema_path": "primitives/UUID.schema.json",
+    "type_kind": "newtype",
+    "type_name": "UUID"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3721,
+    "schema_path": "tool/PurposeClassifierOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "PurposeClassifierOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3731,
+    "schema_path": "type/UIChannelMessage.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIChannelMessage"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3742,
+    "schema_path": "components/RequestContext.schema.json",
+    "type_kind": "struct",
+    "type_name": "RequestContext"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3749,
+    "schema_path": "response/AsyncTaskCreated.schema.json",
+    "type_kind": "struct",
+    "type_name": "AsyncTaskCreated"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3758,
+    "schema_path": "auth/DeletionRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "DeletionRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3771,
+    "schema_path": "tool/ToolChainStep.schema.json",
+    "type_kind": "struct",
+    "type_name": "ToolChainStep"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3784,
+    "schema_path": "tool/BondEvidence.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondEvidence"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3792,
+    "schema_path": "type/UIChannel.schema.json",
+    "type_kind": "struct",
+    "type_name": "UIChannel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3802,
+    "schema_path": "entities/CourseSummary.schema.json",
+    "type_kind": "struct",
+    "type_name": "CourseSummary"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3813,
+    "schema_path": "tool/BondHints.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondHints"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3825,
+    "schema_path": "entities_api/WeaveRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "WeaveRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3839,
+    "schema_path": "auth/FamilyInvitation.schema.json",
+    "type_kind": "struct",
+    "type_name": "FamilyInvitation"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3855,
+    "schema_path": "primitives/UserId.schema.json",
+    "type_kind": "newtype",
+    "type_name": "UserId"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3859,
+    "schema_path": "primitives/DbConnectionString.schema.json",
+    "type_kind": "newtype",
+    "type_name": "DbConnectionString"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3863,
+    "schema_path": "windmill/RAGResult.schema.json",
+    "type_kind": "struct",
+    "type_name": "RAGResult"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3873,
+    "schema_path": "components/FieldExcitation.schema.json",
+    "type_kind": "struct",
+    "type_name": "FieldExcitation"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3885,
+    "schema_path": "output/SegmentationResponse.schema.json",
+    "type_kind": "struct",
+    "type_name": "SegmentationResponse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3891,
+    "schema_path": "auth/UpdateUserInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "UpdateUserInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3900,
+    "schema_path": "tool/ErrorStrategy.schema.json",
+    "type_kind": "enum",
+    "type_name": "ErrorStrategy"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3913,
+    "schema_path": "type/RawMessageIntent.schema.json",
+    "type_kind": "struct",
+    "type_name": "RawMessageIntent"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3922,
+    "schema_path": "primitives/ToolCallStatus.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ToolCallStatus"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3926,
+    "schema_path": "tool/BondHintOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "BondHintOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3933,
+    "schema_path": "entities/Pulse.schema.json",
+    "type_kind": "struct",
+    "type_name": "Pulse"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3946,
+    "schema_path": "response/AcceptInvitationFlowOutput.schema.json",
+    "type_kind": "struct",
+    "type_name": "AcceptInvitationFlowOutput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3955,
+    "schema_path": "auth/UserMembership.schema.json",
+    "type_kind": "struct",
+    "type_name": "UserMembership"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3965,
+    "schema_path": "auth/DataExportRequest.schema.json",
+    "type_kind": "struct",
+    "type_name": "DataExportRequest"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3981,
+    "schema_path": "tool/QueryFilter.schema.json",
+    "type_kind": "struct",
+    "type_name": "QueryFilter"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 3989,
+    "schema_path": "windmill/PhysicsInput.schema.json",
+    "type_kind": "struct",
+    "type_name": "PhysicsInput"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4000,
+    "schema_path": "ui/InputBlock.schema.json",
+    "type_kind": "struct",
+    "type_name": "InputBlock"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4009,
+    "schema_path": "database/ConsentRecordModel.schema.json",
+    "type_kind": "struct",
+    "type_name": "ConsentRecordModel"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4021,
+    "schema_path": "type/TenantMember.schema.json",
+    "type_kind": "struct",
+    "type_name": "TenantMember"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4035,
+    "schema_path": "entities_api/ModelInfo.schema.json",
+    "type_kind": "struct",
+    "type_name": "ModelInfo"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4044,
+    "schema_path": "components/EmotionalState.schema.json",
+    "type_kind": "struct",
+    "type_name": "EmotionalState"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4052,
+    "schema_path": "components/CognitiveOptics.schema.json",
+    "type_kind": "struct",
+    "type_name": "CognitiveOptics"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4060,
+    "schema_path": "type/ThreadType.schema.json",
+    "type_kind": "newtype",
+    "type_name": "ThreadType"
+  },
+  {
+    "file": "familiar-contracts/src/generated.rs",
+    "lang": "rust",
+    "line": 4063,
+    "schema_path": "entity/OnboardingSession.schema.json",
+    "type_kind": "struct",
+    "type_name": "OnboardingSession"
+  }
+]

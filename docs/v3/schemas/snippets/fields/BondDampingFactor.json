@@ -1,0 +1,9 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/BondDampingFactor.v1.json",
+  "title": "Bond Damping Factor",
+  "description": "The 'viscosity' of social relationships. High values mean bonds are more stable and resistant to sudden changes in tension. Low values lead to more volatile relationship dynamics. (UI Label: Relationship Stability)",
+  "type": "number",
+  "minimum": 0.5,
+  "maximum": 2.0,
+  "default": 1.0
+}

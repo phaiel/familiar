@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Label.v1.json",
+  "title": "Label Field",
+  "description": "A canonical definition for a short, human-readable UI label or title.",
+  "category": "snippets",
+  "source_file": "snippets/fields/Label.json",
+  "type": "string"
+}

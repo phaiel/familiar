@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/InstanceComponent.v1.schema.json",
+  "title": "Instance Component",
+  "description": "Captures the specific attributes of a generic object within the context of a single event (Entanglement).",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.1.0",
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "fields": {
+    "generic_thread_id": {
+      "description": "The ID of the canonical GenericObject Thread (e.g., 'obj_pacifier').",
+      "$ref": "../snippets/fields/EntityId.json"
+    },
+    "specific_attributes": {
+      "description": "Key-value pairs describing the specific instance (e.g., {'state': 'favorite', 'color': 'blue'}).",
+      "$ref": "../snippets/types/primitives/StringValueMap.json"
+    },
+    "significance_score": {
+      "description": "The significance of this specific instance in the event, used by BondModulationLaw.",
+      "$ref": "../snippets/types/primitives/NormalizedValue.json",
+      "default": 0.5
+    }
+  }
+}

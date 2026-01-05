@@ -1,0 +1,8 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Priority.v1.json",
+  "title": "Priority Field",
+  "description": "The user-assigned priority level.",
+  "type": "string",
+  "enum": ["Low", "Medium", "High", "Urgent"],
+  "default": "Medium"
+}

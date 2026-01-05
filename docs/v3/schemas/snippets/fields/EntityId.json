@@ -1,0 +1,7 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+  "title": "Entity ID Field",
+  "description": "A reusable definition for a unique entity identifier.",
+  "type": "string",
+  "format": "uuid"
+}

@@ -1,0 +1,48 @@
+[package]
+name = "familiar-worker"
+version = "0.1.0"
+edition = "2021"
+description = "Minerva - The Master Weaver. CLI-only executor for Windmill orchestration."
+
+# Minerva CLI binary
+[[bin]]
+name = "minerva"
+path = "src/main.rs"
+
+# Legacy alias
+[[bin]]
+name = "familiar-worker"
+path = "src/main.rs"
+
+[dependencies]
+# Core schema library
+familiar-core = { path = "../../familiar-core" }
+familiar-primitives = { path = "../../familiar-primitives" }
+
+# CLI framework
+clap = { version = "4", features = ["derive", "env"] }
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Utilities
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+config = "0.14"
+thiserror = "1.0"
+
+# Database (SeaORM for transactions)
+sea-orm = { version = "1.0", features = ["runtime-tokio-rustls", "sqlx-postgres"] }
+metrics = "0.21"
+
+[dev-dependencies]
+tokio-test = "0.4"

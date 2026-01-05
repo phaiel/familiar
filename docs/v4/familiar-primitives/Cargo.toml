@@ -1,0 +1,39 @@
+[package]
+name = "familiar-primitives"
+version = "0.1.0"
+edition = "2021"
+description = "Semantic ID types and validated primitives for Familiar"
+
+[features]
+default = ["serde"]
+serde = []                    # Base serialization (always enabled by default)
+sqlx = ["dep:sqlx"]           # Enable sqlx::Type for database compatibility
+ts-rs = ["dep:ts-rs"]         # Enable TypeScript generation
+schematic = ["dep:schematic"] # Enable schematic schema generation
+schemars = ["dep:schemars"]   # Enable schemars JsonSchema generation
+sea-orm = ["dep:sea-orm"]     # Enable SeaORM entity compatibility
+password-hashing = ["dep:argon2"] # Enable password hashing (Argon2id)
+
+# Convenience feature that enables all derives (for familiar-core)
+full = ["sqlx", "ts-rs", "schematic", "schemars", "sea-orm", "password-hashing"]
+
+[dependencies]
+uuid = { version = "1.0", features = ["serde", "v4"] }
+serde = { version = "1.0", features = ["derive"] }
+
+# Validated types dependencies
+thiserror = "1.0"
+rand = "0.8"
+sha2 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
+
+# Optional derives - feature gated
+sqlx = { version = "0.8", optional = true }
+ts-rs = { version = "11.1", features = ["uuid-impl"], optional = true }
+schematic = { version = "0.19", features = ["schema"], optional = true }
+schemars = { workspace = true, optional = true }
+sea-orm = { version = "1.0", optional = true, default-features = false, features = ["with-uuid"] }
+argon2 = { version = "0.5", optional = true }
+
+[dev-dependencies]
+serde_json = "1.0"

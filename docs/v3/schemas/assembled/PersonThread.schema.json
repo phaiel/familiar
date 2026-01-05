@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/PersonThread.v1.schema.json",
+  "title": "Person Thread",
+  "description": "A Thread representing a person, which MUST have a CognitiveBaseline.",
+  "category": "entities",
+  "source_file": "entities/PersonThread.schema.json",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/EntityType.v1.json",
+      "title": "Entity Type",
+      "description": "A canonical enum of all 7 cognitive entity types.",
+      "type": "string",
+      "enum": [
+        "Focus",
+        "Filament",
+        "Motif",
+        "Intent",
+        "Moment",
+        "Bond",
+        "Thread"
+      ],
+      "const": "Thread"
+    },
+    "components": {
+      "title": "PersonThreadComponents",
+      "description": "A container for the definitional components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object",
+      "properties": {
+        "cognitive_baseline": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/CognitiveBaseline.v1.schema.json",
+          "title": "Cognitive Baseline Component",
+          "description": "Defines the innate 'personality' or temperament of a Thread.",
+          "schema_version": "1.0.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          },
+          "fields": {
+            "baseline": {
+              "description": "Defines the innate 'personality' or temperament of a Thread, modulating its physics interactions.",
+              "type": "object",
+              "properties": {
+                "emotional_volatility": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EmotionalVolatility.v1.json",
+                  "title": "Emotional Volatility",
+                  "description": "How strongly emotional events affect this person. High values lead to larger energy transfers and more significant bond tension changes. (UI Label: Emotional Reactivity)",
+                  "type": "number",
+                  "minimum": 0.5,
+                  "maximum": 2.0,
+                  "default": 1.0
+                },
+                "social_energy_factor": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/SocialEnergyFactor.v1.json",
+                  "title": "Social Energy Factor",
+                  "description": "The degree to which social interactions energize the system. Affects how much energy is gained or lost from forming and interacting with Bonds. (UI Label: Social Energy)",
+                  "type": "number",
+                  "minimum": 0.8,
+                  "maximum": 1.2,
+                  "default": 1.0
+                },
+                "consolidation_rate_modifier": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/ConsolidationRateModifier.v1.json",
+                  "title": "Consolidation Rate Modifier",
+                  "description": "The natural rate at which memories consolidate and become stable. Higher values mean memories become concrete and reliable faster. (UI Label: Memory Consolidation)",
+                  "type": "number",
+                  "minimum": 0.8,
+                  "maximum": 1.5,
+                  "default": 1.0
+                },
+                "bond_damping_factor": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/BondDampingFactor.v1.json",
+                  "title": "Bond Damping Factor",
+                  "description": "The 'viscosity' of social relationships. High values mean bonds are more stable and resistant to sudden changes in tension. Low values lead to more volatile relationship dynamics. (UI Label: Relationship Stability)",
+                  "type": "number",
+                  "minimum": 0.5,
+                  "maximum": 2.0,
+                  "default": 1.0
+                },
+                "exploration_bias": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/ExplorationBias.v1.json",
+                  "title": "Exploration Bias",
+                  "description": "The tendency for memories to remain in quantum superposition, allowing for more creative, associative connections. High values favor exploration. (UI Label: Openness to Experience)",
+                  "type": "number",
+                  "minimum": 0.7,
+                  "maximum": 1.3,
+                  "default": 1.0
+                }
+              },
+              "required": [
+                "emotional_volatility",
+                "social_energy_factor",
+                "consolidation_rate_modifier",
+                "bond_damping_factor",
+                "exploration_bias"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "cognitive_baseline"
+      ]
+    },
+    "physics_state": {
+      "title": "PersonThreadPhysicsState",
+      "description": "A container for the mutable physics state components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object",
+      "properties": {
+        "universal": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json",
+          "title": "Universal Physics State Component",
+          "description": "The transient, mutable physics state of an entity.",
+          "schema_version": "3.0.0",
+          "type": "object",
+          "properties": {
+            "fields": {
+              "type": "object",
+              "properties": {
+                "energy": {
+                  "type": "object",
+                  "description": "The current energy level of an entity.",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "default": 0.1
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "momentum": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/Vec6.v1.json",
+                  "title": "6D Physics Vector",
+                  "description": "A reusable data type for a vector of six f64 numbers, used for momentum and forces in the 6 spatial dimensions of the manifold.",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 6,
+                  "maxItems": 6
+                },
+                "cognitive_perspective": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/CognitivePerspective.v1.schema.json",
+                  "title": "Cognitive Perspective Field",
+                  "description": "The intrinsic 'spin' or 'flavor' of the entity, which generates cognitive dissonance (torsion).",
+                  "ui_label": "Cognitive Perspective"
+                },
+                "decay_rate": {
+                  "description": "The base rate of energy or coherence decay for an entity, before multipliers are applied.",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "default": 0.01
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "consolidation_rate": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/fields/ConsolidationRate.v1.json",
+                  "title": "Consolidation Rate Field",
+                  "type": "object",
+                  "description": "The base rate of memory consolidation for an entity, before multipliers are applied. Represents how quickly an unstable memory becomes stable.",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "minimum": 0.0,
+                      "maximum": 1.0,
+                      "default": 0.0
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "quantum_coherence": {
+                  "description": "The quantum coherence level of the entity, representing its degree of superposition. Null for classical entities.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "default": null
+                },
+                "entanglement_strength": {
+                  "description": "The overall entanglement strength of this entity with others. Null for classical entities.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "default": null
+                }
+              },
+              "required": [
+                "energy",
+                "momentum",
+                "cognitive_perspective",
+                "decay_rate",
+                "consolidation_rate",
+                "quantum_coherence",
+                "entanglement_strength"
+              ],
+              "additionalProperties": false,
+              "title": "UniversalPhysicsStateFields"
+            }
+          }
+        }
+      },
+      "required": [
+        "universal"
+      ]
+    },
+    "identity": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/ThreadContent.v1.schema.json",
+      "title": "Thread Content Component",
+      "description": "Defines the core, immutable content of a Thread entity, such as its name and type.",
+      "schema_version": "1.2.0",
+      "physics_properties": {
+        "engine": "classical",
+        "is_quantum": false
+      },
+      "fields": {
+        "name": {
+          "title": "Name Field",
+          "description": "The primary, human-readable name of an entity.",
+          "type": "string"
+        },
+        "thread_type": {
+          "description": "The Platonic Form of the Thread, enforcing abstract relationships.",
+          "type": "string",
+          "enum": [
+            "Person",
+            "Place",
+            "Concept",
+            "GenericObject"
+          ]
+        },
+        "description": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+          "title": "Description Field",
+          "description": "A canonical, reusable definition for a human-readable description field.",
+          "type": "string",
+          "default": ""
+        },
+        "aliases": {
+          "description": "A list of alternative names for this Thread (e.g., nicknames).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/StandardApiServiceStack.v1.json",
+      "title": "Standard API Service Stack",
+      "description": "The canonical infrastructure stack for a standard entity service, including a Poem API, TimescaleDB with vector support, and basic event topics.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "type": "string",
+          "description": "The Backstage template for the service.",
+          "default": "familiar-poem-api-service"
+        },
+        "database_module": {
+          "type": "string",
+          "description": "The Terraform module for the database.",
+          "default": "timescaledb"
+        },
+        "required_extensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Required database extensions.",
+          "default": [
+            "pgvector",
+            "vectorscale"
+          ]
+        },
+        "streaming_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of Redpanda topics this service interacts with.",
+          "default": [
+            "entity.thread.lifecycle.events",
+            "entity.thread.person.updates"
+          ]
+        },
+        "observability_dashboard": {
+          "type": "string",
+          "description": "Path to the Grafana dashboard for this service.",
+          "default": "grafana/dashboards/person-thread-overview.json"
+        }
+      },
+      "required": [
+        "service_template",
+        "database_module",
+        "streaming_topics",
+        "observability_dashboard"
+      ]
+    }
+  },
+  "required": [
+    "entity_type",
+    "components",
+    "physics_state",
+    "identity"
+  ]
+}

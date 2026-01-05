@@ -1,0 +1,24 @@
+# Detect Rust struct definitions for schema usage analysis
+# This rule finds all public struct definitions to match against schema names
+
+id: rust-struct-definition
+language: rust
+severity: info
+rule:
+  kind: struct_item
+  has:
+    kind: visibility_modifier
+    regex: "^pub"
+message: "Struct definition found"
+
+---
+# Detect public enum definitions
+id: rust-enum-definition
+language: rust
+severity: info
+rule:
+  kind: enum_item
+  has:
+    kind: visibility_modifier
+    regex: "^pub"
+message: "Enum definition found"

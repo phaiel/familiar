@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Shuttle.v1.schema.json",
+  "title": "Shuttle Entity",
+  "description": "A system entity that represents a single, traceable execution run for a WeaveUnit within a parent Course.",
+  "allOf": [
+    { "$ref": "./_base/BaseSystemEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Shuttle" },
+        "components": {
+          "type": "object",
+          "properties": {
+            "details": {
+              "description": "The core references and status of the shuttle.",
+              "$ref": "../components/ShuttleDetails.schema.json"
+            }
+          },
+          "required": ["details"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/WorkflowOrchestrator.json" }],
+          "properties": {
+            "trigger_topics": {
+              "default": ["workflow.course.started"]
+            },
+            "status_topics": {
+              "default": ["workflow.shuttle.status.updates", "system.agent.trace.log"]
+            },
+            "observability_dashboard": {
+              "default": "grafana/dashboards/shuttle-execution-trace.json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

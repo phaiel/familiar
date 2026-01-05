@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/EnvoyProxy.v1.json",
+  "title": "Envoy Proxy Stack",
+  "description": "The infrastructure stack for Envoy proxy as a load balancer and API gateway.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/EnvoyProxy.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for Envoy proxy deployment.",
+      "default": "familiar-envoy-proxy"
+    },
+    "proxy_config": {
+      "type": "object",
+      "properties": {
+        "admin_port": {
+          "type": "integer",
+          "default": 9901
+        },
+        "log_level": {
+          "type": "string",
+          "enum": [
+            "trace",
+            "debug",
+            "info",
+            "warn",
+            "error",
+            "critical"
+          ],
+          "default": "info"
+        },
+        "access_log_enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "listeners": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer"
+          },
+          "protocol": {
+            "type": "string",
+            "enum": [
+              "http",
+              "https",
+              "tcp",
+              "grpc"
+            ]
+          },
+          "tls_enabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "filter_chains": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "http_connection_manager",
+                    "tcp_proxy"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "port",
+          "protocol"
+        ]
+      },
+      "description": "Envoy listener configurations."
+    },
+    "clusters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "static",
+              "strict_dns",
+              "logical_dns",
+              "eds"
+            ]
+          },
+          "load_balancing": {
+            "type": "string",
+            "enum": [
+              "round_robin",
+              "least_request",
+              "ring_hash",
+              "random"
+            ],
+            "default": "round_robin"
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "health_check_config": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "default": "/health"
+                    },
+                    "interval": {
+                      "type": "string",
+                      "default": "30s"
+                    },
+                    "timeout": {
+                      "type": "string",
+                      "default": "5s"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "address",
+                "port"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "endpoints"
+        ]
+      },
+      "description": "Upstream cluster configurations."
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "match": {
+            "type": "object",
+            "properties": {
+              "prefix": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "regex": {
+                "type": "string"
+              },
+              "headers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "route": {
+            "type": "object",
+            "properties": {
+              "cluster": {
+                "type": "string"
+              },
+              "timeout": {
+                "type": "string",
+                "default": "30s"
+              },
+              "retry_policy": {
+                "type": "object",
+                "properties": {
+                  "retry_on": {
+                    "type": "string",
+                    "default": "5xx"
+                  },
+                  "num_retries": {
+                    "type": "integer",
+                    "default": 3
+                  }
+                }
+              }
+            },
+            "required": [
+              "cluster"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "match",
+          "route"
+        ]
+      },
+      "description": "HTTP route configurations."
+    },
+    "rate_limiting": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "requests_per_minute": {
+          "type": "integer",
+          "default": 1000
+        },
+        "burst_size": {
+          "type": "integer",
+          "default": 100
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for Envoy proxy metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "listeners",
+    "clusters",
+    "routes",
+    "observability_dashboard"
+  ]
+}

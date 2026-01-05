@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/AccessType.v1.json",
+  "title": "Access Type Field",
+  "description": "Describes the method or reason for an entity access event.",
+  "category": "snippets",
+  "source_file": "snippets/fields/AccessType.json",
+  "type": "string",
+  "enum": [
+    "DirectQuery",
+    "SearchResult",
+    "ConsolidationProcess",
+    "AgentAnalysis",
+    "UserInteraction"
+  ]
+}

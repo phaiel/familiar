@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/ReconciliationTaskType.v1.json",
+  "title": "Reconciliation Task Type",
+  "description": "A canonical enum for the types of reconciliation tasks performed by the Heddle engine.",
+  "category": "snippets",
+  "source_file": "snippets/types/classification/ReconciliationTaskType.json",
+  "type": "string",
+  "enum": [
+    "Structural",
+    "Emotional",
+    "Identity"
+  ]
+}

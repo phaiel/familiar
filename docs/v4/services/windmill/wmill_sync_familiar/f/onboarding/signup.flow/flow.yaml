@@ -1,0 +1,227 @@
+summary: 'Onboarding: User Signup'
+description: DAG for user signup flow. Uses Windmill variables for database connection.
+value:
+  modules:
+    - id: validate_input
+      summary: Validate signup input
+      value:
+        type: rawscript
+        content: '!inline validate_signup_input.inline_script.deno.ts'
+        input_transforms:
+          input:
+            type: javascript
+            expr: flow_input
+        lock: ''
+        language: deno
+    - id: check_existing_user
+      summary: Check if email already exists
+      value:
+        type: rawscript
+        content: '!inline check_if_email_already_exists.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          email:
+            type: javascript
+            expr: results.validate_input.email
+        lock: '!inline check_if_email_already_exists.inline_script.lock'
+        language: deno
+    - id: hash_password
+      summary: Hash password if provided
+      value:
+        type: rawscript
+        content: '!inline hash_password_if_provided.inline_script.deno.ts'
+        input_transforms:
+          has_password:
+            type: javascript
+            expr: results.validate_input.has_password
+          password:
+            type: javascript
+            expr: flow_input.password
+        lock: ''
+        language: deno
+    - id: create_user
+      summary: Create user record
+      value:
+        type: rawscript
+        content: '!inline create_user_record.inline_script.deno.ts'
+        input_transforms:
+          name:
+            type: javascript
+            expr: results.validate_input.name
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          email:
+            type: javascript
+            expr: results.validate_input.email
+          password_hash:
+            type: javascript
+            expr: results.hash_password.password_hash
+        lock: '!inline create_user_record.inline_script.lock'
+        language: deno
+    - id: record_consents
+      summary: Record GDPR consent records
+      value:
+        type: rawscript
+        content: '!inline record_gdpr_consent_records.inline_script.deno.ts'
+        input_transforms:
+          consents:
+            type: javascript
+            expr: flow_input.consents
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          ip_address:
+            type: javascript
+            expr: flow_input.ip_address
+          user_agent:
+            type: javascript
+            expr: flow_input.user_agent
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+        lock: '!inline record_gdpr_consent_records.inline_script.lock'
+        language: deno
+    - id: create_session
+      summary: Create auth session
+      value:
+        type: rawscript
+        content: '!inline create_auth_session.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          ip_address:
+            type: javascript
+            expr: flow_input.ip_address
+          user_agent:
+            type: javascript
+            expr: flow_input.user_agent
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+        lock: '!inline create_auth_session.inline_script.lock'
+        language: deno
+    - id: process_invite
+      summary: Process invite code if present
+      value:
+        type: rawscript
+        content: '!inline process_invite_code_if_present.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          has_invite_code:
+            type: javascript
+            expr: results.validate_input.has_invite_code
+          invite_code:
+            type: javascript
+            expr: flow_input.invite_code
+          user_email:
+            type: javascript
+            expr: results.create_user.email
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+          user_name:
+            type: javascript
+            expr: results.create_user.name
+        lock: '!inline process_invite_code_if_present.inline_script.lock'
+        language: deno
+    - id: audit_log
+      summary: Create audit log entry
+      value:
+        type: rawscript
+        content: '!inline create_audit_log_entry.inline_script.deno.ts'
+        input_transforms:
+          database_url:
+            type: static
+            value: '$var:f/familiar/DATABASE_URL'
+          email:
+            type: javascript
+            expr: results.create_user.email
+          ip_address:
+            type: javascript
+            expr: flow_input.ip_address
+          joined_family_id:
+            type: javascript
+            expr: results.process_invite.joined_family_id
+          user_agent:
+            type: javascript
+            expr: flow_input.user_agent
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+        lock: '!inline create_audit_log_entry.inline_script.lock'
+        language: deno
+    - id: output
+      summary: Assemble final output
+      value:
+        type: rawscript
+        content: '!inline assemble_final_output.inline_script.deno.ts'
+        input_transforms:
+          name:
+            type: javascript
+            expr: results.create_user.name
+          email:
+            type: javascript
+            expr: results.create_user.email
+          joined_family_id:
+            type: javascript
+            expr: results.process_invite.joined_family_id
+          joined_family_name:
+            type: javascript
+            expr: results.process_invite.joined_family_name
+          needs_family:
+            type: javascript
+            expr: results.process_invite.needs_family
+          session_expires_at:
+            type: javascript
+            expr: results.create_session.expires_at
+          session_id:
+            type: javascript
+            expr: results.create_session.session_id
+          session_token:
+            type: javascript
+            expr: results.create_session.token
+          user_id:
+            type: javascript
+            expr: results.create_user.user_id
+        lock: ''
+        language: deno
+schema:
+  $schema: 'http://json-schema.org/draft-07/schema#'
+  type: object
+  properties:
+    name:
+      type: string
+    consents:
+      type: object
+      properties:
+        privacy:
+          type: boolean
+        terms:
+          type: boolean
+      required:
+        - terms
+        - privacy
+    email:
+      type: string
+      format: email
+    invite_code:
+      type: string
+    ip_address:
+      type: string
+    password:
+      type: string
+    request_id:
+      type: string
+    user_agent:
+      type: string
+  required:
+    - email
+    - name
+    - consents
+    - request_id

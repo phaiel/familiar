@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/ApiEndpoint.v1.schema.json",
+  "title": "Base API Endpoint",
+  "description": "The base schema for defining API endpoints, including path, method, and request/response schemas.",
+  "category": "_base",
+  "source_file": "_base/BaseApiEndpoint.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ]
+    },
+    "path": {
+      "type": "string"
+    },
+    "request_schema": {
+      "description": "A reference to the JSON schema for the request body or parameters.",
+      "type": "string"
+    },
+    "response_schema": {
+      "description": "A reference to the JSON schema for the success response body.",
+      "type": "string"
+    },
+    "security": {
+      "description": "Security requirements for this endpoint.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "path",
+    "method",
+    "response_schema"
+  ]
+}

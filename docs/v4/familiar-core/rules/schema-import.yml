@@ -1,0 +1,30 @@
+# Detect imports from familiar_core::types
+# These indicate which schemas are actually used in service code
+
+id: familiar-types-import
+language: rust
+severity: info
+rule:
+  kind: use_declaration
+  regex: "familiar_core::types"
+message: "Import of familiar_core::types"
+
+---
+# Detect imports from familiar_core::generated
+id: familiar-generated-import
+language: rust
+severity: info
+rule:
+  kind: use_declaration
+  regex: "familiar_core::generated"
+message: "Import of familiar_core::generated"
+
+---
+# Detect imports from familiar_primitives
+id: familiar-primitives-import
+language: rust
+severity: info
+rule:
+  kind: use_declaration
+  regex: "familiar_primitives"
+message: "Import of familiar_primitives"

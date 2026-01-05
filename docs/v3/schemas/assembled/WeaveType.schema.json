@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/WeaveType.v1.json",
+  "title": "Weave Type",
+  "description": "Classifies the source format of a user's input 'Weave'.",
+  "category": "snippets",
+  "source_file": "snippets/types/classification/WeaveType.json",
+  "type": "string",
+  "enum": [
+    "text",
+    "audio",
+    "image",
+    "document",
+    "system_event"
+  ]
+}

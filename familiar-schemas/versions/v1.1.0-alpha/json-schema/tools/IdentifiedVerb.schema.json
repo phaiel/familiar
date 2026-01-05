@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "VerbTense": {
+      "description": "Verb tenses",
+      "enum": [
+        "past",
+        "present",
+        "future",
+        "habitual"
+      ],
+      "type": "string"
+    }
+  },
+  "description": "An identified verb with analysis",
+  "properties": {
+    "category": {
+      "allOf": [
+        {
+          "$ref": "../primitives/VerbCategory.schema.json"
+        }
+      ],
+      "description": "Verb category"
+    },
+    "is_main": {
+      "description": "Is this the main verb?",
+      "type": "boolean"
+    },
+    "tense": {
+      "anyOf": [
+        {
+          "$ref": "VerbTense.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Tense"
+    },
+    "text": {
+      "description": "The verb text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "category",
+    "is_main",
+    "text"
+  ],
+  "title": "IdentifiedVerb",
+  "type": "object",
+  "x-familiar-kind": "tool",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Tool.meta.schema.json"
+  },
+  "x-familiar-queue": {
+    "$ref": "../infrastructure/queues/worker-queue.queue.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-worker.node.json"
+  }
+}

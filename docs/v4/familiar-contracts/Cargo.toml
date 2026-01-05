@@ -1,0 +1,46 @@
+[package]
+name = "familiar-contracts"
+version = "0.1.0"
+edition = "2021"
+description = "Generated data types from familiar-schemas. Pure structs/enums with no behavior."
+authors = ["Eric Theiss"]
+license = "MIT"
+build = "build.rs"
+
+# This crate is GENERATED - do not add business logic here.
+# All behavior should be in familiar-core/src/impl_/ modules.
+
+[dependencies]
+familiar-primitives = { path = "../familiar-primitives", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Schema generation
+schemars = "0.8"
+
+# Date/time
+chrono = { version = "0.4", features = ["serde"] }
+
+# UUID
+uuid = { version = "1.0", features = ["serde", "v4"] }
+
+# SeaORM support (optional)
+sea-orm = { version = "1.0", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"], optional = true }
+
+# Schema embedding for runtime access
+include_dir = "0.7"
+
+# No business logic dependencies - pure data only
+
+[build-dependencies]
+# Note: familiar-schemas is NOT needed here - build.rs clones via git
+walkdir = "2.4"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+
+[features]
+default = []
+sea-orm = ["dep:sea-orm"]

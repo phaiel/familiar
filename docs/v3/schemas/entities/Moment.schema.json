@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Moment.v1.schema.json",
+  "title": "Moment Entity",
+  "description": "A classical entity representing a specific, objective event in the past. This is the atomic unit of episodic memory.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "./_base/BaseCognitiveEntity.schema.json"
+    },
+    {
+      "properties": {
+        "entity_type": {
+          "const": "Moment"
+        },
+        "components": {
+          "title": "MomentComponents",
+          "type": "object",
+          "properties": {
+            "content": {
+              "$ref": "../components/MomentContent.schema.json"
+            },
+            "temporal_anchor": {
+              "$ref": "../components/TemporalAnchor.schema.json"
+            }
+          },
+          "required": [
+            "content",
+            "temporal_anchor"
+          ]
+        },
+        "physics_state": {
+          "title": "MomentPhysicsState",
+          "type": "object",
+          "properties": {
+            "universal": {
+              "$ref": "../components/UniversalPhysicsState.schema.json"
+            },
+            "manifold_position": {
+              "$ref": "../components/MemoryManifoldPosition.schema.json"
+            }
+          },
+          "required": [
+            "universal",
+            "manifold_position"
+          ]
+        },
+        "infrastructure": {
+          "allOf": [
+            {
+              "$ref": "../snippets/types/infrastructure/StandardApiServiceStack.json"
+            }
+          ],
+          "properties": {
+            "streaming_topics": {
+              "default": [
+                "entity.moment.created",
+                "entity.moment.accessed"
+              ]
+            },
+            "observability_dashboard": {
+              "default": "grafana/dashboards/moment-entity-overview.json"
+            }
+          }
+        }
+      },
+      "required": [
+        "components",
+        "physics_state"
+      ]
+    }
+  ]
+}

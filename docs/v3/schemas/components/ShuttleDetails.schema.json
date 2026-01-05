@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/ShuttleDetails.v1.schema.json",
+  "title": "Shuttle Details Component",
+  "description": "The data component for a Shuttle entity, linking it to its parent Course and the WeaveUnit it processes.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "fields": {
+    "course_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "weave_unit_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "status": { "$ref": "../snippets/fields/Status.json" }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/QuantumComputeStack.v1.json",
+  "title": "Quantum Compute Stack",
+  "description": "The infrastructure stack for a quantum entity service, featuring a Python/QuTiP service and event-driven communication.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/QuantumComputeStack.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "default": "familiar-quantum-service"
+    },
+    "primary_datastore": {
+      "type": "string",
+      "default": "redpanda_topics"
+    },
+    "streaming_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "observability_dashboard": {
+      "type": "string"
+    },
+    "classical_service_dependency": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "service_template",
+    "primary_datastore",
+    "streaming_topics",
+    "observability_dashboard",
+    "classical_service_dependency"
+  ]
+}

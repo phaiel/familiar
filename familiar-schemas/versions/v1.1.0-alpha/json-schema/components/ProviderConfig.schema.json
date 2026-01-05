@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Configuration for an AI provider connection",
+  "properties": {
+    "api_key": {
+      "anyOf": [
+        {
+          "$ref": "../primitives/ApiKey.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "writeOnly": true
+    },
+    "api_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "base_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "organization_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provider": {
+      "$ref": "../primitives/AIProvider.schema.json"
+    }
+  },
+  "required": [
+    "provider"
+  ],
+  "title": "ProviderConfig",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Component.meta.schema.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-daemon.node.json"
+  }
+}

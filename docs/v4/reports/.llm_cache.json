@@ -1,0 +1,195 @@
+{
+  "entries": {
+    "services/familiar-api/src/routes/invitations.rs:AcceptInvitationRequest": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "AcceptInvitationRequest",
+        "file_path": "services/familiar-api/src/routes/invitations.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 1,
+        "reasoning": "AcceptInvitationRequest is a Data Transfer Object (DTO) used for API request deserialization. It has #[derive(Debug, Deserialize, ToSchema)] which are standard DTO markers: Deserialize for HTTP request body parsing, ToSchema for OpenAPI documentation generation. It contains only a single optional field (create_family_name) with no business logic or domain entity characteristics. Located in services/familiar-api/src/routes/invitations.rs, it follows the standard pattern of request structs in the API layer. No EntityMeta usage detected, confirming it's not a domain entity. DTOs are appropriately placed in the routes/API layer and should not be migrated to domain entities.",
+        "ast_grep_queries": [
+          "pub struct AcceptInvitationRequest",
+          "EntityMeta",
+          "#[derive(Debug, Deserialize, ToSchema)]",
+          "pub struct $NAME { $$$BODY }"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/async_tasks.rs:TaskCreatedResponse": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "TaskCreatedResponse",
+        "file_path": "services/familiar-api/src/routes/async_tasks.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 0,
+        "reasoning": "TaskCreatedResponse is a Data Transfer Object (DTO) designed for API responses. It lacks EntityMeta metadata (present in domain entities like User and Task), includes ToSchema derive for OpenAPI documentation, and contains response-specific fields (task_id, correlation_id, status, poll_url). It is properly positioned in the routes layer and should not be migrated. The struct follows the codebase pattern where domain entities use EntityMeta wrapper while DTOs remain lightweight response objects.",
+        "ast_grep_queries": [
+          "pub struct TaskCreatedResponse",
+          "EntityMeta"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/channels.rs:ConversationHistoryResponse": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "ConversationHistoryResponse",
+        "file_path": "services/familiar-api/src/routes/channels.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 3,
+        "reasoning": "ConversationHistoryResponse is a Data Transfer Object (DTO) designed specifically for API responses. It lacks EntityMeta (unlike domain entities Channel, Message, User) and serves as an aggregation wrapper containing a Vec<ConversationMessage> and count. The derives (Serialize, ToSchema) and location in routes/channels.rs confirm it's an API response type, not a domain entity. It should remain in the routes layer as it's tightly coupled to the API contract.",
+        "ast_grep_queries": [
+          "pub struct ConversationHistoryResponse",
+          "EntityMeta"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/async_tasks.rs:TaskPollResponse": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "TaskPollResponse",
+        "file_path": "services/familiar-api/src/routes/async_tasks.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 0,
+        "reasoning": "TaskPollResponse is a Data Transfer Object (DTO) located in the routes/async_tasks.rs file. It is specifically designed for API responses with Serialize and ToSchema derives for JSON serialization and OpenAPI documentation. Unlike domain models (Task, User, UserProfile) which use EntityMeta composition, TaskPollResponse is a flattened response structure with serde attributes controlling serialization. It mirrors the Task domain model but is appropriately separated as a response DTO in the API layer, not a domain entity.",
+        "ast_grep_queries": [
+          "pub struct TaskPollResponse",
+          "EntityMeta"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/tenants.rs:CreateTenantRequest": {
+      "file_mtime": 1765550294,
+      "result": {
+        "name": "CreateTenantRequest",
+        "file_path": "services/familiar-api/src/routes/tenants.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 3,
+        "reasoning": "CreateTenantRequest is a Data Transfer Object (DTO) used for deserializing HTTP request payloads. It has Deserialize and ToSchema derives, is used as Json(payload) in the create_tenant handler, and contains only simple fields. No EntityMeta patterns found. DTOs are typically not migrated as they serve a specific purpose in the API layer and are separate from domain entities.",
+        "ast_grep_queries": [
+          "pub struct CreateTenantRequest",
+          "EntityMeta",
+          "CreateTenantRequest",
+          "pub struct.*Request"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/tenants.rs:TenantResponse": {
+      "file_mtime": 1765550294,
+      "result": {
+        "name": "TenantResponse",
+        "file_path": "services/familiar-api/src/routes/tenants.rs",
+        "classification": "dto",
+        "should_migrate": true,
+        "priority": 2,
+        "reasoning": "TenantResponse is a Data Transfer Object (DTO) located in the routes/API layer (services/familiar-api/src/routes/tenants.rs). It uses Serialize and ToSchema derives typical of API response objects. A corresponding domain entity 'Tenant' exists in familiar-core/src/types/tenant.rs with SystemEntityMeta<TenantId> metadata. TenantResponse is a simplified projection of the domain entity used for API serialization. Should be migrated to a dedicated DTOs module and clearly separated from domain entities. Priority 2 because it's a well-established pattern but could benefit from better organization.",
+        "ast_grep_queries": [
+          "pub struct TenantResponse",
+          "#[derive(Debug, Serialize, ToSchema)]",
+          "pub struct Tenant",
+          "SystemEntityMeta"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/async_tasks.rs:CreateTaskRequest": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "CreateTaskRequest",
+        "file_path": "services/familiar-api/src/routes/async_tasks.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 1,
+        "reasoning": "CreateTaskRequest is a Data Transfer Object (DTO) used for API request deserialization. It has Deserialize and ToSchema derives indicating it's an HTTP request contract. It lacks EntityMeta, Identity components, and complex composition patterns found in domain entities (Motif, Bond). It's located in the routes layer and serves as an API boundary contract for async task creation. No migration needed as it's already correctly positioned in the API service layer.",
+        "ast_grep_queries": [
+          "pub struct CreateTaskRequest",
+          "EntityMeta",
+          "Deserialize",
+          "ToSchema"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/channels.rs:ChannelListResponse": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "ChannelListResponse",
+        "file_path": "services/familiar-api/src/routes/channels.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 2,
+        "reasoning": "ChannelListResponse is a Data Transfer Object (DTO) designed specifically for API responses. It wraps a collection of Channel domain entities with a count field, serving as a response envelope for list operations. The struct is located in the routes layer (services/familiar-api/src/routes/), uses Serialize and ToSchema derives for API documentation, and acts as a presentation layer construct. It should NOT be migrated as it's appropriately placed in the API layer and serves its intended purpose of structuring HTTP responses. Priority 2 because while it's well-designed, it could be reviewed for consistency with other response patterns if a standardized response wrapper exists.",
+        "ast_grep_queries": [
+          "pub struct ChannelListResponse",
+          "EntityMeta",
+          "pub struct Channel"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/invitations.rs:InvitationAcceptedResponse": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "InvitationAcceptedResponse",
+        "file_path": "services/familiar-api/src/routes/invitations.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 1,
+        "reasoning": "InvitationAcceptedResponse is a response DTO located in routes/invitations.rs. It lacks EntityMeta audit fields present in domain entities (Tenant, User), contains only simple scalar fields (success, tenant_id, tenant_name, role), and uses Serialize/ToSchema derives typical of API response objects. It serves as a data transfer object for API responses, not a domain entity.",
+        "ast_grep_queries": [
+          "pub struct InvitationAcceptedResponse",
+          "EntityMeta"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    },
+    "services/familiar-api/src/routes/invitations.rs:CreateInvitationRequest": {
+      "file_mtime": 1765551252,
+      "result": {
+        "name": "CreateInvitationRequest",
+        "file_path": "services/familiar-api/src/routes/invitations.rs",
+        "classification": "dto",
+        "should_migrate": false,
+        "priority": 1,
+        "reasoning": "CreateInvitationRequest is a Data Transfer Object (DTO) used for API request deserialization. It has the characteristic DTO pattern: (1) Located in routes/invitations.rs (API layer), (2) Derives Debug, Deserialize, ToSchema for OpenAPI documentation, (3) Contains simple Option fields with serde attributes for flexible input, (4) Does NOT contain EntityMeta fields (id, tenant_id with timestamps) that characterize domain entities. Domain entities in this codebase (Channel, Message, etc.) use EntityMeta<Id> for identity and lifecycle management. CreateInvitationRequest is purely for accepting invitation creation parameters from API clients, not for representing a persistent domain entity.",
+        "ast_grep_queries": [
+          "pub struct CreateInvitationRequest",
+          "EntityMeta",
+          "pub struct Channel",
+          "pub struct CreateTaskRequest"
+        ],
+        "suggested_fix": null,
+        "dependencies": [],
+        "error": null
+      }
+    }
+  }
+}

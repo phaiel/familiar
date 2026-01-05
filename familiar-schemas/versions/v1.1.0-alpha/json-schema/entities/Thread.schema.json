@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ThreadType": {
+      "enum": [
+        "Person",
+        "Place",
+        "Concept",
+        "GenericObject"
+      ],
+      "type": "string"
+    }
+  },
+  "title": "Thread",
+  "description": "A narrative thread connecting moments in the cognitive manifold.",
+  "x-familiar-kind": "entity",
+  "allOf": [
+    { "$ref": "../architecture/meta/PhysicalEntity.meta.schema.json" }
+  ],
+  "properties": {
+    "id": {
+      "$ref": "../primitives/ThreadId.schema.json",
+      "description": "Unique thread identifier"
+    },
+    "metadata": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "text": {
+      "type": "string"
+    },
+    "thread_type": {
+      "$ref": "../types/ThreadType.schema.json"
+    }
+  },
+  "required": [
+    "metadata",
+    "text",
+    "thread_type"
+  ],
+  "title": "Thread",
+  "type": "object",
+  "x-familiar-kind": "entity",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/PhysicalEntity.meta.schema.json"
+  },
+  "x-familiar-persistence": {
+    "profile": "timescaledb",
+    "hypertable": true,
+    "table": "threads",
+    "primary_key": ["id", "t_coord"],
+    "partition_column": "t_coord",
+    "indexes": [
+      "tenant_id",
+      "t_coord",
+      "thread_type"
+    ]
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-daemon.node.json"
+  },
+  "x-familiar-composition": {
+    "physics": [
+      "amplitude",
+      "energy",
+      "position",
+      "temperature",
+      "velocity"
+    ],
+    "note": "identity fields kept direct (typed IDs)"
+  }
+}

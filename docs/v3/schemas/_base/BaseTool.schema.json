@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Tool.v1.schema.json",
+  "title": "Base Agent Tool",
+  "description": "The base schema for a tool that can be used by a LlamaIndex agent, defining its input and output contracts.",
+  "type": "object",
+  "allOf": [{ "$ref": "./BaseMetadata.schema.json" }],
+  "properties": {
+    "tool_name": {
+      "description": "The unique, machine-readable name of the tool.",
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_]+$"
+    },
+    "input_schema": {
+      "description": "A reference to the JSON schema for the tool's input parameters.",
+      "type": "string",
+      "format": "uri"
+    },
+    "output_schema": {
+      "description": "A reference to the JSON schema for the tool's return value.",
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": ["tool_name", "input_schema", "output_schema"]
+}

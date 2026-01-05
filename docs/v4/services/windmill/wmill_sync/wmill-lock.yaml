@@ -1,0 +1,6 @@
+version: v2
+locks:
+  f/familiar/analyzer/schema.flow+__flow_hash: 56ee7910417c5db4929a12bd497343ea028bfdef789664cd759fbd078be63085
+  f/familiar/analyzer/schema.flow+call_claude_for_analysis.inline_script.py: ac691c150f08c2976ff9557dc09d3043ea7d49a0d4f3994b5b522df1ae6c3eb4
+  u/phaiel/analyzer_agent: 3e09fb7a29bd9fa419bb6a027c79ba4f377cf24c36d883b3ddb5153f20e7b58b
+  u/phaiel/schema_analyzer: 05e1ce9c69868d584cb63df3fb08ceb6eaab90443d8be93fd3bf706ecedc1f3c

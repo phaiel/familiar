@@ -1,0 +1,430 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/tenant.v1.schema.json",
+  "title": "Tenant Entity",
+  "description": "Canonical schema for a Tenant, the root container for all user data and configuration. This is a System Entity and does not participate in physics simulations.",
+  "category": "entities",
+  "source_file": "entities/Tenant.schema.json",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "description": "The canonical type of the system entity.",
+      "type": "string",
+      "enum": [
+        "Stitch",
+        "Course",
+        "Shuttle",
+        "Tenant",
+        "WorkflowTask"
+      ],
+      "const": "Tenant"
+    },
+    "workflow_state": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/workflow/WorkflowState.v1.json",
+      "title": "Workflow State",
+      "description": "Represents the state of a long-running, orchestrated workflow.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+          "title": "Status Field",
+          "description": "The current status of a task or process.",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "InProgress",
+            "Completed",
+            "Cancelled"
+          ],
+          "default": "Pending"
+        },
+        "current_step": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "last_updated": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NullableTimestamp.v1.json",
+          "title": "Nullable Timestamp",
+          "description": "A canonical definition for an optional ISO 8601 timestamp with timezone.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "current_step",
+        "last_updated"
+      ]
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TenantIdentity.v1.schema.json",
+          "title": "Tenant Identity Component",
+          "description": "Defines the core identity and metadata for a Tenant.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "tenant_name": {
+                  "title": "Name Field",
+                  "description": "The primary, human-readable name of an entity.",
+                  "type": "string"
+                },
+                "subscription_plan": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/SubscriptionPlan.v1.json",
+                  "title": "Subscription Plan",
+                  "description": "A canonical enum of all available subscription plans for a Tenant.",
+                  "type": "string",
+                  "enum": [
+                    "Free",
+                    "Personal",
+                    "FamilyPlus",
+                    "Enterprise"
+                  ]
+                }
+              },
+              "required": [
+                "tenant_name",
+                "subscription_plan"
+              ],
+              "title": "TenantIdentityFields"
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.1.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          }
+        },
+        "members": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TenantMembers.v1.schema.json",
+          "title": "Tenant Members Component",
+          "description": "Manages the users and their roles within a Tenant.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.0.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          },
+          "fields": {
+            "members": {
+              "description": "A list of users who are members of this tenant.",
+              "type": "array",
+              "items": {
+                "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/security/Member.v1.json",
+                "title": "Tenant Member",
+                "description": "Represents a single user within a tenant, explicitly linking their user identity to their cognitive PersonThread entity.",
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+                    "title": "UUID",
+                    "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+                    "type": "string"
+                  },
+                  "thread_id": {
+                    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+                    "title": "Entity ID Field",
+                    "description": "A reusable definition for a unique entity identifier.",
+                    "type": "string"
+                  },
+                  "role": {
+                    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/Role.v1.json",
+                    "title": "Tenant Member Role",
+                    "description": "Defines the roles a user can have within a tenant.",
+                    "type": "string",
+                    "enum": [
+                      "Admin",
+                      "Member",
+                      "Child",
+                      "Guardian",
+                      "ReadOnly"
+                    ]
+                  },
+                  "permissions": {
+                    "description": "A list of specific permissions granted to this member.",
+                    "type": "array",
+                    "items": {
+                      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/TenantPermission.v1.json",
+                      "title": "Tenant Permission",
+                      "description": "A canonical enum of permissions a user can have within a Tenant.",
+                      "type": "string",
+                      "enum": [
+                        "Read",
+                        "Write",
+                        "Contribute",
+                        "Administer"
+                      ]
+                    }
+                  },
+                  "joined_at": {
+                    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+                    "title": "Timestamp",
+                    "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "user_id",
+                  "thread_id",
+                  "role",
+                  "joined_at"
+                ]
+              }
+            }
+          }
+        },
+        "config": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TenantConfig.v1.schema.json",
+          "title": "Tenant Configuration Component",
+          "description": "Stores tenant-specific settings and feature flag overrides.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.0.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          },
+          "fields": {
+            "feature_flags": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            },
+            "privacy_settings": {
+              "description": "Tenant-level privacy controls.",
+              "type": "object",
+              "properties": {
+                "data_retention_days": {
+                  "type": "integer",
+                  "default": 3650
+                },
+                "allow_social_weather": {
+                  "type": "boolean",
+                  "default": false
+                }
+              },
+              "title": "TenantConfigurationPrivacySettings"
+            }
+          }
+        }
+      },
+      "required": [
+        "identity",
+        "members",
+        "config"
+      ],
+      "title": "TenantComponents"
+    },
+    "infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/TenantManagementService.v1.json",
+      "title": "Tenant Management Service",
+      "description": "Infrastructure stack for tenant management, isolation, and multi-tenant resource provisioning.",
+      "type": "object",
+      "properties": {
+        "tenant_isolation_strategy": {
+          "type": "string",
+          "description": "The tenant isolation approach.",
+          "enum": [
+            "database-per-tenant",
+            "schema-per-tenant",
+            "row-level-security"
+          ],
+          "default": "schema-per-tenant"
+        },
+        "database_module": {
+          "type": "string",
+          "description": "The Terraform module for tenant data storage.",
+          "default": "timescaledb"
+        },
+        "identity_provider": {
+          "type": "string",
+          "description": "The identity and access management system.",
+          "default": "oauth2-proxy"
+        },
+        "tenant_provisioning": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of resources provisioned per tenant.",
+          "default": [
+            "database-schema",
+            "api-keys",
+            "rate-limits",
+            "storage-bucket"
+          ]
+        },
+        "streaming_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Redpanda topics for tenant events.",
+          "default": [
+            "tenant-events",
+            "tenant-provisioning",
+            "tenant-billing"
+          ]
+        },
+        "observability_dashboard": {
+          "type": "string",
+          "description": "Path to the Grafana dashboard for tenant monitoring.",
+          "default": "/dashboards/tenant-management"
+        },
+        "authentication_provider": {
+          "default": "auth0"
+        },
+        "billing_integration": {
+          "default": "stripe"
+        }
+      },
+      "required": [
+        "tenant_isolation_strategy",
+        "database_module",
+        "identity_provider",
+        "tenant_provisioning",
+        "streaming_topics",
+        "observability_dashboard"
+      ]
+    }
+  },
+  "required": [
+    "entity_type",
+    "components"
+  ],
+  "not": {
+    "description": "Rule 17.2: System entities MUST NOT have physics components.",
+    "required": [
+      "physics_state"
+    ]
+  }
+}

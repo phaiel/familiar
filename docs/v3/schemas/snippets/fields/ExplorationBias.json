@@ -1,0 +1,9 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/ExplorationBias.v1.json",
+  "title": "Exploration Bias",
+  "description": "The tendency for memories to remain in quantum superposition, allowing for more creative, associative connections. High values favor exploration. (UI Label: Openness to Experience)",
+  "type": "number",
+  "minimum": 0.7,
+  "maximum": 1.3,
+  "default": 1.0
+}

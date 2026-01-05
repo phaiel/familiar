@@ -1,0 +1,7 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+  "title": "Description Field",
+  "description": "A canonical, reusable definition for a human-readable description field.",
+  "type": "string",
+  "default": ""
+}

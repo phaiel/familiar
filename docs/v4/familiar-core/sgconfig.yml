@@ -1,0 +1,13 @@
+# ast-grep configuration for schema analysis
+# See: https://ast-grep.github.io/guide/project/project-config.html
+
+ruleDirs:
+  - rules
+
+testConfigs:
+  - testDir: rules/tests
+
+# Language-specific settings
+languageGlobs:
+  rust:
+    - "**/*.rs"

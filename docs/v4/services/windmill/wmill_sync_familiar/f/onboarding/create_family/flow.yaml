@@ -1,0 +1,297 @@
+summary: 'Onboarding: Create Family'
+description: DAG for family creation. Uses Windmill variables for database connection.
+schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  required:
+    - user_id
+    - family_name
+    - request_id
+  properties:
+    user_id:
+      type: string
+      format: uuid
+    family_name:
+      type: string
+    request_id:
+      type: string
+value:
+  modules:
+    - id: validate_user
+      summary: Validate user exists and needs a family
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, family_name: string,
+          database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const userResult = await client.queryObject('SELECT id, name, email, primary_tenant_id FROM users WHERE id = $1', [user_id]);
+              if (userResult.rows.length === 0) throw new Error(JSON.stringify({ code: 'USER_NOT_FOUND', message: 'User not found' }));
+              const user = userResult.rows[0] as any;
+              const memberResult = await client.queryObject('SELECT tenant_id FROM tenant_members WHERE user_id = $1', [user_id]);
+              if (memberResult.rows.length > 0) throw new Error(JSON.stringify({ code: 'ALREADY_HAS_FAMILY', message: 'User already belongs to a family' }));
+              if (!family_name || family_name.trim().length < 2) throw new Error(JSON.stringify({ code: 'INVALID_NAME', message: 'Family name must be at least 2 characters' }));
+              return { valid: true, user_id: user.id, user_name: user.name, user_email: user.email, family_name: family_name.trim() };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: flow_input.user_id
+          family_name:
+            type: javascript
+            expr: flow_input.family_name
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: create_tenant
+      summary: Create tenant record
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(family_name: string, database_url: string)
+          {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const result = await client.queryObject(
+                `INSERT INTO tenants (name, settings, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id, name, created_at`,
+                [family_name, JSON.stringify({ theme: 'light', ai_enabled: true })]
+              );
+              const tenant = result.rows[0] as any;
+              return { tenant_id: tenant.id, tenant_name: tenant.name, created_at: tenant.created_at };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          family_name:
+            type: javascript
+            expr: results.validate_user.family_name
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: add_admin_member
+      summary: Add user as admin member
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(tenant_id: string, user_id: string,
+          user_name: string, user_email: string, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              await client.queryObject(
+                `INSERT INTO tenant_members (tenant_id, user_id, name, email, role, is_primary, joined_at) VALUES ($1, $2, $3, $4, 'admin', true, NOW())`,
+                [tenant_id, user_id, user_name, user_email]
+              );
+              return { added: true, role: 'admin' };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+          user_name:
+            type: javascript
+            expr: results.validate_user.user_name
+          user_email:
+            type: javascript
+            expr: results.validate_user.user_email
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: update_user_primary
+      summary: Update user's primary tenant
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, tenant_id: string,
+          database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              await client.queryObject(`UPDATE users SET primary_tenant_id = $1, updated_at = NOW() WHERE id = $2`, [tenant_id, user_id]);
+              return { updated: true };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: create_personal_channel
+      summary: Create personal channel (primary)
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(tenant_id: string, user_id: string,
+          user_name: string, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const result = await client.queryObject(
+                `INSERT INTO channels (tenant_id, name, description, channel_type, settings, created_at, updated_at)
+                 VALUES ($1, $2, $3, 'personal', $4, NOW(), NOW()) RETURNING id, name`,
+                [tenant_id, `${user_name}'s Journal`, 'Your personal space - AI always responds here', JSON.stringify({ owner_user_id: user_id })]
+              );
+              const channel = result.rows[0] as any;
+              return { personal_channel_id: channel.id, personal_channel_name: channel.name };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+          user_name:
+            type: javascript
+            expr: results.validate_user.user_name
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: create_family_channel
+      summary: Create family chat channel (secondary)
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(tenant_id: string, family_name: string,
+          database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              const result = await client.queryObject(
+                `INSERT INTO channels (tenant_id, name, description, channel_type, settings, created_at, updated_at)
+                 VALUES ($1, $2, $3, 'family', $4, NOW(), NOW()) RETURNING id, name`,
+                [tenant_id, `${family_name} Chat`, 'Family channel - mention @nona to chat with AI', JSON.stringify({})]
+              );
+              const channel = result.rows[0] as any;
+              return { family_channel_id: channel.id, family_channel_name: channel.name };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          family_name:
+            type: javascript
+            expr: results.validate_user.family_name
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: audit_log
+      summary: Create audit log entry
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          import { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts';
+
+
+          export async function main(user_id: string, user_email: string,
+          tenant_id: string, tenant_name: string, database_url: string) {
+            const client = new Client(database_url);
+            await client.connect();
+            try {
+              await client.queryObject(
+                `INSERT INTO audit_log (user_id, user_email, action, resource_type, resource_id, metadata, success) VALUES ($1, $2, $3, $4, $5, $6, true)`,
+                [user_id, user_email, 'tenant_created', 'tenant', tenant_id, JSON.stringify({ tenant_name })]
+              );
+              return { logged: true };
+            } finally {
+              await client.end();
+            }
+          }
+        input_transforms:
+          user_id:
+            type: javascript
+            expr: results.validate_user.user_id
+          user_email:
+            type: javascript
+            expr: results.validate_user.user_email
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          tenant_name:
+            type: javascript
+            expr: results.create_tenant.tenant_name
+          database_url:
+            type: static
+            value: $var:f/familiar/DATABASE_URL
+    - id: output
+      summary: Assemble final output
+      value:
+        type: rawscript
+        language: deno
+        content: >-
+          export async function main(tenant_id: string, tenant_name: string,
+          personal_channel_id: string, personal_channel_name: string,
+          family_channel_id: string, family_channel_name: string) {
+            return { tenant_id, tenant_name, personal_channel_id, personal_channel_name, family_channel_id, family_channel_name };
+          }
+        input_transforms:
+          tenant_id:
+            type: javascript
+            expr: results.create_tenant.tenant_id
+          tenant_name:
+            type: javascript
+            expr: results.create_tenant.tenant_name
+          personal_channel_id:
+            type: javascript
+            expr: results.create_personal_channel.personal_channel_id
+          personal_channel_name:
+            type: javascript
+            expr: results.create_personal_channel.personal_channel_name
+          family_channel_id:
+            type: javascript
+            expr: results.create_family_channel.family_channel_id
+          family_channel_name:
+            type: javascript
+            expr: results.create_family_channel.family_channel_name
+

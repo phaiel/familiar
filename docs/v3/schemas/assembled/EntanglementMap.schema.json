@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/EntanglementMap.v1.schema.json",
+  "title": "EntanglementMap",
+  "description": "Schema for EntanglementMap",
+  "category": "snippets",
+  "source_file": "snippets/types/physics/EntanglementMap.json",
+  "type": "object",
+  "additionalProperties": {
+    "type": "number",
+    "minimum": 0.0,
+    "maximum": 1.0
+  }
+}

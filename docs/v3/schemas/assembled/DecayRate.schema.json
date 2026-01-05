@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/DecayRate.v1.schema.json",
+  "title": "DecayRate",
+  "description": "The base rate of energy or coherence decay for an entity, before multipliers are applied.",
+  "category": "snippets",
+  "source_file": "snippets/fields/DecayRate.json",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.01
+    }
+  },
+  "required": [
+    "value"
+  ],
+  "additionalProperties": false
+}

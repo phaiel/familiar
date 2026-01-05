@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Analysis Report - 2025-12-24 01:39:14 UTC</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --accent-cyan: #56d4dd;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); }
+        h2 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        h3 { font-size: 1rem; font-weight: 600; margin: 1rem 0 0.5rem; color: var(--text-secondary); }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--accent-blue); }
+        .stat-value.error { color: var(--accent-red); }
+        .stat-value.warning { color: var(--accent-yellow); }
+        .stat-value.success { color: var(--accent-green); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* Tab Styles */
+        .tabs-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tab-button:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+        
+        .tab-button.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+        
+        .tab-badge {
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .tab-badge.error { background: var(--accent-red); color: white; }
+        .tab-badge.warning { background: var(--accent-yellow); color: black; }
+        .tab-badge.clean { background: var(--accent-green); color: white; }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-description {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+        
+        .section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        
+        .section-header:hover { background: #282e36; }
+        .section-title { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+        .section-count { background: var(--bg-primary); color: var(--text-secondary); padding: 0.125rem 0.5rem; border-radius: 10px; font-size: 0.75rem; }
+        .section-count.error { background: var(--accent-red); color: white; }
+        .section-count.warning { background: var(--accent-yellow); color: black; }
+        .section-count.info { background: var(--accent-blue); color: white; }
+        .section-content { padding: 1rem; display: none; }
+        .section.open .section-content { display: block; }
+        .section.open .chevron { transform: rotate(180deg); }
+        .chevron { transition: transform 0.2s; color: var(--text-muted); }
+        
+        .issue {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.875rem;
+        }
+        .issue:last-child { border-bottom: none; }
+        .issue-file { color: var(--accent-blue); word-break: break-all; }
+        .issue-line { color: var(--accent-purple); }
+        .issue-message { color: var(--text-primary); margin-top: 0.25rem; }
+        .issue-fix { color: var(--accent-green); font-style: italic; margin-top: 0.25rem; padding-left: 1rem; }
+        
+        .badge { display: inline-block; padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; margin-right: 0.5rem; }
+        .badge-error { background: var(--accent-red); color: white; }
+        .badge-warning { background: var(--accent-yellow); color: black; }
+        .badge-info { background: var(--accent-blue); color: white; }
+        
+        .toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: var(--bg-tertiary); }
+        .btn:active { background: var(--bg-primary); }
+        
+        .json-view {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: none;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .json-view.visible { display: block; }
+        
+        .timestamp { color: var(--text-muted); font-size: 0.875rem; }
+        .empty-state { color: var(--text-muted); font-style: italic; padding: 1rem; text-align: center; }
+        
+        .success-banner {
+            background: linear-gradient(135deg, #1a3d1a 0%, #0d2d0d 100%);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .success-banner h3 {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .success-banner p {
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .tabs { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Schema Analysis Report</h1>
+        <p class="timestamp">Generated: 2025-12-24 01:39:14 UTC</p>
+        
+        <div class="stats-grid">
+            
+            <div class="stat-card">
+                <div class="stat-value success">0</div>
+                <div class="stat-label">Errors</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value warning">56</div>
+                <div class="stat-label">Warnings</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">14</div>
+                <div class="stat-label">Info</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value warning">373</div>
+                <div class="stat-label">Orphan Schemas</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value warning">47</div>
+                <div class="stat-label">Missing Schemas</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value warning">9</div>
+                <div class="stat-label">Isolated Types</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-value">1221ms</div>
+                <div class="stat-label">Duration</div>
+            </div>
+            
+        </div>
+        
+        <div class="toolbar">
+            <button class="btn" onclick="expandAll()">Expand All</button>
+            <button class="btn" onclick="collapseAll()">Collapse All</button>
+            <button class="btn" onclick="toggleJson()">Toggle JSON</button>
+            <button class="btn" onclick="copyJson()">Copy JSON</button>
+        </div>
+        
+        <div id="json-view" class="json-view"></div>
+        
+        
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="services">
+                    🚀 Services
+                    
+                    <span class="tab-badge warning">9</span>
+                    
+                </button>
+                <button class="tab-button" data-tab="core">
+                    📦 Core
+                    
+                    <span class="tab-badge warning">47</span>
+                    
+                </button>
+            </div>
+            
+            
+            <div class="tab-content active" id="tab-services">
+                <div class="tab-description">familiar-api, familiar-worker, windmill - Consumers of core</div>
+                
+                
+                
+                
+                
+                
+                
+                
+                <div class="section warnings">
+                    <div class="section-header">
+                        <span class="section-title">🟡 Warnings <span class="section-count warning">9</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        
+                        
+                        
+                        
+                        <h3>🔌 Isolated Types/Primitives (9)</h3>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">primitives/TaskId.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated primitives &#x27;TaskId&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: entities/Task.schema.json</div>
+                            <div class="issue-fix">💡 Add $ref to this primitives from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/CommandResult.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;CommandResult&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/DbComponentTable.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;DbComponentTable&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/DbEntityTable.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;DbEntityTable&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/DbStoreError.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;DbStoreError&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/PromptConfig.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;PromptConfig&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/PromptPhase.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;PromptPhase&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/RawSegment.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;RawSegment&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="isolated-schema" data-severity="warning">
+                            <span class="issue-file">types/SegmentationResponse.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;SegmentationResponse&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: auth/SegmentationResponse.schema.json, api/SegmentationResponse.schema.json</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <h3>❓ Other (9)</h3>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">primitives/TaskId.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated primitives &#x27;TaskId&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: entities/Task.schema.json</div>
+                            <div class="issue-fix">💡 Add $ref to this primitives from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/CommandResult.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;CommandResult&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/DbComponentTable.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;DbComponentTable&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/DbEntityTable.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;DbEntityTable&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/DbStoreError.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;DbStoreError&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/PromptConfig.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;PromptConfig&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/PromptPhase.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;PromptPhase&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/RawSegment.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;RawSegment&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">types/SegmentationResponse.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Isolated types &#x27;SegmentationResponse&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: auth/SegmentationResponse.schema.json, api/SegmentationResponse.schema.json</div>
+                            <div class="issue-fix">💡 Add $ref to this types from schemas that use it</div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                </div>
+                
+                
+                
+                
+                <div class="section info">
+                    <div class="section-header">
+                        <span class="section-title">🔵 Info &amp; Suggestions <span class="section-count info">14</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        
+                        
+                        
+                        
+                        
+                        
+                        <h3>📦 Orphan Schemas (Deprecated) (9)</h3>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/AgentResponse.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;AgentResponse&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/ClassificationResult.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;ClassificationResult&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/ClassifierInput.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;ClassifierInput&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/ConciergeInput.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;ConciergeInput&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/ContinuationInput.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;ContinuationInput&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/ContinuationOutput.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;ContinuationOutput&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/PhysicsOutput.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;PhysicsOutput&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/RAGInput.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;RAGInput&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-deprecated" data-severity="info">
+                            <span class="issue-file">windmill/RAGResult.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;RAGResult&#x27; - from deprecated windmill system</div>
+                            <div class="issue-fix">💡 Add x-familiar-deprecated: true to schema</div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        <h3>✅ Orphan Schemas (Expected Roots) (5)</h3>
+                        
+                        <div class="issue" data-category="orphan-root" data-severity="info">
+                            <span class="issue-file">ecs/Component.meta.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;Component&#x27; - expected root (infrastructure)</div>
+                            
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-root" data-severity="info">
+                            <span class="issue-file">ecs/Node.meta.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;Node&#x27; - expected root (infrastructure)</div>
+                            
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-root" data-severity="info">
+                            <span class="issue-file">ecs/Queue.meta.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;Queue&#x27; - expected root (infrastructure)</div>
+                            
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-root" data-severity="info">
+                            <span class="issue-file">ecs/Resource.meta.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;Resource&#x27; - expected root (infrastructure)</div>
+                            
+                        </div>
+                        
+                        <div class="issue" data-category="orphan-root" data-severity="info">
+                            <span class="issue-file">ecs/System.meta.schema.json</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Truly isolated schema &#x27;System&#x27; - expected root (infrastructure)</div>
+                            
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+            
+            
+            <div class="tab-content" id="tab-core">
+                <div class="tab-description">familiar-core, familiar-contracts, familiar-primitives - Source of truth</div>
+                
+                
+                
+                
+                
+                
+                
+                
+                <div class="section warnings">
+                    <div class="section-header">
+                        <span class="section-title">🟡 Warnings <span class="section-count warning">47</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        
+                        
+                        <h3>📝 Missing JSON Schemas (47)</h3>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/tools/base.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;ToolResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingState&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingSession&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTaskStatus&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTask&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateAsyncTaskInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTaskCreated&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTaskPollResponse&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SignupFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SignupFlowOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkAction&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkRequestOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkConsumeOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateFamilyFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateFamilyFlowOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AcceptInvitationFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AcceptInvitationFlowOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingEvent&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;DomainEventEnvelope&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/security.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;WindmillSecrets&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/evaluation.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;EvaluationStep&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/evaluation.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;EvaluationResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/auth/session.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateSessionInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/auth/audit.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateAuditLogInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateFamilyRequest&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AcceptInvitationRequest&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SignupCompleted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;FamilyCreated&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;InvitationAccepted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingFailed&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseStart&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseContinue&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseCancel&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseRetry&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseStarted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseSegmented&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseClassified&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseCompleted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseFailed&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseCancelled&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseRetrying&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/trace.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;TracePayload&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/api/responses.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;ApiResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/api/responses.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;ListResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/base/entity_meta.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;EntityMeta&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="missing-schema" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/base/entity_meta.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SystemEntityMeta&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <h3>❓ Other (47)</h3>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/tools/base.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;ToolResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingState&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingSession&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTaskStatus&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTask&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateAsyncTaskInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTaskCreated&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AsyncTaskPollResponse&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SignupFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SignupFlowOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkAction&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkRequestOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;MagicLinkConsumeOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateFamilyFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateFamilyFlowOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AcceptInvitationFlowInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AcceptInvitationFlowOutput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingEvent&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;DomainEventEnvelope&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/security.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;WindmillSecrets&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/evaluation.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;EvaluationStep&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/evaluation.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;EvaluationResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/auth/session.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateSessionInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/auth/audit.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateAuditLogInput&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CreateFamilyRequest&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;AcceptInvitationRequest&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SignupCompleted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;FamilyCreated&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;InvitationAccepted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/onboarding.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;OnboardingFailed&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseStart&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseContinue&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseCancel&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseRetry&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseStarted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseSegmented&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseClassified&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseCompleted&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseFailed&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseCancelled&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/course.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;CourseRetrying&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/contracts/trace.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;TracePayload&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/api/responses.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;ApiResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/api/responses.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;ListResult&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/base/entity_meta.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;EntityMeta&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        <div class="issue" data-category="other" data-severity="warning">
+                            <span class="issue-file">./familiar-core/src/types/base/entity_meta.rs</span>:<span class="issue-line">0</span>
+                            <div class="issue-message">Rust type &#x27;SystemEntityMeta&#x27; has no corresponding JSON schema</div>
+                            <div class="issue-fix">💡 Create schema from Rust type using schema_export</div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const jsonData = `{
+  &quot;issues&quot;: [
+    {
+      &quot;file&quot;: &quot;ecs/Component.meta.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;Component&quot;,
+          &quot;schema_path&quot;: &quot;ecs/Component.meta.schema.json&quot;,
+          &quot;category&quot;: &quot;ecs&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;usage_locations&quot;: [
+            &quot;xtask/src/main.rs:2737&quot;,
+            &quot;familiar-core/src/components/mod.rs:30&quot;,
+            &quot;familiar-core/src/components/traits.rs:29&quot;,
+            &quot;familiar-core/src/components/traits.rs:149&quot;,
+            &quot;familiar-core/src/components/traits.rs:150&quot;,
+            &quot;familiar-core/src/components/traits.rs:151&quot;,
+            &quot;familiar-core/src/components/traits.rs:152&quot;,
+            &quot;familiar-core/src/components/traits.rs:153&quot;
+          ],
+          &quot;recommendation&quot;: &quot;ExpectedRoot&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;Component&#x27; - expected root (infrastructure)&quot;,
+      &quot;fix&quot;: null
+    },
+    {
+      &quot;file&quot;: &quot;ecs/Node.meta.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;Node&quot;,
+          &quot;schema_path&quot;: &quot;ecs/Node.meta.schema.json&quot;,
+          &quot;category&quot;: &quot;ecs&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;usage_locations&quot;: [
+            &quot;xtask/src/main.rs:2733&quot;
+          ],
+          &quot;recommendation&quot;: &quot;ExpectedRoot&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;Node&#x27; - expected root (infrastructure)&quot;,
+      &quot;fix&quot;: null
+    },
+    {
+      &quot;file&quot;: &quot;ecs/Queue.meta.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;Queue&quot;,
+          &quot;schema_path&quot;: &quot;ecs/Queue.meta.schema.json&quot;,
+          &quot;category&quot;: &quot;ecs&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;usage_locations&quot;: [
+            &quot;xtask/src/main.rs:2736&quot;,
+            &quot;services/familiar-daemon/src/main.rs:61&quot;
+          ],
+          &quot;recommendation&quot;: &quot;ExpectedRoot&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;Queue&#x27; - expected root (infrastructure)&quot;,
+      &quot;fix&quot;: null
+    },
+    {
+      &quot;file&quot;: &quot;ecs/Resource.meta.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;Resource&quot;,
+          &quot;schema_path&quot;: &quot;ecs/Resource.meta.schema.json&quot;,
+          &quot;category&quot;: &quot;ecs&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;usage_locations&quot;: [
+            &quot;xtask/src/main.rs:2735&quot;
+          ],
+          &quot;recommendation&quot;: &quot;ExpectedRoot&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;Resource&#x27; - expected root (infrastructure)&quot;,
+      &quot;fix&quot;: null
+    },
+    {
+      &quot;file&quot;: &quot;ecs/System.meta.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;System&quot;,
+          &quot;schema_path&quot;: &quot;ecs/System.meta.schema.json&quot;,
+          &quot;category&quot;: &quot;ecs&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;usage_locations&quot;: [
+            &quot;xtask/src/main.rs:2734&quot;,
+            &quot;familiar-core/src/analysis/windmill_client.rs:205&quot;,
+            &quot;familiar-core/src/analysis/cross_file.rs:296&quot;,
+            &quot;familiar-core/src/analysis/cross_file.rs:322&quot;,
+            &quot;familiar-core/src/entities/db/conversation/message.rs:16&quot;,
+            &quot;familiar-core/src/entities/course.rs:126&quot;,
+            &quot;familiar-core/src/entities/course.rs:430&quot;,
+            &quot;familiar-core/src/entities/course.rs:464&quot;,
+            &quot;familiar-core/src/types/message_role.rs:10&quot;,
+            &quot;familiar-core/src/types/message_role.rs:21&quot;
+          ],
+          &quot;recommendation&quot;: &quot;ExpectedRoot&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;System&#x27; - expected root (infrastructure)&quot;,
+      &quot;fix&quot;: null
+    },
+    {
+      &quot;file&quot;: &quot;windmill/AgentResponse.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;AgentResponse&quot;,
+          &quot;schema_path&quot;: &quot;windmill/AgentResponse.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;AgentResponse&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/ClassificationResult.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;ClassificationResult&quot;,
+          &quot;schema_path&quot;: &quot;windmill/ClassificationResult.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;ClassificationResult&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/ClassifierInput.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;ClassifierInput&quot;,
+          &quot;schema_path&quot;: &quot;windmill/ClassifierInput.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;ClassifierInput&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/ConciergeInput.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;ConciergeInput&quot;,
+          &quot;schema_path&quot;: &quot;windmill/ConciergeInput.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;ConciergeInput&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/ContinuationInput.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;ContinuationInput&quot;,
+          &quot;schema_path&quot;: &quot;windmill/ContinuationInput.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;ContinuationInput&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/ContinuationOutput.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;ContinuationOutput&quot;,
+          &quot;schema_path&quot;: &quot;windmill/ContinuationOutput.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;ContinuationOutput&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/PhysicsOutput.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;PhysicsOutput&quot;,
+          &quot;schema_path&quot;: &quot;windmill/PhysicsOutput.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;PhysicsOutput&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/RAGInput.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;RAGInput&quot;,
+          &quot;schema_path&quot;: &quot;windmill/RAGInput.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;RAGInput&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;windmill/RAGResult.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;OrphanSchema&quot;: {
+          &quot;schema_name&quot;: &quot;RAGResult&quot;,
+          &quot;schema_path&quot;: &quot;windmill/RAGResult.schema.json&quot;,
+          &quot;category&quot;: &quot;windmill&quot;,
+          &quot;used_in_code&quot;: false,
+          &quot;usage_locations&quot;: [],
+          &quot;recommendation&quot;: &quot;MarkDeprecated&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Info&quot;,
+      &quot;message&quot;: &quot;Truly isolated schema &#x27;RAGResult&#x27; - from deprecated windmill system&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add x-familiar-deprecated: true to schema&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/tools/base.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;ToolResult&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/tools/base.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;tools/ToolResult.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;ToolResult&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;OnboardingState&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/OnboardingState.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;OnboardingState&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;OnboardingSession&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/OnboardingSession.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;OnboardingSession&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AsyncTaskStatus&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/AsyncTaskStatus.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AsyncTaskStatus&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AsyncTask&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/AsyncTask.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AsyncTask&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CreateAsyncTaskInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/CreateAsyncTaskInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CreateAsyncTaskInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AsyncTaskCreated&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/AsyncTaskCreated.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AsyncTaskCreated&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AsyncTaskPollResponse&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/AsyncTaskPollResponse.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AsyncTaskPollResponse&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;SignupFlowInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/SignupFlowInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;SignupFlowInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;SignupFlowOutput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/SignupFlowOutput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;SignupFlowOutput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;MagicLinkAction&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/MagicLinkAction.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;MagicLinkAction&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;MagicLinkFlowInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/MagicLinkFlowInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;MagicLinkFlowInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;MagicLinkRequestOutput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/MagicLinkRequestOutput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;MagicLinkRequestOutput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;MagicLinkConsumeOutput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/MagicLinkConsumeOutput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;MagicLinkConsumeOutput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CreateFamilyFlowInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/CreateFamilyFlowInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CreateFamilyFlowInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CreateFamilyFlowOutput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/CreateFamilyFlowOutput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CreateFamilyFlowOutput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AcceptInvitationFlowInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/AcceptInvitationFlowInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AcceptInvitationFlowInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AcceptInvitationFlowOutput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/AcceptInvitationFlowOutput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AcceptInvitationFlowOutput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;OnboardingEvent&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/OnboardingEvent.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;OnboardingEvent&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;DomainEventEnvelope&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;onboarding.rs/DomainEventEnvelope.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;DomainEventEnvelope&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/security.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;WindmillSecrets&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/security.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;security.rs/WindmillSecrets.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;WindmillSecrets&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/evaluation.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;EvaluationStep&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/evaluation.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;evaluation.rs/EvaluationStep.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;EvaluationStep&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/evaluation.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;EvaluationResult&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/evaluation.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;evaluation.rs/EvaluationResult.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;EvaluationResult&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/auth/session.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CreateSessionInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/auth/session.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;auth/CreateSessionInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CreateSessionInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/auth/audit.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CreateAuditLogInput&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/auth/audit.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;auth/CreateAuditLogInput.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CreateAuditLogInput&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CreateFamilyRequest&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CreateFamilyRequest.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CreateFamilyRequest&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;AcceptInvitationRequest&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/AcceptInvitationRequest.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;AcceptInvitationRequest&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;SignupCompleted&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/SignupCompleted.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;SignupCompleted&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;FamilyCreated&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/FamilyCreated.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;FamilyCreated&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;InvitationAccepted&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/InvitationAccepted.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;InvitationAccepted&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;OnboardingFailed&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/onboarding.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/OnboardingFailed.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;OnboardingFailed&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseStart&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseStart.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseStart&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseContinue&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseContinue.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseContinue&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseCancel&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseCancel.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseCancel&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseRetry&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseRetry.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseRetry&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseStarted&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseStarted.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseStarted&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseSegmented&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseSegmented.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseSegmented&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseClassified&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseClassified.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseClassified&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseCompleted&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseCompleted.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseCompleted&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseFailed&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseFailed.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseFailed&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseCancelled&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseCancelled.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseCancelled&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;CourseRetrying&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/course.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/CourseRetrying.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;CourseRetrying&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/contracts/trace.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;TracePayload&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/contracts/trace.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;contracts/TracePayload.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;TracePayload&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/api/responses.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;ApiResult&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/api/responses.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;api/ApiResult.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;ApiResult&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/api/responses.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;ListResult&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/api/responses.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;api/ListResult.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;ListResult&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/base/entity_meta.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;EntityMeta&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/base/entity_meta.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;base/EntityMeta.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;EntityMeta&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;./familiar-core/src/types/base/entity_meta.rs&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;MissingJsonSchema&quot;: {
+          &quot;type_name&quot;: &quot;SystemEntityMeta&quot;,
+          &quot;source_file&quot;: &quot;./familiar-core/src/types/base/entity_meta.rs&quot;,
+          &quot;suggested_schema_path&quot;: &quot;base/SystemEntityMeta.schema.json&quot;
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Rust type &#x27;SystemEntityMeta&#x27; has no corresponding JSON schema&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Create schema from Rust type using schema_export&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;primitives/TaskId.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;TaskId&quot;,
+          &quot;schema_path&quot;: &quot;primitives/TaskId.schema.json&quot;,
+          &quot;category&quot;: &quot;primitives&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: [
+            &quot;entities/Task.schema.json&quot;
+          ]
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated primitives &#x27;TaskId&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: entities/Task.schema.json&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this primitives from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/CommandResult.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;CommandResult&quot;,
+          &quot;schema_path&quot;: &quot;types/CommandResult.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;CommandResult&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/DbComponentTable.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;DbComponentTable&quot;,
+          &quot;schema_path&quot;: &quot;types/DbComponentTable.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;DbComponentTable&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/DbEntityTable.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;DbEntityTable&quot;,
+          &quot;schema_path&quot;: &quot;types/DbEntityTable.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;DbEntityTable&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/DbStoreError.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;DbStoreError&quot;,
+          &quot;schema_path&quot;: &quot;types/DbStoreError.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;DbStoreError&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/PromptConfig.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;PromptConfig&quot;,
+          &quot;schema_path&quot;: &quot;types/PromptConfig.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;PromptConfig&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/PromptPhase.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;PromptPhase&quot;,
+          &quot;schema_path&quot;: &quot;types/PromptPhase.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;PromptPhase&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/RawSegment.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;RawSegment&quot;,
+          &quot;schema_path&quot;: &quot;types/RawSegment.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: []
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;RawSegment&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: unknown&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    },
+    {
+      &quot;file&quot;: &quot;types/SegmentationResponse.schema.json&quot;,
+      &quot;line&quot;: 0,
+      &quot;kind&quot;: {
+        &quot;IsolatedSchema&quot;: {
+          &quot;schema_name&quot;: &quot;SegmentationResponse&quot;,
+          &quot;schema_path&quot;: &quot;types/SegmentationResponse.schema.json&quot;,
+          &quot;category&quot;: &quot;types&quot;,
+          &quot;used_in_code&quot;: true,
+          &quot;expected_refs&quot;: [
+            &quot;auth/SegmentationResponse.schema.json&quot;,
+            &quot;api/SegmentationResponse.schema.json&quot;
+          ]
+        }
+      },
+      &quot;severity&quot;: &quot;Warning&quot;,
+      &quot;message&quot;: &quot;Isolated types &#x27;SegmentationResponse&#x27; - used in code but not referenced by any schema. Should be $ref&#x27;d from: auth/SegmentationResponse.schema.json, api/SegmentationResponse.schema.json&quot;,
+      &quot;fix&quot;: {
+        &quot;description&quot;: &quot;Add $ref to this types from schemas that use it&quot;,
+        &quot;replacement&quot;: null
+      }
+    }
+  ],
+  &quot;stats&quot;: {
+    &quot;files_scanned&quot;: 0,
+    &quot;types_exported&quot;: 0,
+    &quot;types_defined&quot;: 0,
+    &quot;types_in_familiar_core&quot;: 0,
+    &quot;types_in_services&quot;: 0,
+    &quot;issues_found&quot;: 70,
+    &quot;duration_ms&quot;: 1221,
+    &quot;derive_coverage&quot;: {
+      &quot;total_types&quot;: 0,
+      &quot;with_serialize&quot;: 0,
+      &quot;with_ts&quot;: 0,
+      &quot;with_to_schema&quot;: 0,
+      &quot;with_json_schema&quot;: 0
+    },
+    &quot;entity_candidates&quot;: 0,
+    &quot;systems_detected&quot;: 0,
+    &quot;laws_detected&quot;: 0,
+    &quot;decomposition_candidates&quot;: 0,
+    &quot;shared_patterns&quot;: 0,
+    &quot;trait_suggestions&quot;: 0,
+    &quot;kafka_issues&quot;: 0,
+    &quot;manual_kafka_impl&quot;: 0,
+    &quot;communication_violations&quot;: 0,
+    &quot;http_client_in_workers&quot;: 0,
+    &quot;kafka_bypass_detected&quot;: 0,
+    &quot;database_issues&quot;: 0,
+    &quot;direct_sqlx_usage&quot;: 0,
+    &quot;legacy_row_mapping&quot;: 0,
+    &quot;orphan_schemas&quot;: 373,
+    &quot;orphans_connect_graph&quot;: 0,
+    &quot;orphans_delete&quot;: 0,
+    &quot;orphans_deprecated&quot;: 9,
+    &quot;missing_json_schemas&quot;: 47,
+    &quot;isolated_schemas&quot;: 9
+  }
+}`;
+        
+        document.getElementById('json-view').textContent = jsonData;
+        
+        // Tab switching
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active from all
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active to clicked
+                button.classList.add('active');
+                const tabId = 'tab-' + button.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+        
+        function expandAll() {
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.querySelectorAll('.section').forEach(s => s.classList.add('open'));
+        }
+        
+        function collapseAll() {
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.querySelectorAll('.section').forEach(s => s.classList.remove('open'));
+        }
+        
+        function toggleJson() {
+            document.getElementById('json-view').classList.toggle('visible');
+        }
+        
+        function copyJson() {
+            navigator.clipboard.writeText(jsonData).then(() => {
+                alert('JSON copied to clipboard!');
+            });
+        }
+        
+        // Auto-expand errors in the active tab
+        const activeTab = document.querySelector('.tab-content.active');
+        const errorSection = activeTab?.querySelector('.section.errors');
+        if (errorSection) errorSection.classList.add('open');
+    </script>
+</body>
+</html>

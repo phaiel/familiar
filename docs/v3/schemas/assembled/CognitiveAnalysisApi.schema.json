@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/CognitiveAnalysisApi.v1.json",
+  "title": "Cognitive Analysis API Stack",
+  "description": "The infrastructure stack for a cognitive analysis API service with TimescaleDB and physics-aware queries.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/CognitiveAnalysisApi.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for the cognitive analysis service.",
+      "default": "familiar-cognitive-analysis-api"
+    },
+    "database_module": {
+      "type": "string",
+      "description": "The primary database module for cognitive analysis.",
+      "default": "timescaledb"
+    },
+    "required_extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required database extensions for cognitive analysis.",
+      "default": [
+        "pgvector",
+        "vectorscale",
+        "timescaledb",
+        "pg_stat_statements"
+      ]
+    },
+    "physics_engine": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "engine_type": {
+          "type": "string",
+          "enum": [
+            "classical",
+            "quantum",
+            "hybrid"
+          ],
+          "default": "hybrid"
+        },
+        "physics_laws": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Physics laws this service processes."
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "cognitive_entities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Bond",
+          "Thread",
+          "Moment",
+          "Agent",
+          "Focus",
+          "Intent",
+          "Filament",
+          "Tenant",
+          "Course",
+          "Shuttle",
+          "Stitch"
+        ]
+      },
+      "description": "Cognitive entities this service analyzes."
+    },
+    "analysis_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Analysis capabilities this service provides.",
+      "default": [
+        "relationship_analysis",
+        "temporal_analysis",
+        "pattern_recognition",
+        "anomaly_detection"
+      ]
+    },
+    "streaming_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Redpanda topics for cognitive analysis events."
+    },
+    "cache_layer": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "redis",
+            "memcached"
+          ],
+          "default": "redis"
+        },
+        "ttl_seconds": {
+          "type": "integer",
+          "default": 600
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for cognitive analysis."
+    }
+  },
+  "required": [
+    "service_template",
+    "database_module",
+    "cognitive_entities",
+    "streaming_topics",
+    "observability_dashboard"
+  ]
+}

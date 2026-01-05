@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/AgentPersona.v1.schema.json",
+  "title": "Base Agent Persona",
+  "description": "The base schema for defining an agent persona, including its role, system prompt, and associated tools.",
+  "category": "_base",
+  "source_file": "_base/BaseAgentPersona.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "allowed_tools": {
+      "description": "A list of tool schema IDs that this persona is permitted to use.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "role": {
+      "description": "A short, machine-readable description of the agent's role (e.g., 'structural_resolver', 'emotional_analyst').",
+      "type": "string"
+    },
+    "system_prompt": {
+      "description": "The detailed system prompt that instructs the LLM on how to behave when adopting this persona.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "role",
+    "system_prompt"
+  ]
+}

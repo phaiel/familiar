@@ -1,0 +1,133 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/OpenTelemetryCollector.v1.json",
+  "title": "OpenTelemetry Collector Stack",
+  "description": "The infrastructure stack for OpenTelemetry collector with distributed tracing and metrics.",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for OpenTelemetry collector deployment.",
+      "default": "familiar-otel-collector"
+    },
+    "deployment_mode": {
+      "type": "string",
+      "enum": ["agent", "gateway", "sidecar"],
+      "description": "OpenTelemetry collector deployment mode.",
+      "default": "gateway"
+    },
+    "receivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["otlp", "jaeger", "zipkin", "prometheus", "kafka"]
+          },
+          "endpoint": { "type": "string" },
+          "protocol": {
+            "type": "string",
+            "enum": ["grpc", "http", "tcp", "udp"]
+          }
+        },
+        "required": ["name", "type"]
+      },
+      "description": "Data receivers configuration."
+    },
+    "processors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["batch", "memory_limiter", "resource", "attributes", "span"]
+          },
+          "config": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": ["name", "type"]
+      },
+      "description": "Data processors configuration."
+    },
+    "exporters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["jaeger", "zipkin", "prometheus", "kafka", "otlp", "logging"]
+          },
+          "endpoint": { "type": "string" },
+          "headers": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        },
+        "required": ["name", "type"]
+      },
+      "description": "Data exporters configuration."
+    },
+    "pipelines": {
+      "type": "object",
+      "properties": {
+        "traces": {
+          "type": "object",
+          "properties": {
+            "receivers": { "type": "array", "items": { "type": "string" } },
+            "processors": { "type": "array", "items": { "type": "string" } },
+            "exporters": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "receivers": { "type": "array", "items": { "type": "string" } },
+            "processors": { "type": "array", "items": { "type": "string" } },
+            "exporters": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "logs": {
+          "type": "object",
+          "properties": {
+            "receivers": { "type": "array", "items": { "type": "string" } },
+            "processors": { "type": "array", "items": { "type": "string" } },
+            "exporters": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "properties": {
+        "sampling_percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 10
+        },
+        "max_traces_per_second": {
+          "type": "integer",
+          "default": 1000
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for OpenTelemetry metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "receivers",
+    "exporters",
+    "pipelines",
+    "observability_dashboard"
+  ]
+}

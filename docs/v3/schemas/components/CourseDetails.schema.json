@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/CourseDetails.v1.schema.json",
+  "title": "Course Details Component",
+  "description": "The data component for a Course entity, tracking the content and results of the workflow.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "fields": {
+    "source_weave_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "status": { "$ref": "../snippets/fields/Status.json" },
+    "final_insight_entity_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "user_facing_message": { "type": "string" }
+  }
+}

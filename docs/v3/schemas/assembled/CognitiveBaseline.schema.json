@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/CognitiveBaseline.v1.schema.json",
+  "title": "CognitiveBaseline",
+  "description": "Defines the innate 'personality' or temperament of a Thread, modulating its physics interactions.",
+  "category": "snippets",
+  "source_file": "snippets/fields/CognitiveBaseline.json",
+  "type": "object",
+  "properties": {
+    "emotional_volatility": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EmotionalVolatility.v1.json",
+      "title": "Emotional Volatility",
+      "description": "How strongly emotional events affect this person. High values lead to larger energy transfers and more significant bond tension changes. (UI Label: Emotional Reactivity)",
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "default": 1.0
+    },
+    "social_energy_factor": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/SocialEnergyFactor.v1.json",
+      "title": "Social Energy Factor",
+      "description": "The degree to which social interactions energize the system. Affects how much energy is gained or lost from forming and interacting with Bonds. (UI Label: Social Energy)",
+      "type": "number",
+      "minimum": 0.8,
+      "maximum": 1.2,
+      "default": 1.0
+    },
+    "consolidation_rate_modifier": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/ConsolidationRateModifier.v1.json",
+      "title": "Consolidation Rate Modifier",
+      "description": "The natural rate at which memories consolidate and become stable. Higher values mean memories become concrete and reliable faster. (UI Label: Memory Consolidation)",
+      "type": "number",
+      "minimum": 0.8,
+      "maximum": 1.5,
+      "default": 1.0
+    },
+    "bond_damping_factor": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/BondDampingFactor.v1.json",
+      "title": "Bond Damping Factor",
+      "description": "The 'viscosity' of social relationships. High values mean bonds are more stable and resistant to sudden changes in tension. Low values lead to more volatile relationship dynamics. (UI Label: Relationship Stability)",
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 2.0,
+      "default": 1.0
+    },
+    "exploration_bias": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/ExplorationBias.v1.json",
+      "title": "Exploration Bias",
+      "description": "The tendency for memories to remain in quantum superposition, allowing for more creative, associative connections. High values favor exploration. (UI Label: Openness to Experience)",
+      "type": "number",
+      "minimum": 0.7,
+      "maximum": 1.3,
+      "default": 1.0
+    }
+  },
+  "required": [
+    "emotional_volatility",
+    "social_energy_factor",
+    "consolidation_rate_modifier",
+    "bond_damping_factor",
+    "exploration_bias"
+  ]
+}

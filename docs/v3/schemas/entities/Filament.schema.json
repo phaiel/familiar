@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Filament.v1.schema.json",
+  "title": "Filament Entity",
+  "description": "A quantum entity representing a high-level, emergent narrative, belief, or worldview.",
+  "allOf": [
+    { "$ref": "./_base/BaseCognitiveEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Filament" },
+        "components": {
+          "title": "FilamentComponents",
+          "properties": {
+            "content": { "$ref": "../components/FilamentContent.schema.json" },
+            "consolidation": { "$ref": "../components/ConsolidationState.schema.json" },
+            "gdpr": { "$ref": "../components/GDPRDependency.schema.json" }
+          },
+          "required": ["content", "consolidation", "gdpr"]
+        },
+        "physics_state": {
+          "title": "FilamentPhysicsState",
+          "properties": {
+            "universal": { "$ref": "../components/UniversalPhysicsState.schema.json" },
+            "quantum": { "$ref": "../components/QuantumState.schema.json" }
+          },
+          "required": ["universal", "quantum"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/QuantumComputeStack.json" }],
+          "properties": {
+            "streaming_topics": { "default": ["entity.filament.lifecycle.events", "quantum.filament.resonance.updates"] },
+            "observability_dashboard": { "default": "grafana/dashboards/filament-entity-overview.json" },
+            "classical_service_dependency": { "default": "cognitive-analysis-api" }
+          }
+        }
+      },
+      "required": ["components", "physics_state"]
+    }
+  ]
+}

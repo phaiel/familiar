@@ -1,0 +1,72 @@
+summary: 'Schema Analyzer: LlamaIndex Agent with ast-grep MCP'
+description: >-
+  Uses LlamaIndex ReActAgent with ast-grep MCP tools via HTTP bridge. The bridge
+  spawns ast-grep as subprocess (same as Cursor). The LLM MUST use ast-grep
+  tools - analysis fails if unavailable.
+value:
+  modules:
+    - id: analyze_with_agent
+      summary: LlamaIndex Agent with ast-grep MCP (via HTTP bridge)
+      value:
+        type: script
+        input_transforms:
+          name:
+            type: javascript
+            expr: flow_input.name
+          analysis_type:
+            type: javascript
+            expr: flow_input.analysis_type
+          ast_grep_mcp_url:
+            type: javascript
+            expr: >-
+              flow_input.ast_grep_mcp_url ||
+              'http://host.docker.internal:8000/mcp'
+          code:
+            type: javascript
+            expr: flow_input.code
+          context:
+            type: javascript
+            expr: flow_input.context
+          file_path:
+            type: javascript
+            expr: flow_input.file_path
+          project_path:
+            type: javascript
+            expr: flow_input.project_path
+        path: u/phaiel/analyzer_agent
+schema:
+  $schema: 'http://json-schema.org/draft-07/schema#'
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of the struct/type
+    analysis_type:
+      type: string
+      description: Type of analysis to perform
+      enum:
+        - entity_classification
+        - generate_migration
+        - compliance_check
+    ast_grep_mcp_url:
+      type: string
+      description: URL of ast-grep MCP HTTP bridge
+      default: 'http://host.docker.internal:8000/mcp'
+    code:
+      type: string
+      description: Rust code to analyze
+    context:
+      type: string
+      description: Additional context (optional)
+    file_path:
+      type: string
+      description: Path to the source file
+    project_path:
+      type: string
+      description: Root path of the project for ast-grep queries
+  required:
+    - analysis_type
+    - code
+    - name
+    - file_path
+    - project_path

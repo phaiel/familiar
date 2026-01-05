@@ -1,0 +1,9 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/ConsolidationRateModifier.v1.json",
+  "title": "Consolidation Rate Modifier",
+  "description": "The natural rate at which memories consolidate and become stable. Higher values mean memories become concrete and reliable faster. (UI Label: Memory Consolidation)",
+  "type": "number",
+  "minimum": 0.8,
+  "maximum": 1.5,
+  "default": 1.0
+}

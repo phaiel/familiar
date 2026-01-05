@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Table.v1.schema.json",
+  "title": "Base Database Table",
+  "description": "The base schema for defining a database table.",
+  "category": "_base",
+  "source_file": "_base/BaseTable.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "tableName": {
+      "description": "The physical name of the table in the database.",
+      "type": "string"
+    },
+    "columns": {
+      "description": "A map of column names to their definitions.",
+      "type": "object",
+      "additionalProperties": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/database/ColumnDefinition.v1.json",
+        "title": "Column Definition",
+        "description": "Schema for defining a database table column.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name Field",
+            "description": "The primary, human-readable name of an entity.",
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string",
+              "integer",
+              "boolean",
+              "timestamp",
+              "uuid"
+            ]
+          },
+          "nullable": {
+            "type": "boolean",
+            "default": false
+          },
+          "primary_key": {
+            "type": "boolean",
+            "default": false
+          },
+          "unique": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "title": "BaseDatabaseColumns"
+    }
+  },
+  "required": [
+    "tableName",
+    "columns"
+  ]
+}

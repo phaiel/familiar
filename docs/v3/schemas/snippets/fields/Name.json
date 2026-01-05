@@ -1,0 +1,6 @@
+{
+  "title": "Name Field",
+  "description": "The primary, human-readable name of an entity.",
+  "type": "string",
+  "minLength": 1
+}

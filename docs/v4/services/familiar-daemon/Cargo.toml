@@ -1,0 +1,49 @@
+[package]
+name = "familiar-daemon"
+version = "0.1.0"
+edition = "2021"
+description = "Hot activity worker for Temporal - Fates/Loom pipeline. The 'muscle' to TypeScript's 'brain'."
+
+[[bin]]
+name = "familiar-daemon"
+path = "src/main.rs"
+
+[dependencies]
+# Core libraries (reuse from workspace)
+familiar-core = { path = "../../familiar-core" }
+familiar-primitives = { path = "../../familiar-primitives" }
+
+# Temporal SDK - PINNED to specific revision for stability
+# The high-level SDK (temporalio-sdk) is alpha but activity worker side is stable
+# Check https://github.com/temporalio/sdk-core/commits/master for updates
+temporalio-sdk = { git = "https://github.com/temporalio/sdk-core.git", rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305", package = "temporalio-sdk" }
+temporalio-client = { git = "https://github.com/temporalio/sdk-core.git", rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305", package = "temporalio-client" }
+temporalio-sdk-core = { git = "https://github.com/temporalio/sdk-core.git", rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305", package = "temporalio-sdk-core" }
+temporalio-common = { git = "https://github.com/temporalio/sdk-core.git", rev = "12bc359ba52caa0ddfe5c48c1c19e47c2a9a0305", package = "temporalio-common" }
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Database (SeaORM for connection pooling)
+sea-orm = { version = "1.0", features = ["runtime-tokio-rustls", "sqlx-postgres"] }
+
+# Config & Error Handling
+dotenvy = "0.15"
+config = "0.14"
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Utilities
+gethostname = "0.4"
+
+[dev-dependencies]
+tokio-test = "0.4"
+

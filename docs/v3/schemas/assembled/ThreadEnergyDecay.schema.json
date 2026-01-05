@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Law.v1.schema.json",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/laws/ThreadEnergyDecay.v1.schema.json",
+  "title": "Thread Energy Decay Law",
+  "description": "Applies a natural, exponential decay to the energy level of all Thread entities over time, representing the natural settling of cognitive activation.",
+  "category": "laws",
+  "source_file": "laws/ThreadEnergyDecay.json",
+  "schema_version": "1.0.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false,
+    "collapse_sensitive": false
+  },
+  "execution_envelope": {
+    "trigger": "system_schedule",
+    "priority": 8,
+    "timeout_ms": 20
+  },
+  "affected_components": [
+    "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json"
+  ]
+}

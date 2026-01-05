@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/SchemaRegistry.v1.json",
+  "title": "Schema Registry Stack",
+  "description": "The infrastructure stack for a schema registry service managing all JSON schemas.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/SchemaRegistry.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for schema registry deployment.",
+      "default": "familiar-schema-registry"
+    },
+    "registry_type": {
+      "type": "string",
+      "enum": [
+        "confluent",
+        "redpanda",
+        "apicurio",
+        "custom"
+      ],
+      "description": "Schema registry implementation to use.",
+      "default": "redpanda"
+    },
+    "schemas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "event",
+              "entity",
+              "payload",
+              "api"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "default": "v1"
+          },
+          "compatibility": {
+            "type": "string",
+            "enum": [
+              "BACKWARD",
+              "FORWARD",
+              "FULL",
+              "NONE"
+            ],
+            "default": "BACKWARD"
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "description": "Schema definitions managed by the registry."
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "validation_level": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "permissive"
+          ],
+          "default": "strict"
+        },
+        "schema_evolution": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "storage": {
+      "type": "object",
+      "properties": {
+        "backend": {
+          "type": "string",
+          "enum": [
+            "kafka",
+            "postgresql",
+            "s3"
+          ],
+          "default": "kafka"
+        },
+        "replication_factor": {
+          "type": "integer",
+          "default": 3
+        }
+      },
+      "required": [
+        "backend"
+      ]
+    },
+    "api_config": {
+      "type": "object",
+      "properties": {
+        "rest_api_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "authentication": {
+          "type": "string",
+          "enum": [
+            "none",
+            "basic",
+            "oauth2"
+          ],
+          "default": "oauth2"
+        },
+        "rate_limiting": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for schema registry metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "schemas",
+    "observability_dashboard"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/EntanglementStrength.v1.schema.json",
+  "title": "EntanglementStrength",
+  "description": "The overall entanglement strength of this entity with others. Null for classical entities.",
+  "category": "snippets",
+  "source_file": "snippets/fields/EntanglementStrength.json",
+  "type": [
+    "number",
+    "null"
+  ],
+  "minimum": 0.0,
+  "maximum": 1.0,
+  "default": null
+}

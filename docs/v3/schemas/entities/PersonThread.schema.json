@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/PersonThread.v1.schema.json",
+  "title": "Person Thread",
+  "description": "A Thread representing a person, which MUST have a CognitiveBaseline.",
+  "type": "object",
+  "allOf": [
+    { "$ref": "./_base/BaseCognitiveEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Thread" },
+        "identity": {
+          "$ref": "../components/ThreadContent.schema.json",
+          "properties": { "fields": { "properties": { "thread_type": { "const": "Person" } } } }
+        },
+        "components": {
+          "title": "PersonThreadComponents",
+          "properties": { "cognitive_baseline": { "$ref": "../components/CognitiveBaseline.schema.json" } },
+          "required": ["cognitive_baseline"]
+        },
+        "physics_state": {
+          "title": "PersonThreadPhysicsState",
+          "properties": { "universal": { "$ref": "../components/UniversalPhysicsState.schema.json" } },
+          "required": ["universal"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/StandardApiServiceStack.json" }],
+          "properties": {
+            "streaming_topics": { "default": ["entity.thread.lifecycle.events", "entity.thread.person.updates"] },
+            "observability_dashboard": { "default": "grafana/dashboards/person-thread-overview.json" }
+          }
+        }
+      },
+      "required": ["identity", "components", "physics_state"]
+    }
+  ]
+}

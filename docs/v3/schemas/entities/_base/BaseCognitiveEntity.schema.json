@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/BaseCognitiveEntity.v1.schema.json",
+  "title": "Base Cognitive Entity",
+  "description": "The base for all 7 cognitive entities. It establishes the required top-level properties: entity_type, components, physics_state, and infrastructure.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../../_base/BaseEntity.schema.json"
+    },
+    {
+      "$ref": "../../_base/BaseInfrastructure.schema.json"
+    }
+  ],
+  "properties": {
+    "entity_type": {
+      "description": "The canonical type of the cognitive entity.",
+      "$ref": "../../snippets/types/classification/EntityType.json"
+    },
+    "components": {
+      "title": "BaseCognitiveComponents",
+      "description": "A container for the definitional components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object"
+    },
+    "physics_state": {
+      "title": "BaseCognitivePhysicsState",
+      "description": "A container for the mutable physics state components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "entity_type",
+    "components",
+    "physics_state"
+  ]
+}

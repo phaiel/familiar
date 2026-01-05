@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/BaseSystemEntity.v1.schema.json",
+  "title": "Base System Entity",
+  "description": "The base for system-level entities (e.g., Stitch, Tenant) that manage workflows. It inherits identity and infrastructure requirements and enforces the absence of physics components (Rules 17 & 18).",
+  "category": "entities",
+  "source_file": "entities/_base/BaseSystemEntity.schema.json",
+  "type": "object",
+  "schema_version": "1.1.0",
+  "properties": {
+    "entity_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "tenant_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+      "title": "UUID",
+      "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+      "type": "string"
+    },
+    "created_at": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    },
+    "x-infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/InfrastructureBlock.v1.json",
+      "title": "Infrastructure Block",
+      "description": "A canonical block defining the infrastructure components required to support a specific data entity or service.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/ServiceTemplate.v1.json",
+          "title": "Service Template",
+          "description": "A Backstage template identifier for generating microservices.",
+          "type": "string",
+          "enum": [
+            "familiar-poem-api-service",
+            "familiar-quantum-service",
+            "familiar-workflow-service",
+            "familiar-tenant-service"
+          ],
+          "default": "familiar-poem-api-service"
+        },
+        "database_module": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/DatabaseModule.v1.json",
+          "title": "Database Module",
+          "description": "A Terraform module identifier for database infrastructure.",
+          "type": "string",
+          "enum": [
+            "timescaledb",
+            "postgres",
+            "redis",
+            "vector-database"
+          ],
+          "default": "timescaledb"
+        },
+        "streaming_topics": {
+          "description": "A list of Redpanda topics this entity produces or consumes.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "observability_dashboard": {
+          "description": "The Grafana dashboard template for monitoring this entity.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_template",
+        "database_module"
+      ]
+    },
+    "entity_type": {
+      "description": "The canonical type of the system entity.",
+      "type": "string",
+      "enum": [
+        "Stitch",
+        "Course",
+        "Shuttle",
+        "Tenant",
+        "WorkflowTask"
+      ]
+    },
+    "workflow_state": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/workflow/WorkflowState.v1.json",
+      "title": "Workflow State",
+      "description": "Represents the state of a long-running, orchestrated workflow.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+          "title": "Status Field",
+          "description": "The current status of a task or process.",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "InProgress",
+            "Completed",
+            "Cancelled"
+          ],
+          "default": "Pending"
+        },
+        "current_step": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "last_updated": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NullableTimestamp.v1.json",
+          "title": "Nullable Timestamp",
+          "description": "A canonical definition for an optional ISO 8601 timestamp with timezone.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "current_step",
+        "last_updated"
+      ]
+    }
+  },
+  "required": [
+    "entity_type"
+  ],
+  "not": {
+    "description": "Rule 17.2: System entities MUST NOT have physics components.",
+    "required": [
+      "physics_state"
+    ]
+  }
+}

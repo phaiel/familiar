@@ -1,0 +1,7 @@
+{
+  "description": "The quantum coherence level of the entity, representing its degree of superposition. Null for classical entities.",
+  "type": ["number", "null"],
+  "minimum": 0.0,
+  "maximum": 1.0,
+  "default": null
+}

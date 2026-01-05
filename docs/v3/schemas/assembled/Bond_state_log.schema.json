@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/tables/bond_state_log.v1.schema.json",
+  "title": "Bond State Log Table",
+  "description": "Defines the schema for the 'bond_state_log' database table, which stores an append-only history of a Bond's lifecycle state.",
+  "category": "tables",
+  "source_file": "tables/Bond_state_log.table.schema.json",
+  "type": "object",
+  "properties": {
+    "tableName": {
+      "description": "The physical name of the table in the database.",
+      "type": "string"
+    },
+    "columns": {
+      "description": "A map of column names to their definitions.",
+      "type": "object",
+      "additionalProperties": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/database/ColumnDefinition.v1.json",
+        "title": "Column Definition",
+        "description": "Schema for defining a database table column.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Name Field",
+            "description": "The primary, human-readable name of an entity.",
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "string",
+              "integer",
+              "boolean",
+              "timestamp",
+              "uuid"
+            ]
+          },
+          "nullable": {
+            "type": "boolean",
+            "default": false
+          },
+          "primary_key": {
+            "type": "boolean",
+            "default": false
+          },
+          "unique": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "title": "BaseDatabaseColumns"
+    }
+  },
+  "required": [
+    "tableName",
+    "columns"
+  ],
+  "schema_version": "1.0.0",
+  "tableName": "bond_state_log",
+  "columns": {
+    "bond_id": {
+      "type": "uuid",
+      "description": "The ID of the Bond whose state is being logged.",
+      "primary_key": true
+    },
+    "effective_at": {
+      "type": "date-time",
+      "description": "The immutable timestamp at which this state became effective.",
+      "primary_key": true
+    },
+    "state": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/lifecycles/BondState.v1.json",
+      "title": "Bond State",
+      "description": "A canonical enum of all possible lifecycle states for a Bond entity.",
+      "type": "string",
+      "enum": [
+        "Active",
+        "Strained",
+        "Dissolved",
+        "Rekindled"
+      ]
+    },
+    "reason": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/lifecycles/BondStateReason.v1.json",
+      "title": "Bond State Reason",
+      "description": "A canonical enum of the machine-readable reasons for a Bond state change.",
+      "type": "string",
+      "enum": [
+        "UserInitiated",
+        "SystemDetectedStrain",
+        "PartnerAccountErased",
+        "RelationshipEnded"
+      ]
+    }
+  },
+  "indexes": [
+    {
+      "name": "idx_bond_state_log_latest",
+      "columns": [
+        "bond_id",
+        "effective_at DESC"
+      ]
+    }
+  ],
+  "timescale": {
+    "is_hypertable": true,
+    "time_column_name": "effective_at"
+  }
+}

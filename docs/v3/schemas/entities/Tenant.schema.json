@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/tenant.v1.schema.json",
+  "title": "Tenant Entity",
+  "description": "Canonical schema for a Tenant, the root container for all user data and configuration. This is a System Entity and does not participate in physics simulations.",
+  "type": "object",
+  "allOf": [
+    { "$ref": "./_base/BaseSystemEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Tenant" },
+        "components": {
+          "type": "object",
+          "properties": {
+            "identity": { "$ref": "../components/TenantIdentity.schema.json" },
+            "members": { "$ref": "../components/TenantMembers.schema.json" },
+            "config": { "$ref": "../components/TenantConfig.schema.json" }
+          },
+          "required": ["identity", "members", "config"],
+          "title": "TenantComponents"
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/TenantManagementService.json" }],
+          "properties": {
+            "authentication_provider": { "default": "auth0" },
+            "billing_integration": { "default": "stripe" }
+          }
+        }
+      },
+      "required": ["components"]
+    }
+  ]
+}

@@ -1,0 +1,678 @@
+warning: `/Users/erictheiss/.cargo/config` is deprecated in favor of `config.toml`
+  |
+  = help: if you need to support cargo 1.38 or earlier, you can symlink `config` to `config.toml`
+warning: /Users/erictheiss/familiar/docs/v4/services/familiar-worker/Cargo.toml: file `/Users/erictheiss/familiar/docs/v4/services/familiar-worker/src/main.rs` found to be present in multiple build targets:
+  * `bin` target `familiar-worker`
+  * `bin` target `minerva`
+warning: function `find_and_parse_rust_type` is never used
+  --> familiar-drift-internals/src/parser.rs:39:8
+   |
+39 | pub fn find_and_parse_rust_type(
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `familiar-drift-internals` (lib) generated 1 warning
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: failed to parse serde attribute
+  | 
+  | transparent 
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: familiar-core@0.1.0: ⚠️ Schema drift detected (warnings only during sync period)
+warning: familiar-core@0.1.0: Run 'cargo run --bin drift_report' for details
+warning: unused import: `uuid::Uuid`
+ --> familiar-core/src/types/auth/invitation.rs:7:5
+  |
+7 | use uuid::Uuid;
+  |     ^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `ActiveModelTrait`, `ColumnTrait`, `ConnectionTrait`, `EntityTrait`, `IntoActiveModel`, and `QueryFilter`
+  --> familiar-core/src/entities/db/optimistic_lock.rs:34:5
+   |
+34 |     ActiveModelTrait, ColumnTrait, ConnectionTrait, DbErr, EntityTrait,
+   |     ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^^^^^^         ^^^^^^^^^^^
+35 |     IntoActiveModel, QueryFilter,
+   |     ^^^^^^^^^^^^^^^  ^^^^^^^^^^^
+
+warning: unexpected `cfg` condition value: `windmill`
+  --> familiar-core/src/analysis/mod.rs:57:7
+   |
+57 | #[cfg(feature = "windmill")]
+   |       ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `argon2`, `default`, `kafka-codegen`, `password-hashing`, `prost`, `prost-types`, `protobuf`, `rdkafka`, `reqwest`, `schema-registry`, `skip-schema-embed`, `tokio`, `tokio-stream`, `tracing`, and `ts`
+   = help: consider adding `windmill` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+   = note: `#[warn(unexpected_cfgs)]` on by default
+
+warning: unexpected `cfg` condition value: `windmill`
+  --> familiar-core/src/analysis/mod.rs:71:7
+   |
+71 | #[cfg(feature = "windmill")]
+   |       ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: expected values for `feature` are: `argon2`, `default`, `kafka-codegen`, `password-hashing`, `prost`, `prost-types`, `protobuf`, `rdkafka`, `reqwest`, `schema-registry`, `skip-schema-embed`, `tokio`, `tokio-stream`, `tracing`, and `ts`
+   = help: consider adding `windmill` as a feature in `Cargo.toml`
+   = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unused import: `std::collections::HashSet`
+  --> familiar-core/src/analysis/communication_analyzer.rs:23:5
+   |
+23 | use std::collections::HashSet;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: ambiguous glob re-exports
+  --> familiar-core/src/lib.rs:61:9
+   |
+61 | pub use types::*;
+   |         ^^^^^^^^ the name `RequestContext` in the type namespace is first re-exported here
+...
+64 | pub use components::*;
+   |         ------------- but the name `RequestContext` in the type namespace is also re-exported here
+   |
+   = note: `#[warn(ambiguous_glob_reexports)]` on by default
+
+warning: use of deprecated function `aws_config::from_env`: Use the `aws_config::defaults` function. If you don't care about future default behavior changes, you can continue to use this function by enabling the `behavior-version-latest` feature. Doing so will make this deprecation notice go away.
+  --> familiar-core/src/infrastructure/media_store.rs:40:38
+   |
+40 |         let sdk_config = aws_config::from_env()
+   |                                      ^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: unused import: `rayon::prelude`
+  --> familiar-core/src/analysis/cross_file.rs:12:5
+   |
+12 | use rayon::prelude::*;
+   |     ^^^^^^^^^^^^^^
+
+warning: unused variable: `course_id`
+   --> familiar-core/src/kafka/clients/consumer.rs:232:9
+    |
+232 |         course_id: uuid::Uuid,
+    |         ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_course_id`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `as_str` is never used
+  --> familiar-core/src/primitives/password_hash.rs:39:19
+   |
+32 | impl PasswordHash {
+   | ----------------- method in this implementation
+...
+39 |     pub(crate) fn as_str(&self) -> &str {
+   |                   ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `multi` is never read
+  --> familiar-core/src/analysis/ast_grep_runner.rs:50:5
+   |
+46 | struct MetaVariables {
+   |        ------------- field in this struct
+...
+50 |     multi: HashMap<String, Vec<MetaVar>>,
+   |     ^^^^^
+   |
+   = note: `MetaVariables` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: field `root` is never read
+  --> familiar-core/src/analysis/communication_analyzer.rs:42:5
+   |
+41 | pub struct CommunicationAnalyzer {
+   |            --------------------- field in this struct
+42 |     root: PathBuf,
+   |     ^^^^
+
+warning: field `known_entities` is never read
+  --> familiar-core/src/analysis/cross_file.rs:32:5
+   |
+30 | pub struct CrossFileAnalyzer {
+   |            ----------------- field in this struct
+31 |     root: PathBuf,
+32 |     known_entities: HashSet<&'static str>,
+   |     ^^^^^^^^^^^^^^
+
+warning: method `extract_struct_code` is never used
+   --> familiar-core/src/analysis/cross_file.rs:510:8
+    |
+ 35 | impl CrossFileAnalyzer {
+    | ---------------------- method in this implementation
+...
+510 |     fn extract_struct_code(&self, path: &PathBuf, line: usize) -> Option<String> {
+    |        ^^^^^^^^^^^^^^^^^^^
+
+warning: field `root` is never read
+  --> familiar-core/src/analysis/database_analyzer.rs:35:5
+   |
+34 | pub struct DatabaseAnalyzer {
+   |            ---------------- field in this struct
+35 |     root: PathBuf,
+   |     ^^^^
+
+warning: function `count_files_by_type` is never used
+   --> familiar-core/src/analysis/walker.rs:152:8
+    |
+152 | pub fn count_files_by_type(files: &[SourceFile]) -> (usize, usize, usize) {
+    |        ^^^^^^^^^^^^^^^^^^^
+
+warning: trait `SystemAsTool` is never used
+   --> familiar-core/src/runtime/system.rs:140:11
+    |
+140 | pub trait SystemAsTool: System {
+    |           ^^^^^^^^^^^^
+
+warning: `familiar-core` (lib) generated 17 warnings (run `cargo fix --lib -p familiar-core` to apply 4 suggestions)
+warning: field `name` is never read
+  --> familiar-core/src/bin/drift_report.rs:91:5
+   |
+90 | struct SchemaInfo {
+   |        ---------- field in this struct
+91 |     name: String,
+   |     ^^^^
+   |
+   = note: `SchemaInfo` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `name` is never read
+   --> familiar-core/src/bin/drift_report.rs:102:5
+    |
+101 | struct RustInfo {
+    |        -------- field in this struct
+102 |     name: String,
+    |     ^^^^
+    |
+    = note: `RustInfo` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: `familiar-core` (bin "drift_report") generated 2 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.47s
+     Running `target/debug/drift_report`
+╔══════════════════════════════════════════════════════════════════╗
+║                      SCHEMA DRIFT REPORT                         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📁 Schema version: latest
+📁 Schema path: /Users/erictheiss/familiar/docs/v4/familiar-core/../../../familiar-schemas/versions/latest/json-schema
+
+📋 Found 395 JSON schemas
+🦀 Found 308 Rust types
+
+┌──────────────────────────────────────────────────────────────────┐
+│ ⚠️  TYPES IN RUST BUT NOT IN SCHEMAS (52 types)                  
+├──────────────────────────────────────────────────────────────────┤
+│  CourseSegmented (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  SignupFlowInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  AsyncTaskPollResponse (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  CreateAsyncTaskInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  MagicLinkFlowInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  Metadata (/Users/erictheiss/familiar/docs/v4/familiar-core/src/components/metadata.rs)
+│  CreateFamilyFlowInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  MyEntity (/Users/erictheiss/familiar/docs/v4/familiar-core/src/components/timestamps.rs)
+│  AsyncTaskCreated (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  CourseRetry (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  ShuttleDetails (/Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/shuttle.rs)
+│  WindmillSecrets (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/security.rs)
+│  FamilyCreated (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs)
+│  ListResult (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/api/responses.rs)
+│  CourseStart (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  CourseStarted (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  SignupCompleted (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs)
+│  CourseMessage (/Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/course.rs)
+│  CourseCancel (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  MessageTokenInfo (/Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/course.rs)
+│  AsyncTask (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  SignupFlowOutput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  MagicLinkRequestOutput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  TracePayload (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/trace.rs)
+│  CourseCancelled (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  CourseClassified (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  CourseContinue (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  CreateAuditLogInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/auth/audit.rs)
+│  CreateFamilyFlowOutput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  OnboardingSession (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  CreateFamilyRequest (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs)
+│  CourseSummary (/Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/course.rs)
+│  AcceptInvitationFlowOutput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  InvitationAccepted (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs)
+│  CourseMetadata (/Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/course.rs)
+│  ContextWindowInfo (/Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/course.rs)
+│  ApiResult (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/api/responses.rs)
+│  AcceptInvitationRequest (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs)
+│  MagicLinkConsumeOutput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  AnthropicConversation (/Users/erictheiss/familiar/docs/v4/familiar-core/src/components/provider_adapters.rs)
+│  CourseFailed (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  GoogleConversation (/Users/erictheiss/familiar/docs/v4/familiar-core/src/components/provider_adapters.rs)
+│  ToolResult (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/tools/base.rs)
+│  DomainEventEnvelope (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  EntityMeta (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/base/entity_meta.rs)
+│  EvaluationResult (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/evaluation.rs)
+│  CourseCompleted (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+│  OnboardingFailed (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs)
+│  CreateSessionInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/auth/session.rs)
+│  AcceptInvitationFlowInput (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/onboarding.rs)
+│  SystemEntityMeta (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/base/entity_meta.rs)
+│  CourseRetrying (/Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/course.rs)
+└──────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────┐
+│ ⚠️  TYPES IN SCHEMAS BUT NOT IN RUST (139 types)                  
+├──────────────────────────────────────────────────────────────────┤
+│  TokenUsage [simple] (primitives/TokenUsage.schema.json)
+│  ErrorStrategy [COMPLEX] (tools/ErrorStrategy.schema.json)
+│  String [simple] (primitives/Email.schema.json)
+│  MagicLinkPurpose [simple] (entities/MagicLinkPurpose.schema.json)
+│  MessageId [simple] (primitives/MessageId.schema.json)
+│  ClassifierOutput [COMPLEX] (windmill/ClassifierOutput.schema.json)
+│  ThreadRelationType [COMPLEX] (tools/ThreadRelationType.schema.json)
+│  MessageRole [simple] (entities/MessageRole.schema.json)
+│  FamiliarEntityType [simple] (conversation/FamiliarEntityType.schema.json)
+│  BindingType [COMPLEX] (tools/BindingType.schema.json)
+│  DeletionStatus [simple] (auth/DeletionStatus.schema.json)
+│  ThreadRole [COMPLEX] (tools/ThreadRole.schema.json)
+│  ShuttleStatus [COMPLEX] (types/ShuttleStatus.schema.json)
+│  AgenticCommand [COMPLEX] (types/AgenticCommand.schema.json)
+│  TenantId [simple] (primitives/TenantId.schema.json)
+│  ContinuationOutput [simple] (windmill/ContinuationOutput.schema.json)
+│  AuditLogId [simple] (primitives/AuditLogId.schema.json)
+│  DateTime [simple] (primitives/Timestamp.schema.json)
+│  DbStoreError [COMPLEX] (types/DbStoreError.schema.json)
+│  SystemTrigger [COMPLEX] (config/SystemTrigger.schema.json)
+│  ConciergeInput [simple] (windmill/ConciergeInput.schema.json)
+│  SubjectType [COMPLEX] (tools/SubjectType.schema.json)
+│  SystemDomain [simple] (config/SystemDomain.schema.json)
+│  RetryConfig [simple] (primitives/RetryConfig.schema.json)
+│  ChannelId [simple] (primitives/ChannelId.schema.json)
+│  InteractionFrequency [simple] (tools/InteractionFrequency.schema.json)
+│  DbConnectionString [simple] (primitives/DbConnectionString.schema.json)
+│  AccordionState [simple] (ui/AccordionState.schema.json)
+│  PromptPhase [simple] (types/PromptPhase.schema.json)
+│  QueryType [COMPLEX] (types/QueryType.schema.json)
+│  ContextElement [COMPLEX] (ui/ContextElement.schema.json)
+│  EvidenceType [COMPLEX] (tools/EvidenceType.schema.json)
+│  Temperature [simple] (primitives/Temperature.schema.json)
+│  Payload [COMPLEX] (contracts/Payload.schema.json)
+│  ApiKey [simple] (primitives/ApiKey.schema.json)
+│  ChannelType [COMPLEX] (conversation/ChannelType.schema.json)
+│  AgentResponse [simple] (windmill/AgentResponse.schema.json)
+│  ThreadId [simple] (primitives/ThreadId.schema.json)
+│  ButtonStyle [simple] (ui/ButtonStyle.schema.json)
+│  PhysicsInput [COMPLEX] (windmill/PhysicsInput.schema.json)
+│  RAGOutput [simple] (windmill/RAGOutput.schema.json)
+│  AgentSpeaker [COMPLEX] (agentic/AgentSpeaker.schema.json)
+│  JoinRequestId [simple] (primitives/JoinRequestId.schema.json)
+│  ThreadCategory [COMPLEX] (tools/ThreadCategory.schema.json)
+│  InvitationId [simple] (primitives/InvitationId.schema.json)
+│  PhysicsOutput [simple] (windmill/PhysicsOutput.schema.json)
+│  VerbCategory [COMPLEX] (tools/VerbCategory.schema.json)
+│  ToolCategory [COMPLEX] (tools/ToolCategory.schema.json)
+│  ModelConfig [COMPLEX] (config/ModelConfig.schema.json)
+│  ExportStatus [simple] (auth/ExportStatus.schema.json)
+│  DbPoolSize [simple] (primitives/DbPoolSize.schema.json)
+│  PipelineType [COMPLEX] (tools/PipelineType.schema.json)
+│  DeletionRequestId [simple] (primitives/DeletionRequestId.schema.json)
+│  UserId [simple] (primitives/UserId.schema.json)
+│  MemberRole [simple] (entities/MemberRole.schema.json)
+│  ConciergeOutput [COMPLEX] (windmill/ConciergeOutput.schema.json)
+│  GraphUpdateType [COMPLEX] (tools/GraphUpdateType.schema.json)
+│  BondIndicatorType [COMPLEX] (tools/BondIndicatorType.schema.json)
+│  ShuttleId [simple] (primitives/ShuttleId.schema.json)
+│  EntityMentionType [simple] (tools/EntityMentionType.schema.json)
+│  RAGInput [simple] (windmill/RAGInput.schema.json)
+│  MediaType [simple] (entities_api/MediaType.schema.json)
+│  FilterOperator [simple] (tools/FilterOperator.schema.json)
+│  TextObject [COMPLEX] (ui/TextObject.schema.json)
+│  AnyValue [simple] (components/Metadata.schema.json)
+│  TriggerType [COMPLEX] (tools/TriggerType.schema.json)
+│  HeddleEntityType [COMPLEX] (types/HeddleEntityType.schema.json)
+│  ExportRequestId [simple] (primitives/ExportRequestId.schema.json)
+│  InputTransform [COMPLEX] (tools/InputTransform.schema.json)
+│  Uuid [simple] (primitives/UUID.schema.json)
+│  CourseDetails [simple] (components/CourseDetails.schema.json)
+│  AgenticEvent [COMPLEX] (types/AgenticEvent.schema.json)
+│  WeaveBlock [COMPLEX] (entities_api/WeaveBlock.schema.json)
+│  DbEntityTable [simple] (types/DbEntityTable.schema.json)
+│  CourseId [simple] (primitives/CourseId.schema.json)
+│  AIProvider [simple] (config/AIProvider.schema.json)
+│  ContinuationInput [simple] (windmill/ContinuationInput.schema.json)
+│  WsMessage [COMPLEX] (types/WsMessage.schema.json)
+│  Modality [simple] (tools/Modality.schema.json)
+│  JoinRequestStatus [simple] (entities/JoinRequestStatus.schema.json)
+│  VerbTense [simple] (tools/VerbTense.schema.json)
+│  RAGResult [simple] (windmill/RAGResult.schema.json)
+│  QuantizedCoord [simple] (primitives/QuantizedCoord.schema.json)
+│  TaskId [simple] (primitives/TaskId.schema.json)
+│  CourseStatus [COMPLEX] (types/CourseStatus.schema.json)
+│  SimulationTier [simple] (components/SimulationTier.schema.json)
+│  DbComponentTable [COMPLEX] (types/DbComponentTable.schema.json)
+│  Block [COMPLEX] (ui/Block.schema.json)
+│  BlockElement [COMPLEX] (ui/BlockElement.schema.json)
+│  MagicLinkId [simple] (primitives/MagicLinkId.schema.json)
+│  TemporalMarkerType [COMPLEX] (tools/TemporalMarkerType.schema.json)
+│  PhysicsState [COMPLEX] (windmill/PhysicsState.schema.json)
+│  ConsentType [simple] (entities/ConsentType.schema.json)
+│  MaxTokens [simple] (primitives/MaxTokens.schema.json)
+│  TemporalRelation [simple] (tools/TemporalRelation.schema.json)
+│  RelationshipType [simple] (tools/RelationshipType.schema.json)
+│  ThreadSummary [simple] (entities/ThreadSummary.schema.json)
+│  ConditionType [COMPLEX] (tools/ConditionType.schema.json)
+│  ToolErrorCode [COMPLEX] (tools/ToolErrorCode.schema.json)
+│  ConditionOperator [simple] (tools/ConditionOperator.schema.json)
+│  MomentType [simple] (types/MomentType.schema.json)
+│  BindingEvidenceType [COMPLEX] (tools/BindingEvidenceType.schema.json)
+│  ContextStrategy [COMPLEX] (tools/ContextStrategy.schema.json)
+│  MessageIntent [COMPLEX] (types/MessageIntent.schema.json)
+│  SessionId [simple] (primitives/SessionId.schema.json)
+│  InviteRole [simple] (entities/InviteRole.schema.json)
+│  ECS Component Meta-Schema [simple] (ecs/Component.meta.schema.json)
+│  CommandType [COMPLEX] (tools/CommandType.schema.json)
+│  ExecutionOrder [COMPLEX] (tools/ExecutionOrder.schema.json)
+│  ConsentRecordId [simple] (primitives/ConsentRecordId.schema.json)
+│  TimeUnit [simple] (tools/TimeUnit.schema.json)
+│  MessageStatusType [simple] (types/MessageStatusType.schema.json)
+│  DetectionMethod [COMPLEX] (tools/DetectionMethod.schema.json)
+│  ClassificationResult [simple] (windmill/ClassificationResult.schema.json)
+│  ThreadMessage [COMPLEX] (entities/ThreadMessage.schema.json)
+│  AgentMessageType [COMPLEX] (agentic/AgentMessageType.schema.json)
+│  Directionality [COMPLEX] (tools/Directionality.schema.json)
+│  ParameterType [COMPLEX] (tools/ParameterType.schema.json)
+│  EntityType [COMPLEX] (tools/EntityType.schema.json)
+│  TraceStatus [COMPLEX] (contracts/TraceStatus.schema.json)
+│  ModalityInput [COMPLEX] (tools/ModalityInput.schema.json)
+│  LogLevel [simple] (agentic/LogLevel.schema.json)
+│  SignedNormalizedFloat [simple] (primitives/SignedNormalizedFloat.schema.json)
+│  PurposePipeline [COMPLEX] (tools/PurposePipeline.schema.json)
+│  DurationCategory [simple] (tools/DurationCategory.schema.json)
+│  EntityStatus [simple] (conversation/EntityStatus.schema.json)
+│  SpawnAction [COMPLEX] (tools/SpawnAction.schema.json)
+│  InviteType [simple] (entities/InviteType.schema.json)
+│  ToolCallStatus [simple] (types/ToolCallStatus.schema.json)
+│  SystemManifest [COMPLEX] (config/SystemManifest.schema.json)
+│  InternalStateType [simple] (types/InternalStateType.schema.json)
+│  ThreadType [simple] (types/ThreadType.schema.json)
+│  ClassifierInput [simple] (windmill/ClassifierInput.schema.json)
+│  NormalizedFloat [simple] (primitives/NormalizedFloat.schema.json)
+│  ToolPurpose [COMPLEX] (tools/ToolPurpose.schema.json)
+│  ConversationThread [COMPLEX] (entities/ConversationThread.schema.json)
+│  EntityId [simple] (primitives/EntityId.schema.json)
+│  ObserverError [COMPLEX] (types/ObserverError.schema.json)
+│  TraceKind [COMPLEX] (contracts/TraceKind.schema.json)
+└──────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────┐
+│ ❌ FIELD MISMATCHES (27 types with drift)                        
+├──────────────────────────────────────────────────────────────────┤
+│
+│  📦 Thread
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["temperature", "energy", "position", "text", "amplitudes", "amplitude", "created_at", "frequency", "id", "tenant_id", "coherence", "velocity", "metadata"]
+│     In Rust but not in schema: ["identity", "quantum", "content", "physics"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/thread.rs
+│     Schema: entities/Thread.schema.json
+│
+│  📦 CommandResult
+│     In schema but not in Rust: ["thread_id"]
+│     In Rust but not in schema: ["course_id"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/commands.rs
+│     Schema: types/CommandResult.schema.json
+│
+│  📦 ImageBlock
+│     In schema but not in Rust: ["analyze", "source"]
+│     In Rust but not in schema: ["image_url", "title"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/components/ui/block_kit.rs
+│     Schema: entities_api/ImageBlock.schema.json
+│
+│  📦 Tenant
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["created_at", "updated_at", "id"]
+│     In Rust but not in schema: ["meta"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/tenant.rs
+│     Schema: types/Tenant.schema.json
+│
+│  📦 Pulse
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["temperature", "metadata", "text", "tenant_id", "created_at", "id", "position", "velocity", "energy", "amplitude"]
+│     In Rust but not in schema: ["identity", "content", "physics"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/pulse.rs
+│     Schema: entities/Pulse.schema.json
+│
+│  📦 DividerBlock
+│     In Rust but not in schema: ["self.blocks.push(Block", "title", "initial_state", "alt_text", "element", "hint", "elements", "url", "label", "description", "blocks", "style", "multiline", "image_url", "summary", "fields", "optional", "emoji", "placeholder", "initial_value", "value", "action_id", "accessory", "text", "options", "verbatim"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/components/ui/block_kit.rs
+│     Schema: ui/DividerBlock.schema.json
+│
+│  📦 Bond
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["power_dynamic", "text", "transparency", "id", "spectral_signature", "intimacy", "energy", "tenant_id", "damping_coefficient", "position", "formalism", "bond_strength", "amplitude", "spring_constant", "metadata", "temperature", "velocity", "primary_label", "created_at"]
+│     In Rust but not in schema: ["bond_physics", "content", "identity", "physics", "dynamics"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/bond.rs
+│     Schema: entities/Bond.schema.json
+│
+│  📦 Shuttle
+│     In schema but not in Rust: ["units", "error", "course_id", "started_at", "status", "created_at", "details", "response", "completed_at", "weave", "id"]
+│     In Rust but not in schema: ["spawn_count", "latency_ms", "tokens_used", "provider", "model", "unit_count"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/shuttle.rs
+│     Schema: entities/Shuttle.schema.json
+│
+│  📦 AuditLogEntry
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["resource_id", "created_at", "resource_type", "user_agent", "user_email", "user_id", "error_message", "id", "success", "metadata", "action", "ip_address"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/components/request_context.rs
+│     Schema: auth/AuditLogEntry.schema.json
+│
+│  📦 Motif
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["created_at", "coherence", "position", "temperature", "tenant_id", "energy", "velocity", "amplitudes", "metadata", "text", "frequency", "amplitude", "id"]
+│     In Rust but not in schema: ["physics", "identity", "content", "quantum"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/motif.rs
+│     Schema: entities/Motif.schema.json
+│
+│  📦 EnvelopeV1
+│     In schema but not in Rust: ["thread_id"]
+│     In Rust but not in schema: ["shuttle_id"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/envelope.rs
+│     Schema: contracts/EnvelopeV1.schema.json
+│
+│  📦 Filament
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["metadata", "position", "tenant_id", "coherence", "text", "velocity", "temperature", "amplitude", "created_at", "amplitudes", "energy", "frequency", "id"]
+│     In Rust but not in schema: ["physics", "content", "identity", "quantum"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/filament.rs
+│     Schema: entities/Filament.schema.json
+│
+│  📦 TenantMember
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["updated_at", "created_at", "tenant_id", "id"]
+│     In Rust but not in schema: ["meta"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/member.rs
+│     Schema: types/TenantMember.schema.json
+│
+│  📦 Segment
+│     In schema but not in Rust: ["boundaries", "content", "id", "features", "modality", "confidence", "index"]
+│     In Rust but not in schema: ["config", "context", "input"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/tools/segmentation.rs
+│     Schema: tools/Segment.schema.json
+│
+│  📦 Message
+│     In schema but not in Rust: ["tool_calls", "created_at", "weave_result", "id", "agent_speaker", "metadata", "channel_id", "sender_id", "content", "role", "thinking_steps", "parent_id"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/components/metadata.rs
+│     Schema: conversation/Message.schema.json
+│
+│  📦 FieldExcitation
+│     In Rust but not in schema: ["velocity_workspace", "position_workspace"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/components/field_excitation.rs
+│     Schema: components/FieldExcitation.schema.json
+│
+│  📦 Intent
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["position", "text", "id", "primary_status_label", "activation_energy", "created_at", "entropy", "tenant_id", "metadata", "temperature", "energy", "velocity", "amplitude", "completion"]
+│     In Rust but not in schema: ["identity", "dynamics", "physics", "content"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/intent.rs
+│     Schema: entities/Intent.schema.json
+│
+│  📦 UIChannel
+│     In schema but not in Rust: ["messages", "created_at", "name", "updated_at"]
+│     In Rust but not in schema: ["content", "thread", "is_expanded", "is_active", "timestamp"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/ui_agentic.rs
+│     Schema: types/UIChannel.schema.json
+│
+│  📦 Course
+│     In schema but not in Rust: ["summary", "title", "created_at", "tenant_id", "status", "history", "updated_at"]
+│     In Rust but not in schema: ["course_id", "shuttle_id", "role", "agent_speaker", "content", "timestamp"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/course.rs
+│     Schema: entities/Course.schema.json
+│
+│  📦 SignupRequest
+│     In schema but not in Rust: ["accept_terms", "accept_privacy"]
+│     In Rust but not in schema: ["request_context", "consents"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/contracts/onboarding.rs
+│     Schema: auth/SignupRequest.schema.json
+│
+│  📦 Focus
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["id", "energy", "temperature", "text", "velocity", "amplitude", "frequency", "created_at", "position", "metadata", "tenant_id", "amplitudes", "coherence"]
+│     In Rust but not in schema: ["content", "quantum", "physics", "identity"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/focus.rs
+│     Schema: entities/Focus.schema.json
+│
+│  📦 User
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["updated_at", "id", "created_at"]
+│     In Rust but not in schema: ["meta"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/auth/user.rs
+│     Schema: auth/User.schema.json
+│
+│  📦 Moment
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["created_at", "energy", "metadata", "tenant_id", "amplitudes", "coherence", "frequency", "position", "velocity", "amplitude", "id", "temperature", "text"]
+│     In Rust but not in schema: ["quantum", "identity", "physics", "content"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/moment.rs
+│     Schema: entities/Moment.schema.json
+│
+│  📦 EntityClassification
+│     In schema but not in Rust: ["evidence", "probability", "entity_type"]
+│     In Rust but not in schema: ["preceding", "known_threads", "following", "user_patterns"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/tools/entity.rs
+│     Schema: tools/EntityClassification.schema.json
+│
+│  📦 Channel
+│     (has #[serde(flatten)] - may have inherited fields)
+│     In schema but not in Rust: ["tenant_id", "id", "updated_at", "created_at"]
+│     In Rust but not in schema: ["meta"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/types/conversation/channel.rs
+│     Schema: conversation/Channel.schema.json
+│
+│  📦 Model
+│     In schema but not in Rust: ["description", "owner_id", "channel_type"]
+│     In Rust but not in schema: ["email", "avatar_url", "role"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/entities/db/conversation/tenant_member.rs
+│     Schema: entities/Model.schema.json
+│
+│  📦 WeaveUnit
+│     In schema but not in Rust: ["content", "purpose", "spawned_entity_ids", "temporal_marker", "index", "classifications", "secondary_threads", "primary_thread"]
+│     In Rust but not in schema: ["entity_type", "weight"]
+│     Rust: /Users/erictheiss/familiar/docs/v4/familiar-core/src/components/weave_unit.rs
+│     Schema: components/WeaveUnit.schema.json
+└──────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────┐
+│ 📊 SCHEMA GENERATION ELIGIBILITY                                │
+├──────────────────────────────────────────────────────────────────┤
+│  ✅ Simple (can generate):  183 schemas (46%)
+│  ⚠️  Complex (manual only): 212 schemas (53%)
+└──────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────┐
+│ 📈 SUMMARY                                                      │
+├──────────────────────────────────────────────────────────────────┤
+│  Total schemas:       395
+│  Total Rust types:    308
+│  In both:             256
+│  Rust only:           52
+│  Schema only:         139
+│  Field mismatches:    27
+│
+│  Generation target:   46% (183 types)
+│  Manual maintenance:  53% (212 types)
+└──────────────────────────────────────────────────────────────────┘

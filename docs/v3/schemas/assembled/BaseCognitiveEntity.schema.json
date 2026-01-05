@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/BaseCognitiveEntity.v1.schema.json",
+  "title": "Base Cognitive Entity",
+  "description": "The base for all 7 cognitive entities. It establishes the required top-level properties: entity_type, components, physics_state, and infrastructure.",
+  "category": "entities",
+  "source_file": "entities/_base/BaseCognitiveEntity.schema.json",
+  "type": "object",
+  "schema_version": "1.1.0",
+  "properties": {
+    "entity_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "tenant_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+      "title": "UUID",
+      "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+      "type": "string"
+    },
+    "created_at": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    },
+    "x-infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/InfrastructureBlock.v1.json",
+      "title": "Infrastructure Block",
+      "description": "A canonical block defining the infrastructure components required to support a specific data entity or service.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/ServiceTemplate.v1.json",
+          "title": "Service Template",
+          "description": "A Backstage template identifier for generating microservices.",
+          "type": "string",
+          "enum": [
+            "familiar-poem-api-service",
+            "familiar-quantum-service",
+            "familiar-workflow-service",
+            "familiar-tenant-service"
+          ],
+          "default": "familiar-poem-api-service"
+        },
+        "database_module": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/DatabaseModule.v1.json",
+          "title": "Database Module",
+          "description": "A Terraform module identifier for database infrastructure.",
+          "type": "string",
+          "enum": [
+            "timescaledb",
+            "postgres",
+            "redis",
+            "vector-database"
+          ],
+          "default": "timescaledb"
+        },
+        "streaming_topics": {
+          "description": "A list of Redpanda topics this entity produces or consumes.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "observability_dashboard": {
+          "description": "The Grafana dashboard template for monitoring this entity.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_template",
+        "database_module"
+      ]
+    },
+    "entity_type": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/EntityType.v1.json",
+      "title": "Entity Type",
+      "description": "A canonical enum of all 7 cognitive entity types.",
+      "type": "string",
+      "enum": [
+        "Focus",
+        "Filament",
+        "Motif",
+        "Intent",
+        "Moment",
+        "Bond",
+        "Thread"
+      ]
+    },
+    "components": {
+      "title": "BaseCognitiveComponents",
+      "description": "A container for the definitional components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object"
+    },
+    "physics_state": {
+      "title": "BaseCognitivePhysicsState",
+      "description": "A container for the mutable physics state components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object"
+    }
+  },
+  "required": [
+    "entity_type",
+    "components",
+    "physics_state"
+  ]
+}

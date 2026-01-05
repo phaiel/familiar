@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "RawClassification": {
+      "description": "Raw classification from LLM output",
+      "properties": {
+        "entity_type": {
+          "$ref": "../primitives/HeddleEntityType.schema.json"
+        },
+        "weight": {
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "entity_type",
+        "weight"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "Raw weave unit with classifications before entity resolution",
+  "properties": {
+    "classifications": {
+      "description": "List of raw classifications",
+      "items": {
+        "$ref": "#/definitions/RawClassification"
+      },
+      "type": "array"
+    },
+    "content": {
+      "description": "Original text content",
+      "type": "string"
+    },
+    "metadata": {
+      "description": "Additional processing metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "content",
+    "classifications"
+  ],
+  "title": "RawWeaveUnit",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Component.meta.schema.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-daemon.node.json"
+  }
+}

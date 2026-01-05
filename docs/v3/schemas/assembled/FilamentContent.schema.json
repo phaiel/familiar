@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/FilamentContent.v1.schema.json",
+  "title": "Filament Content Component",
+  "description": "Defines the high-level narrative or belief content of a Filament entity. This is a quantum component.",
+  "category": "components",
+  "source_file": "components/FilamentContent.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "narrative_description": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+          "title": "Description Field",
+          "description": "A canonical, reusable definition for a human-readable description field.",
+          "type": "string",
+          "default": ""
+        },
+        "filament_type": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/FilamentType.v1.json",
+          "title": "Filament Type",
+          "description": "A canonical enum of the types of high-level narratives a Filament can represent.",
+          "type": "string",
+          "enum": [
+            "PersonalityTrait",
+            "Worldview",
+            "Relationship_Pattern",
+            "Life_Theme"
+          ]
+        },
+        "abstraction_level": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/AbstractionLevel.v1.json",
+          "title": "Abstraction Level",
+          "description": "A canonical enum for the level of abstraction of a cognitive entity.",
+          "type": "string",
+          "enum": [
+            "Low",
+            "Medium",
+            "High"
+          ]
+        },
+        "source_threads_and_bonds": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/SourceThreadsAndBonds.v1.json",
+          "title": "Source Threads and Bonds Field",
+          "description": "A list of Thread and Bond entity IDs that are the source for a derived cognitive entity like a Filament.",
+          "type": "array",
+          "items": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+            "title": "Entity ID Field",
+            "description": "A reusable definition for a unique entity identifier.",
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "narrative_description",
+        "filament_type",
+        "abstraction_level",
+        "source_threads_and_bonds"
+      ],
+      "title": "FilamentContentFields"
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.2.0",
+  "physics_properties": {
+    "engine": "quantum",
+    "is_quantum": true
+  }
+}

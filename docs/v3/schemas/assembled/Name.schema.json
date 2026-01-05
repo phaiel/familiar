@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/Name.v1.schema.json",
+  "title": "Name Field",
+  "description": "The primary, human-readable name of an entity.",
+  "category": "snippets",
+  "source_file": "snippets/fields/Name.json",
+  "type": "string"
+}

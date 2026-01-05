@@ -1,0 +1,1307 @@
+{
+  "issues": [
+    {
+      "file": "ecs/Component.meta.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "Component",
+          "schema_path": "ecs/Component.meta.schema.json",
+          "category": "ecs",
+          "used_in_code": true,
+          "usage_locations": [
+            "xtask/src/main.rs:2737",
+            "familiar-core/src/components/mod.rs:30",
+            "familiar-core/src/components/traits.rs:29",
+            "familiar-core/src/components/traits.rs:149",
+            "familiar-core/src/components/traits.rs:150",
+            "familiar-core/src/components/traits.rs:151",
+            "familiar-core/src/components/traits.rs:152",
+            "familiar-core/src/components/traits.rs:153"
+          ],
+          "recommendation": "ExpectedRoot"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'Component' - expected root (infrastructure)",
+      "fix": null
+    },
+    {
+      "file": "ecs/Node.meta.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "Node",
+          "schema_path": "ecs/Node.meta.schema.json",
+          "category": "ecs",
+          "used_in_code": true,
+          "usage_locations": [
+            "xtask/src/main.rs:2733"
+          ],
+          "recommendation": "ExpectedRoot"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'Node' - expected root (infrastructure)",
+      "fix": null
+    },
+    {
+      "file": "ecs/Queue.meta.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "Queue",
+          "schema_path": "ecs/Queue.meta.schema.json",
+          "category": "ecs",
+          "used_in_code": true,
+          "usage_locations": [
+            "xtask/src/main.rs:2736",
+            "services/familiar-daemon/src/main.rs:61"
+          ],
+          "recommendation": "ExpectedRoot"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'Queue' - expected root (infrastructure)",
+      "fix": null
+    },
+    {
+      "file": "ecs/Resource.meta.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "Resource",
+          "schema_path": "ecs/Resource.meta.schema.json",
+          "category": "ecs",
+          "used_in_code": true,
+          "usage_locations": [
+            "xtask/src/main.rs:2735"
+          ],
+          "recommendation": "ExpectedRoot"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'Resource' - expected root (infrastructure)",
+      "fix": null
+    },
+    {
+      "file": "ecs/System.meta.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "System",
+          "schema_path": "ecs/System.meta.schema.json",
+          "category": "ecs",
+          "used_in_code": true,
+          "usage_locations": [
+            "xtask/src/main.rs:2734",
+            "familiar-core/src/analysis/windmill_client.rs:205",
+            "familiar-core/src/analysis/cross_file.rs:296",
+            "familiar-core/src/analysis/cross_file.rs:322",
+            "familiar-core/src/entities/db/conversation/message.rs:16",
+            "familiar-core/src/entities/course.rs:126",
+            "familiar-core/src/entities/course.rs:430",
+            "familiar-core/src/entities/course.rs:464",
+            "familiar-core/src/types/message_role.rs:10",
+            "familiar-core/src/types/message_role.rs:21"
+          ],
+          "recommendation": "ExpectedRoot"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'System' - expected root (infrastructure)",
+      "fix": null
+    },
+    {
+      "file": "windmill/AgentResponse.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "AgentResponse",
+          "schema_path": "windmill/AgentResponse.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'AgentResponse' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/ClassificationResult.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "ClassificationResult",
+          "schema_path": "windmill/ClassificationResult.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'ClassificationResult' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/ClassifierInput.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "ClassifierInput",
+          "schema_path": "windmill/ClassifierInput.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'ClassifierInput' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/ConciergeInput.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "ConciergeInput",
+          "schema_path": "windmill/ConciergeInput.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'ConciergeInput' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/ContinuationInput.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "ContinuationInput",
+          "schema_path": "windmill/ContinuationInput.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'ContinuationInput' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/ContinuationOutput.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "ContinuationOutput",
+          "schema_path": "windmill/ContinuationOutput.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'ContinuationOutput' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/PhysicsOutput.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "PhysicsOutput",
+          "schema_path": "windmill/PhysicsOutput.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'PhysicsOutput' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/RAGInput.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "RAGInput",
+          "schema_path": "windmill/RAGInput.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'RAGInput' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "windmill/RAGResult.schema.json",
+      "line": 0,
+      "kind": {
+        "OrphanSchema": {
+          "schema_name": "RAGResult",
+          "schema_path": "windmill/RAGResult.schema.json",
+          "category": "windmill",
+          "used_in_code": false,
+          "usage_locations": [],
+          "recommendation": "MarkDeprecated"
+        }
+      },
+      "severity": "Info",
+      "message": "Truly isolated schema 'RAGResult' - from deprecated windmill system",
+      "fix": {
+        "description": "Add x-familiar-deprecated: true to schema",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/tools/base.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "ToolResult",
+          "source_file": "./familiar-core/src/types/tools/base.rs",
+          "suggested_schema_path": "tools/ToolResult.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'ToolResult' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "OnboardingState",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/OnboardingState.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'OnboardingState' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "OnboardingSession",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/OnboardingSession.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'OnboardingSession' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AsyncTaskStatus",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/AsyncTaskStatus.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AsyncTaskStatus' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AsyncTask",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/AsyncTask.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AsyncTask' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CreateAsyncTaskInput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/CreateAsyncTaskInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CreateAsyncTaskInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AsyncTaskCreated",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/AsyncTaskCreated.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AsyncTaskCreated' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AsyncTaskPollResponse",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/AsyncTaskPollResponse.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AsyncTaskPollResponse' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "SignupFlowInput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/SignupFlowInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'SignupFlowInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "SignupFlowOutput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/SignupFlowOutput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'SignupFlowOutput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "MagicLinkAction",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/MagicLinkAction.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'MagicLinkAction' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "MagicLinkFlowInput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/MagicLinkFlowInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'MagicLinkFlowInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "MagicLinkRequestOutput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/MagicLinkRequestOutput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'MagicLinkRequestOutput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "MagicLinkConsumeOutput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/MagicLinkConsumeOutput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'MagicLinkConsumeOutput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CreateFamilyFlowInput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/CreateFamilyFlowInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CreateFamilyFlowInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CreateFamilyFlowOutput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/CreateFamilyFlowOutput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CreateFamilyFlowOutput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AcceptInvitationFlowInput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/AcceptInvitationFlowInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AcceptInvitationFlowInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AcceptInvitationFlowOutput",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/AcceptInvitationFlowOutput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AcceptInvitationFlowOutput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "OnboardingEvent",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/OnboardingEvent.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'OnboardingEvent' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "DomainEventEnvelope",
+          "source_file": "./familiar-core/src/types/onboarding.rs",
+          "suggested_schema_path": "onboarding.rs/DomainEventEnvelope.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'DomainEventEnvelope' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/security.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "WindmillSecrets",
+          "source_file": "./familiar-core/src/types/security.rs",
+          "suggested_schema_path": "security.rs/WindmillSecrets.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'WindmillSecrets' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/evaluation.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "EvaluationStep",
+          "source_file": "./familiar-core/src/types/evaluation.rs",
+          "suggested_schema_path": "evaluation.rs/EvaluationStep.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'EvaluationStep' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/evaluation.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "EvaluationResult",
+          "source_file": "./familiar-core/src/types/evaluation.rs",
+          "suggested_schema_path": "evaluation.rs/EvaluationResult.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'EvaluationResult' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/auth/session.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CreateSessionInput",
+          "source_file": "./familiar-core/src/types/auth/session.rs",
+          "suggested_schema_path": "auth/CreateSessionInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CreateSessionInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/auth/audit.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CreateAuditLogInput",
+          "source_file": "./familiar-core/src/types/auth/audit.rs",
+          "suggested_schema_path": "auth/CreateAuditLogInput.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CreateAuditLogInput' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CreateFamilyRequest",
+          "source_file": "./familiar-core/src/types/contracts/onboarding.rs",
+          "suggested_schema_path": "contracts/CreateFamilyRequest.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CreateFamilyRequest' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "AcceptInvitationRequest",
+          "source_file": "./familiar-core/src/types/contracts/onboarding.rs",
+          "suggested_schema_path": "contracts/AcceptInvitationRequest.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'AcceptInvitationRequest' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "SignupCompleted",
+          "source_file": "./familiar-core/src/types/contracts/onboarding.rs",
+          "suggested_schema_path": "contracts/SignupCompleted.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'SignupCompleted' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "FamilyCreated",
+          "source_file": "./familiar-core/src/types/contracts/onboarding.rs",
+          "suggested_schema_path": "contracts/FamilyCreated.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'FamilyCreated' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "InvitationAccepted",
+          "source_file": "./familiar-core/src/types/contracts/onboarding.rs",
+          "suggested_schema_path": "contracts/InvitationAccepted.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'InvitationAccepted' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/onboarding.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "OnboardingFailed",
+          "source_file": "./familiar-core/src/types/contracts/onboarding.rs",
+          "suggested_schema_path": "contracts/OnboardingFailed.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'OnboardingFailed' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseStart",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseStart.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseStart' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseContinue",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseContinue.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseContinue' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseCancel",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseCancel.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseCancel' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseRetry",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseRetry.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseRetry' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseStarted",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseStarted.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseStarted' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseSegmented",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseSegmented.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseSegmented' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseClassified",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseClassified.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseClassified' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseCompleted",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseCompleted.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseCompleted' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseFailed",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseFailed.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseFailed' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseCancelled",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseCancelled.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseCancelled' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/course.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "CourseRetrying",
+          "source_file": "./familiar-core/src/types/contracts/course.rs",
+          "suggested_schema_path": "contracts/CourseRetrying.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'CourseRetrying' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/contracts/trace.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "TracePayload",
+          "source_file": "./familiar-core/src/types/contracts/trace.rs",
+          "suggested_schema_path": "contracts/TracePayload.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'TracePayload' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/api/responses.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "ApiResult",
+          "source_file": "./familiar-core/src/types/api/responses.rs",
+          "suggested_schema_path": "api/ApiResult.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'ApiResult' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/api/responses.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "ListResult",
+          "source_file": "./familiar-core/src/types/api/responses.rs",
+          "suggested_schema_path": "api/ListResult.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'ListResult' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/base/entity_meta.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "EntityMeta",
+          "source_file": "./familiar-core/src/types/base/entity_meta.rs",
+          "suggested_schema_path": "base/EntityMeta.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'EntityMeta' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "./familiar-core/src/types/base/entity_meta.rs",
+      "line": 0,
+      "kind": {
+        "MissingJsonSchema": {
+          "type_name": "SystemEntityMeta",
+          "source_file": "./familiar-core/src/types/base/entity_meta.rs",
+          "suggested_schema_path": "base/SystemEntityMeta.schema.json"
+        }
+      },
+      "severity": "Warning",
+      "message": "Rust type 'SystemEntityMeta' has no corresponding JSON schema",
+      "fix": {
+        "description": "Create schema from Rust type using schema_export",
+        "replacement": null
+      }
+    },
+    {
+      "file": "primitives/TaskId.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "TaskId",
+          "schema_path": "primitives/TaskId.schema.json",
+          "category": "primitives",
+          "used_in_code": true,
+          "expected_refs": [
+            "entities/Task.schema.json"
+          ]
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated primitives 'TaskId' - used in code but not referenced by any schema. Should be $ref'd from: entities/Task.schema.json",
+      "fix": {
+        "description": "Add $ref to this primitives from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/CommandResult.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "CommandResult",
+          "schema_path": "types/CommandResult.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'CommandResult' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/DbComponentTable.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "DbComponentTable",
+          "schema_path": "types/DbComponentTable.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'DbComponentTable' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/DbEntityTable.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "DbEntityTable",
+          "schema_path": "types/DbEntityTable.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'DbEntityTable' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/DbStoreError.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "DbStoreError",
+          "schema_path": "types/DbStoreError.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'DbStoreError' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/PromptConfig.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "PromptConfig",
+          "schema_path": "types/PromptConfig.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'PromptConfig' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/PromptPhase.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "PromptPhase",
+          "schema_path": "types/PromptPhase.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'PromptPhase' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/RawSegment.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "RawSegment",
+          "schema_path": "types/RawSegment.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": []
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'RawSegment' - used in code but not referenced by any schema. Should be $ref'd from: unknown",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    },
+    {
+      "file": "types/SegmentationResponse.schema.json",
+      "line": 0,
+      "kind": {
+        "IsolatedSchema": {
+          "schema_name": "SegmentationResponse",
+          "schema_path": "types/SegmentationResponse.schema.json",
+          "category": "types",
+          "used_in_code": true,
+          "expected_refs": [
+            "auth/SegmentationResponse.schema.json",
+            "api/SegmentationResponse.schema.json"
+          ]
+        }
+      },
+      "severity": "Warning",
+      "message": "Isolated types 'SegmentationResponse' - used in code but not referenced by any schema. Should be $ref'd from: auth/SegmentationResponse.schema.json, api/SegmentationResponse.schema.json",
+      "fix": {
+        "description": "Add $ref to this types from schemas that use it",
+        "replacement": null
+      }
+    }
+  ],
+  "stats": {
+    "files_scanned": 0,
+    "types_exported": 0,
+    "types_defined": 0,
+    "types_in_familiar_core": 0,
+    "types_in_services": 0,
+    "issues_found": 70,
+    "duration_ms": 1221,
+    "derive_coverage": {
+      "total_types": 0,
+      "with_serialize": 0,
+      "with_ts": 0,
+      "with_to_schema": 0,
+      "with_json_schema": 0
+    },
+    "entity_candidates": 0,
+    "systems_detected": 0,
+    "laws_detected": 0,
+    "decomposition_candidates": 0,
+    "shared_patterns": 0,
+    "trait_suggestions": 0,
+    "kafka_issues": 0,
+    "manual_kafka_impl": 0,
+    "communication_violations": 0,
+    "http_client_in_workers": 0,
+    "kafka_bypass_detected": 0,
+    "database_issues": 0,
+    "direct_sqlx_usage": 0,
+    "legacy_row_mapping": 0,
+    "orphan_schemas": 373,
+    "orphans_connect_graph": 0,
+    "orphans_delete": 0,
+    "orphans_deprecated": 9,
+    "missing_json_schemas": 47,
+    "isolated_schemas": 9
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/UserId.v1.json",
+  "title": "User ID Field",
+  "description": "A reusable definition for a unique user identifier, typically corresponding to the user's ID in the authentication system.",
+  "$ref": "../types/primitives/UUID.json"
+}

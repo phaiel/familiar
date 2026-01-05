@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Stitch.v1.schema.json",
+  "title": "Stitch Entity",
+  "description": "A system entity that represents a cognitive dissonance or ambiguity that requires resolution, often through a Human-in-the-Loop workflow.",
+  "allOf": [
+    { "$ref": "./_base/BaseSystemEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Stitch" },
+        "components": {
+          "type": "object",
+          "properties": {
+            "dissonance_details": {
+              "description": "Details about the cognitive conflict.",
+              "type": "object",
+              "properties": {
+                "dissonance_type": { "$ref": "../snippets/types/system/DissonanceType.json" },
+                "source_entities": { "$ref": "../snippets/fields/EntityIdList.json" },
+                "severity": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+              },
+              "required": ["dissonance_type", "source_entities", "severity"]
+            }
+          },
+          "required": ["dissonance_details"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/WorkflowOrchestrator.json" }],
+          "properties": {
+            "trigger_topics": { "default": ["system.dissonance.detected"] },
+            "status_topics": { "default": ["workflow.stitch.resolution.updates"] },
+            "observability_dashboard": { "default": "grafana/dashboards/stitch-resolution-funnel.json" }
+          }
+        }
+      },
+      "required": ["components"]
+    }
+  ]
+}

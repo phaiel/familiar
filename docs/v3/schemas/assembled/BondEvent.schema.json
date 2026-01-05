@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/social/BondEvent.v1.json",
+  "title": "Bond Event Type",
+  "description": "Represents a significant event that impacted a bond's strength or state.",
+  "category": "snippets",
+  "source_file": "snippets/types/social/BondEvent.json",
+  "type": "object",
+  "properties": {
+    "moment_id": {
+      "type": "string"
+    },
+    "impact": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/SignedNormalizedValue.v1.json",
+      "title": "Signed Normalized Value",
+      "description": "A reusable definition for a floating-point number normalized between -1.0 and 1.0.",
+      "type": "number",
+      "minimum": -1.0,
+      "maximum": 1.0
+    },
+    "timestamp": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "moment_id",
+    "impact",
+    "timestamp"
+  ]
+}

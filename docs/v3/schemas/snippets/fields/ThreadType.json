@@ -1,0 +1,5 @@
+{
+  "description": "The Platonic Form of the Thread, enforcing abstract relationships.",
+  "type": "string",
+  "enum": ["Person", "Place", "Concept", "GenericObject"]
+}

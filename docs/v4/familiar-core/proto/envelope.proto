@@ -1,0 +1,70 @@
+// Universal Message Envelope for Familiar Kafka communication
+//
+// The "Opaque Envelope" Pattern:
+// - Protobuf is used ONLY for the shipping label (metadata)
+// - Domain types live inside payload_json as opaque JSON bytes
+// - This enables Jensen-level Kafka routing WITHOUT parsing payloads
+// - Domain schemas are defined in familiar-schemas (JSON Schema = source of truth)
+//
+// Course-Thread Architecture:
+// - course_id: The persistent session/history bucket (replaces thread_id for chat)
+// - shuttle_id: The transient unit of work (job being processed)
+// - thread_id: Reserved for THREAD entity (Person/Concept) - NOT in envelope
+//
+// Kafka Headers (duplicated for routing WITHOUT deserializing):
+// | Header           | Purpose          | Example                         |
+// |------------------|------------------|----------------------------------|
+// | `message_type`   | Routing          | `onboarding.signup`             |
+// | `course_id`      | Session context  | `uuid-...`                      |
+// | `tenant_id`      | Partition key    | `uuid-...`                      |
+
+syntax = "proto3";
+
+package familiar;
+
+// =============================================================================
+// EnvelopeV1 - Universal Message Envelope (STATIC - NEVER CHANGES)
+// =============================================================================
+
+// Universal message envelope for all Kafka communication.
+//
+// This is the SINGLE envelope type used for ALL messages.
+// Domain types are NOT defined here - they live as JSON in payload_json.
+//
+// Key Design Decisions:
+// - `message_id`: ULID for natural time-ordering and uniqueness
+// - `course_id`: Session context (history bucket)
+// - `shuttle_id`: Job context (unit of work)
+// - `message_type`: Dot-notation for routing (e.g., `onboarding.signup`)
+// - `payload_json`: OPAQUE bytes containing JSON-serialized domain type
+//
+// Kafka Record Mapping:
+// - Key: `{tenant_id}:{course_id}` for partition affinity
+// - Value: Serialized EnvelopeV1 (Protobuf)
+// - Headers: `message_type`, `course_id`, `tenant_id`
+message EnvelopeV1 {
+  // === Identity (The Shipping Label) ===
+  
+  // Unique message ID (ULID for natural ordering)
+  string message_id = 1;
+  
+  // Tenant (family) context - UUID as string
+  string tenant_id = 2;
+  
+  // Course context - persistent session/history bucket
+  string course_id = 3;
+  
+  // Shuttle context - transient unit of work (job)
+  string shuttle_id = 4;
+  
+  // Message type for routing (e.g., "onboarding.signup", "fates.classify")
+  // Maps to JSON Schema in familiar-schemas
+  string message_type = 5;
+  
+  // === The Cargo (Opaque - Rust/Windmill deserialize, Kafka doesn't) ===
+  
+  // JSON-serialized domain payload
+  // Schema defined in familiar-schemas, NOT here
+  // Validated at runtime using compiled JSON Schema
+  bytes payload_json = 6;
+}

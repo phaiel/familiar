@@ -1,0 +1,18 @@
+{
+  "title": "Key Value",
+  "description": "A generic nested key-value map structure where outer keys map to objects, and inner keys map to string, number, or boolean values.",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": ["string", "number", "boolean"]
+        }
+      }
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}

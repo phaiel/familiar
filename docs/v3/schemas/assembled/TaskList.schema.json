@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/TaskList.v1.json",
+  "title": "Task List",
+  "description": "A list of task definitions for a Windmill workflow.",
+  "category": "snippets",
+  "source_file": "snippets/types/primitives/TaskList.json",
+  "type": "array",
+  "items": {
+    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/workflow/TaskDefinition.v1.json",
+    "title": "Task Definition",
+    "description": "A canonical definition for a single task within a Windmill workflow (DAG).",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "script",
+          "rust_script",
+          "python_script",
+          "suspend"
+        ]
+      },
+      "path": {
+        "type": "string"
+      },
+      "args": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/StringValueMap.v1.json",
+        "title": "String Value Map",
+        "description": "A generic key-value map where keys are strings and values can be any JSON type. Used for flexible data structures like parameters or metadata.",
+        "type": "object",
+        "additionalProperties": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        }
+      },
+      "depends_on": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "condition": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "id",
+      "type"
+    ]
+  }
+}

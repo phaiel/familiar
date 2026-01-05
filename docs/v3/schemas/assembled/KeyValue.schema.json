@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/KeyValue.v1.schema.json",
+  "title": "Key Value",
+  "description": "A generic nested key-value map structure where outer keys map to objects, and inner keys map to string, number, or boolean values.",
+  "category": "snippets",
+  "source_file": "snippets/types/primitives/KeyValue.json",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "value"
+  ],
+  "additionalProperties": false
+}

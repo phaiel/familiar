@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/GraphQLCognitiveService.v1.json",
+  "title": "GraphQL Cognitive Service Stack",
+  "description": "The infrastructure stack for a GraphQL cognitive service, optimized for complex entity relationships, federation, and real-time subscriptions.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/GraphQLCognitiveService.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for the GraphQL service.",
+      "default": "familiar-graphql-cognitive-service"
+    },
+    "database_module": {
+      "type": "string",
+      "description": "The primary database module for cognitive data.",
+      "default": "timescaledb"
+    },
+    "required_extensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required database extensions for cognitive queries.",
+      "default": [
+        "pgvector",
+        "vectorscale",
+        "pg_trgm",
+        "btree_gin"
+      ]
+    },
+    "federation_role": {
+      "type": "string",
+      "enum": [
+        "gateway",
+        "subgraph"
+      ],
+      "description": "Role in GraphQL federation architecture.",
+      "default": "subgraph"
+    },
+    "cognitive_entities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Bond",
+          "Thread",
+          "Moment",
+          "Agent",
+          "Focus",
+          "Intent",
+          "Filament",
+          "Tenant",
+          "Course",
+          "Shuttle",
+          "Stitch"
+        ]
+      },
+      "description": "List of cognitive entities this service manages."
+    },
+    "relationship_queries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Complex relationship queries this service supports.",
+      "default": [
+        "entity_graph",
+        "temporal_sequences",
+        "bond_networks",
+        "cognitive_paths"
+      ]
+    },
+    "subscription_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Redpanda topics for GraphQL subscriptions."
+    },
+    "streaming_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional Redpanda topics for event processing."
+    },
+    "cache_layer": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "redis",
+            "memcached",
+            "none"
+          ],
+          "default": "redis"
+        },
+        "ttl_seconds": {
+          "type": "integer",
+          "default": 300
+        },
+        "cache_complex_queries": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "vector_search": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "embedding_dimensions": {
+          "type": "integer",
+          "default": 1536
+        },
+        "similarity_threshold": {
+          "type": "number",
+          "default": 0.8
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for this GraphQL service."
+    },
+    "schema_registry": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "federation_schema": {
+          "type": "string",
+          "description": "Path to the federation schema definition."
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    }
+  },
+  "required": [
+    "service_template",
+    "database_module",
+    "cognitive_entities",
+    "subscription_topics",
+    "streaming_topics",
+    "observability_dashboard"
+  ]
+}

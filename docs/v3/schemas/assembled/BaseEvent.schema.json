@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Event.v1.schema.json",
+  "title": "Base Event",
+  "description": "The base schema for all events published to the Redpanda streaming platform, now with a mandatory, tenant-scoped context.",
+  "category": "_base",
+  "source_file": "_base/BaseEvent.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "event_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "trace_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "timestamp": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    },
+    "source_service": {
+      "type": "string"
+    },
+    "tenant_id": {
+      "description": "The tenant this event belongs to. This is a mandatory field for security and performance. System-level events may use a null value.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "event_id",
+    "trace_id",
+    "timestamp",
+    "source_service",
+    "tenant_id",
+    "payload"
+  ],
+  "schema_version": "1.2.0"
+}

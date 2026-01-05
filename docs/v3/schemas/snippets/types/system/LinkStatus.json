@@ -1,0 +1,7 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/LinkStatus.v1.json",
+  "title": "Link Status",
+  "description": "A canonical enum for the status of a cross-tenant link.",
+  "type": "string",
+  "enum": ["PendingApproval", "Approved", "Revoked", "Declined"]
+}

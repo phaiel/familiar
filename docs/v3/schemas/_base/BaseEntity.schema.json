@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Entity.v1.schema.json",
+  "title": "Base Entity",
+  "description": "The absolute base schema for any persistent, identifiable object in the system, whether cognitive or systemic. Defines the universal properties shared by all entities.",
+  "type": "object",
+  "allOf": [{ "$ref": "./BaseMetadata.schema.json" }],
+  "schema_version": "1.1.0",
+  "properties": {
+    "entity_id": { "$ref": "../snippets/fields/EntityId.json" },
+    "tenant_id": { "$ref": "../snippets/fields/TenantId.json" },
+    "created_at": { "$ref": "../snippets/fields/CreatedAt.json" }
+  },
+  "required": ["entity_id", "tenant_id", "created_at"]
+}

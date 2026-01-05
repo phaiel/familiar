@@ -1,0 +1,27 @@
+summary: LlamaIndex Agentic Runner
+description: >-
+  LlamaIndex-backed agentic orchestrator using the Fates theme (Gate, Morta, Decima, Nona).
+  Windmill remains the workflow owner (DAG, retries). This module delegates
+  reasoning/tool-calling to LlamaIndex.
+lock: '!inline f/agentic/llamaindex_runner.script.lock'
+kind: script
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties:
+    input:
+      type: object
+      description: ConciergeInput with state, user_message, request_id
+  required:
+    - input
+
+
+
+
+
+
+
+
+
+
+

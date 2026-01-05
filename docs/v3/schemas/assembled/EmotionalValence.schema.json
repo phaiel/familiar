@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Taxonomy.v1.schema.json",
+  "$id": "https://familiar.dev/schemas/EmotionalValence.v1.schema.json",
+  "title": "Emotional Valence Taxonomy",
+  "description": "A 2-level classification for emotional content based on a simplified valence-arousal model.",
+  "category": "taxonomy",
+  "source_file": "taxonomy/EmotionalValence.schema.json",
+  "schema_version": "1.0.0",
+  "taxonomy_id": "emotional_valence_v1",
+  "levels": [
+    "valence",
+    "arousal"
+  ],
+  "nodes": [
+    {
+      "id": "positive",
+      "level": "valence",
+      "label": "Positive",
+      "description": "Emotions associated with pleasant feelings.",
+      "embedding_context": "Positive emotions like joy, happiness, contentment, delight, love, pride, gratitude, serenity, interest, hope, amusement, inspiration, awe."
+    },
+    {
+      "id": "negative",
+      "level": "valence",
+      "label": "Negative",
+      "description": "Emotions associated with unpleasant feelings.",
+      "embedding_context": "Negative emotions like sadness, anger, fear, disgust, guilt, shame, anxiety, frustration, disappointment, contempt."
+    },
+    {
+      "id": "neutral",
+      "level": "valence",
+      "label": "Neutral",
+      "description": "A lack of strong emotional valence.",
+      "embedding_context": "Neutral emotional states. Calm, observant, objective, factual, unemotional, placid, tranquil, indifferent."
+    },
+    {
+      "id": "high_arousal",
+      "level": "arousal",
+      "label": "High Arousal",
+      "description": "Emotions that are activating and high-energy.",
+      "embedding_context": "High-energy emotions. Activating, intense, exciting, surprising, astonishing, ecstatic, furious, terrified, panicked, stressed, alert."
+    },
+    {
+      "id": "low_arousal",
+      "level": "arousal",
+      "label": "Low Arousal",
+      "description": "Emotions that are deactivating and low-energy.",
+      "embedding_context": "Low-energy emotions. Deactivating, calm, relaxed, serene, content, bored, tired, sleepy, depressed, gloomy, lethargic."
+    }
+  ]
+}

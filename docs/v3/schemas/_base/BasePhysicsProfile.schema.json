@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProfile.v1.schema.json",
+  "title": "Base Physics Profile",
+  "description": "Defines the structure for a single physics profile, which contains multipliers that modify base constants for a given classification.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "./BaseMetadata.schema.json"
+    }
+  ],
+  "required": [
+    "profile_id",
+    "multipliers"
+  ],
+  "properties": {
+    "multipliers": {
+      "description": "A map of constant names to their multiplier values (e.g., 'decay_rate': 0.8).",
+      "type": "object",
+      "title": "BasePhysicsProfileMultipliers"
+    },
+    "profile_id": {
+      "type": "string"
+    }
+  }
+}

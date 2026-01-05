@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/MomentContent.v1.schema.json",
+  "title": "Moment Content Component",
+  "description": "Defines the objective, factual content of a Moment entity, representing a specific event in time.",
+  "allOf": [
+    {
+      "$ref": "../_base/BaseComponent.schema.json"
+    }
+  ],
+  "schema_version": "1.3.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  },
+  "properties": {
+    "fields": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "$ref": "../snippets/fields/Description.json"
+        },
+        "moment_type": {
+          "description": "The classification of the event.",
+          "$ref": "../snippets/types/classification/MomentType.json"
+        },
+        "participants": {
+          "description": "A list of Thread entities that were involved in this Moment.",
+          "$ref": "../snippets/fields/EntityIdList.json"
+        },
+        "objective_facts": {
+          "description": "A key-value map of objective, verifiable facts about the Moment.",
+          "$ref": "../snippets/types/primitives/StringValueMap.json"
+        }
+      },
+      "required": [
+        "description",
+        "moment_type"
+      ],
+      "additionalProperties": false,
+      "title": "MomentContentFields"
+    }
+  }
+}

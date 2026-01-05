@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/ThreadType.v1.schema.json",
+  "title": "ThreadType",
+  "description": "The Platonic Form of the Thread, enforcing abstract relationships.",
+  "category": "snippets",
+  "source_file": "snippets/fields/ThreadType.json",
+  "type": "string",
+  "enum": [
+    "Person",
+    "Place",
+    "Concept",
+    "GenericObject"
+  ]
+}

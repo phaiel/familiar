@@ -1,0 +1,516 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Focus.v1.schema.json",
+  "title": "Focus Entity",
+  "description": "A quantum entity representing a high-level, user-declared thematic goal or life chapter.",
+  "category": "entities",
+  "source_file": "entities/Focus.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "entity_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "tenant_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+      "title": "UUID",
+      "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+      "type": "string"
+    },
+    "created_at": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+      "title": "Timestamp",
+      "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+      "type": "string"
+    },
+    "x-infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/InfrastructureBlock.v1.json",
+      "title": "Infrastructure Block",
+      "description": "A canonical block defining the infrastructure components required to support a specific data entity or service.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/ServiceTemplate.v1.json",
+          "title": "Service Template",
+          "description": "A Backstage template identifier for generating microservices.",
+          "type": "string",
+          "enum": [
+            "familiar-poem-api-service",
+            "familiar-quantum-service",
+            "familiar-workflow-service",
+            "familiar-tenant-service"
+          ],
+          "default": "familiar-poem-api-service"
+        },
+        "database_module": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/infrastructure/DatabaseModule.v1.json",
+          "title": "Database Module",
+          "description": "A Terraform module identifier for database infrastructure.",
+          "type": "string",
+          "enum": [
+            "timescaledb",
+            "postgres",
+            "redis",
+            "vector-database"
+          ],
+          "default": "timescaledb"
+        },
+        "streaming_topics": {
+          "description": "A list of Redpanda topics this entity produces or consumes.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "observability_dashboard": {
+          "description": "The Grafana dashboard template for monitoring this entity.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_template",
+        "database_module"
+      ]
+    },
+    "entity_type": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/EntityType.v1.json",
+      "title": "Entity Type",
+      "description": "A canonical enum of all 7 cognitive entity types.",
+      "type": "string",
+      "enum": [
+        "Focus",
+        "Filament",
+        "Motif",
+        "Intent",
+        "Moment",
+        "Bond",
+        "Thread"
+      ],
+      "const": "Focus"
+    },
+    "components": {
+      "title": "FocusComponents",
+      "description": "A container for the definitional components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object",
+      "properties": {
+        "content": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/FocusContent.v1.schema.json",
+          "title": "Focus Content Component",
+          "description": "Defines the content and scope of a thematic goal or focus.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.2.0",
+          "physics_properties": {
+            "engine": "quantum",
+            "is_quantum": true
+          },
+          "fields": {
+            "theme": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Theme.v1.json",
+              "title": "Theme Field",
+              "description": "A concise statement of a focus, goal, or pattern.",
+              "type": "string"
+            },
+            "scope": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/TemporalScope.v1.json",
+              "title": "Temporal Scope Field",
+              "description": "The temporal scope or duration of an entity or process.",
+              "type": "string",
+              "enum": [
+                "Daily",
+                "Weekly",
+                "Monthly",
+                "Quarterly",
+                "Yearly",
+                "Ongoing"
+              ]
+            },
+            "start_date": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+              "title": "Timestamp",
+              "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+              "type": "string"
+            },
+            "end_date": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NullableTimestamp.v1.json",
+              "title": "Nullable Timestamp",
+              "description": "A canonical definition for an optional ISO 8601 timestamp with timezone.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "content"
+      ]
+    },
+    "physics_state": {
+      "title": "FocusPhysicsState",
+      "description": "A container for the mutable physics state components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object",
+      "properties": {
+        "universal": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json",
+          "title": "Universal Physics State Component",
+          "description": "The transient, mutable physics state of an entity.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "energy": {
+                  "type": "object",
+                  "description": "The current energy level of an entity.",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "default": 0.1
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "momentum": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/Vec6.v1.json",
+                  "title": "6D Physics Vector",
+                  "description": "A reusable data type for a vector of six f64 numbers, used for momentum and forces in the 6 spatial dimensions of the manifold.",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 6,
+                  "maxItems": 6
+                },
+                "cognitive_perspective": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/CognitivePerspective.v1.schema.json",
+                  "title": "Cognitive Perspective Field",
+                  "description": "The intrinsic 'spin' or 'flavor' of the entity, which generates cognitive dissonance (torsion).",
+                  "ui_label": "Cognitive Perspective"
+                },
+                "decay_rate": {
+                  "description": "The base rate of energy or coherence decay for an entity, before multipliers are applied.",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "default": 0.01
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "consolidation_rate": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/fields/ConsolidationRate.v1.json",
+                  "title": "Consolidation Rate Field",
+                  "type": "object",
+                  "description": "The base rate of memory consolidation for an entity, before multipliers are applied. Represents how quickly an unstable memory becomes stable.",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "minimum": 0.0,
+                      "maximum": 1.0,
+                      "default": 0.0
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "quantum_coherence": {
+                  "description": "The quantum coherence level of the entity, representing its degree of superposition. Null for classical entities.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "default": null
+                },
+                "entanglement_strength": {
+                  "description": "The overall entanglement strength of this entity with others. Null for classical entities.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "default": null
+                }
+              },
+              "required": [
+                "energy",
+                "momentum",
+                "cognitive_perspective",
+                "decay_rate",
+                "consolidation_rate",
+                "quantum_coherence",
+                "entanglement_strength"
+              ],
+              "title": "UniversalPhysicsStateFields"
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "3.0.0"
+        },
+        "quantum": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/QuantumState.v1.schema.json",
+          "title": "Quantum State Component",
+          "description": "Manages the quantum properties of an entity, including its superposition and entanglement.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.1.0",
+          "physics_properties": {
+            "engine": "quantum",
+            "is_quantum": true
+          },
+          "fields": {
+            "density_matrix": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/DensityMatrix.v1.json",
+              "title": "Density Matrix",
+              "description": "A 2x2 matrix of complex numbers representing a quantum state.",
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/ComplexNumber.v1.json",
+                  "title": "Complex Number",
+                  "description": "Represents a complex number with real and imaginary parts.",
+                  "type": "object",
+                  "properties": {
+                    "real": {
+                      "type": "number"
+                    },
+                    "imaginary": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "real",
+                    "imaginary"
+                  ]
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "coherence_score": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NormalizedValue.v1.json",
+              "title": "Normalized Value",
+              "description": "A reusable definition for a floating-point number normalized between 0.0 and 1.0.",
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "entanglement_network": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number",
+                "minimum": 0.0,
+                "maximum": 1.0
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "universal",
+        "quantum"
+      ]
+    },
+    "infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/QuantumComputeStack.v1.json",
+      "title": "Quantum Compute Stack",
+      "description": "The infrastructure stack for a quantum entity service, featuring a Python/QuTiP service and event-driven communication.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "type": "string",
+          "default": "familiar-quantum-service"
+        },
+        "primary_datastore": {
+          "type": "string",
+          "default": "redpanda_topics"
+        },
+        "streaming_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "entity.focus.lifecycle.events",
+            "physics.focus.field.updates"
+          ]
+        },
+        "observability_dashboard": {
+          "type": "string",
+          "default": "grafana/dashboards/focus-entity-overview.json"
+        },
+        "classical_service_dependency": {
+          "type": "string",
+          "default": "cognitive-analysis-api"
+        }
+      },
+      "required": [
+        "service_template",
+        "primary_datastore",
+        "streaming_topics",
+        "observability_dashboard",
+        "classical_service_dependency"
+      ]
+    }
+  },
+  "required": [
+    "entity_type",
+    "components",
+    "physics_state"
+  ],
+  "schema_version": "1.1.0"
+}

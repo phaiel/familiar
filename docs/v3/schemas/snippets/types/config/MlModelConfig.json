@@ -1,0 +1,15 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/config/MlModelConfig.v1.json",
+  "title": "ML Model Configuration",
+  "description": "Configuration for the Candle ML model used in candidate generation.",
+  "type": "object",
+  "properties": {
+    "model_type": {
+      "enum": ["sentence_transformer", "classification", "sentiment_analysis", "named_entity_recognition", "custom"],
+      "description": "The type of Candle ML model to use for candidate generation."
+    },
+    "model_path": { "type": "string", "description": "Path to the model weights/configuration." },
+    "model_parameters": { "$ref": "../primitives/StringValueMap.json" }
+  },
+  "required": ["model_type", "model_path"]
+}

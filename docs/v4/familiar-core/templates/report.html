@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Analysis Report - {{ timestamp }}</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --accent-cyan: #56d4dd;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); }
+        h2 { font-size: 1.25rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        h3 { font-size: 1rem; font-weight: 600; margin: 1rem 0 0.5rem; color: var(--text-secondary); }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--accent-blue); }
+        .stat-value.error { color: var(--accent-red); }
+        .stat-value.warning { color: var(--accent-yellow); }
+        .stat-value.success { color: var(--accent-green); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        /* Tab Styles */
+        .tabs-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tab-button:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+        
+        .tab-button.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+        
+        .tab-badge {
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .tab-badge.error { background: var(--accent-red); color: white; }
+        .tab-badge.warning { background: var(--accent-yellow); color: black; }
+        .tab-badge.clean { background: var(--accent-green); color: white; }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-description {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+        
+        .section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        
+        .section-header:hover { background: #282e36; }
+        .section-title { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+        .section-count { background: var(--bg-primary); color: var(--text-secondary); padding: 0.125rem 0.5rem; border-radius: 10px; font-size: 0.75rem; }
+        .section-count.error { background: var(--accent-red); color: white; }
+        .section-count.warning { background: var(--accent-yellow); color: black; }
+        .section-count.info { background: var(--accent-blue); color: white; }
+        .section-content { padding: 1rem; display: none; }
+        .section.open .section-content { display: block; }
+        .section.open .chevron { transform: rotate(180deg); }
+        .chevron { transition: transform 0.2s; color: var(--text-muted); }
+        
+        .issue {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.875rem;
+        }
+        .issue:last-child { border-bottom: none; }
+        .issue-file { color: var(--accent-blue); word-break: break-all; }
+        .issue-line { color: var(--accent-purple); }
+        .issue-message { color: var(--text-primary); margin-top: 0.25rem; }
+        .issue-fix { color: var(--accent-green); font-style: italic; margin-top: 0.25rem; padding-left: 1rem; }
+        
+        .badge { display: inline-block; padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; margin-right: 0.5rem; }
+        .badge-error { background: var(--accent-red); color: white; }
+        .badge-warning { background: var(--accent-yellow); color: black; }
+        .badge-info { background: var(--accent-blue); color: white; }
+        
+        .toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: var(--bg-tertiary); }
+        .btn:active { background: var(--bg-primary); }
+        
+        .json-view {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: none;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .json-view.visible { display: block; }
+        
+        .timestamp { color: var(--text-muted); font-size: 0.875rem; }
+        .empty-state { color: var(--text-muted); font-style: italic; padding: 1rem; text-align: center; }
+        
+        .success-banner {
+            background: linear-gradient(135deg, #1a3d1a 0%, #0d2d0d 100%);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .success-banner h3 {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .success-banner p {
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .tabs { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Schema Analysis Report</h1>
+        <p class="timestamp">Generated: {{ timestamp }}</p>
+        
+        <div class="stats-grid">
+            {% for stat in stats_cards %}
+            <div class="stat-card">
+                <div class="stat-value{{ stat.class }}">{{ stat.value }}</div>
+                <div class="stat-label">{{ stat.label }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="toolbar">
+            <button class="btn" onclick="expandAll()">Expand All</button>
+            <button class="btn" onclick="collapseAll()">Collapse All</button>
+            <button class="btn" onclick="toggleJson()">Toggle JSON</button>
+            <button class="btn" onclick="copyJson()">Copy JSON</button>
+        </div>
+        
+        <div id="json-view" class="json-view"></div>
+        
+        {# TABS #}
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="services">
+                    {{ services_tab.icon }} {{ services_tab.name }}
+                    {% if services_tab.error_count > 0 %}
+                    <span class="tab-badge error">{{ services_tab.error_count }}</span>
+                    {% else if services_tab.warning_count > 0 %}
+                    <span class="tab-badge warning">{{ services_tab.warning_count }}</span>
+                    {% else %}
+                    <span class="tab-badge clean">✓</span>
+                    {% endif %}
+                </button>
+                <button class="tab-button" data-tab="core">
+                    {{ core_tab.icon }} {{ core_tab.name }}
+                    {% if core_tab.error_count > 0 %}
+                    <span class="tab-badge error">{{ core_tab.error_count }}</span>
+                    {% else if core_tab.warning_count > 0 %}
+                    <span class="tab-badge warning">{{ core_tab.warning_count }}</span>
+                    {% else %}
+                    <span class="tab-badge clean">✓</span>
+                    {% endif %}
+                </button>
+            </div>
+            
+            {# SERVICES TAB #}
+            <div class="tab-content active" id="tab-services">
+                <div class="tab-description">{{ services_tab.description }}</div>
+                
+                {% if services_tab.error_count == 0 && services_tab.warning_count == 0 && services_tab.info_count == 0 %}
+                <div class="success-banner">
+                    <h3>✨ All Clear!</h3>
+                    <p>No issues found in services. Great job!</p>
+                </div>
+                {% else %}
+                
+                {# Services Errors #}
+                {% if !services_tab.errors.is_empty() %}
+                <div class="section errors">
+                    <div class="section-header">
+                        <span class="section-title">🔴 Errors <span class="section-count error">{{ services_tab.errors.len() }}</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        {% for group in services_tab.error_groups %}
+                        {% if !group.issues.is_empty() %}
+                        <h3>{{ group.icon }} {{ group.title }} ({{ group.issues.len() }})</h3>
+                        {% if let Some(desc) = group.description %}<p style="color: var(--text-secondary); margin-bottom: 0.5rem;">{{ desc }}</p>{% endif %}
+                        {% for issue in group.issues %}
+                        <div class="issue" data-category="{{ group.category }}" data-severity="error">
+                            <span class="issue-file">{{ issue.file }}</span>:<span class="issue-line">{{ issue.line }}</span>
+                            <div class="issue-message">{{ issue.message }}</div>
+                            {% if let Some(fix) = issue.fix %}<div class="issue-fix">💡 {{ fix }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {# Services Warnings #}
+                {% if !services_tab.warnings.is_empty() %}
+                <div class="section warnings">
+                    <div class="section-header">
+                        <span class="section-title">🟡 Warnings <span class="section-count warning">{{ services_tab.warnings.len() }}</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        {% for group in services_tab.warning_groups %}
+                        {% if !group.issues.is_empty() %}
+                        <h3>{{ group.icon }} {{ group.title }} ({{ group.issues.len() }})</h3>
+                        {% for issue in group.issues %}
+                        <div class="issue" data-category="{{ group.category }}" data-severity="warning">
+                            <span class="issue-file">{{ issue.file }}</span>:<span class="issue-line">{{ issue.line }}</span>
+                            <div class="issue-message">{{ issue.message }}</div>
+                            {% if let Some(fix) = issue.fix %}<div class="issue-fix">💡 {{ fix }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {# Services Info #}
+                {% if !services_tab.infos.is_empty() %}
+                <div class="section info">
+                    <div class="section-header">
+                        <span class="section-title">🔵 Info &amp; Suggestions <span class="section-count info">{{ services_tab.infos.len() }}</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        {% for group in services_tab.info_groups %}
+                        {% if !group.issues.is_empty() %}
+                        <h3>{{ group.icon }} {{ group.title }} ({{ group.issues.len() }})</h3>
+                        {% for issue in group.issues|truncate_issues %}
+                        <div class="issue" data-category="{{ group.category }}" data-severity="info">
+                            <span class="issue-file">{{ issue.file }}</span>:<span class="issue-line">{{ issue.line }}</span>
+                            <div class="issue-message">{{ issue.message }}</div>
+                            {% if let Some(fix) = issue.fix %}<div class="issue-fix">💡 {{ fix }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        {% if group.issues.len() > 50 %}
+                        <div class="empty-state">... and {{ group.issues.len() - 50 }} more</div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% endif %}
+            </div>
+            
+            {# CORE TAB #}
+            <div class="tab-content" id="tab-core">
+                <div class="tab-description">{{ core_tab.description }}</div>
+                
+                {% if core_tab.error_count == 0 && core_tab.warning_count == 0 && core_tab.info_count == 0 %}
+                <div class="success-banner">
+                    <h3>✨ All Clear!</h3>
+                    <p>No issues found in core libraries. Great job!</p>
+                </div>
+                {% else %}
+                
+                {# Core Errors #}
+                {% if !core_tab.errors.is_empty() %}
+                <div class="section errors">
+                    <div class="section-header">
+                        <span class="section-title">🔴 Errors <span class="section-count error">{{ core_tab.errors.len() }}</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        {% for group in core_tab.error_groups %}
+                        {% if !group.issues.is_empty() %}
+                        <h3>{{ group.icon }} {{ group.title }} ({{ group.issues.len() }})</h3>
+                        {% if let Some(desc) = group.description %}<p style="color: var(--text-secondary); margin-bottom: 0.5rem;">{{ desc }}</p>{% endif %}
+                        {% for issue in group.issues %}
+                        <div class="issue" data-category="{{ group.category }}" data-severity="error">
+                            <span class="issue-file">{{ issue.file }}</span>:<span class="issue-line">{{ issue.line }}</span>
+                            <div class="issue-message">{{ issue.message }}</div>
+                            {% if let Some(fix) = issue.fix %}<div class="issue-fix">💡 {{ fix }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {# Core Warnings #}
+                {% if !core_tab.warnings.is_empty() %}
+                <div class="section warnings">
+                    <div class="section-header">
+                        <span class="section-title">🟡 Warnings <span class="section-count warning">{{ core_tab.warnings.len() }}</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        {% for group in core_tab.warning_groups %}
+                        {% if !group.issues.is_empty() %}
+                        <h3>{{ group.icon }} {{ group.title }} ({{ group.issues.len() }})</h3>
+                        {% for issue in group.issues %}
+                        <div class="issue" data-category="{{ group.category }}" data-severity="warning">
+                            <span class="issue-file">{{ issue.file }}</span>:<span class="issue-line">{{ issue.line }}</span>
+                            <div class="issue-message">{{ issue.message }}</div>
+                            {% if let Some(fix) = issue.fix %}<div class="issue-fix">💡 {{ fix }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {# Core Info #}
+                {% if !core_tab.infos.is_empty() %}
+                <div class="section info">
+                    <div class="section-header">
+                        <span class="section-title">🔵 Info &amp; Suggestions <span class="section-count info">{{ core_tab.infos.len() }}</span></span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="section-content">
+                        {% for group in core_tab.info_groups %}
+                        {% if !group.issues.is_empty() %}
+                        <h3>{{ group.icon }} {{ group.title }} ({{ group.issues.len() }})</h3>
+                        {% for issue in group.issues|truncate_issues %}
+                        <div class="issue" data-category="{{ group.category }}" data-severity="info">
+                            <span class="issue-file">{{ issue.file }}</span>:<span class="issue-line">{{ issue.line }}</span>
+                            <div class="issue-message">{{ issue.message }}</div>
+                            {% if let Some(fix) = issue.fix %}<div class="issue-fix">💡 {{ fix }}</div>{% endif %}
+                        </div>
+                        {% endfor %}
+                        {% if group.issues.len() > 50 %}
+                        <div class="empty-state">... and {{ group.issues.len() - 50 }} more</div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const jsonData = `{{ escaped_json }}`;
+        
+        document.getElementById('json-view').textContent = jsonData;
+        
+        // Tab switching
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active from all
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active to clicked
+                button.classList.add('active');
+                const tabId = 'tab-' + button.dataset.tab;
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+        
+        function expandAll() {
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.querySelectorAll('.section').forEach(s => s.classList.add('open'));
+        }
+        
+        function collapseAll() {
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.querySelectorAll('.section').forEach(s => s.classList.remove('open'));
+        }
+        
+        function toggleJson() {
+            document.getElementById('json-view').classList.toggle('visible');
+        }
+        
+        function copyJson() {
+            navigator.clipboard.writeText(jsonData).then(() => {
+                alert('JSON copied to clipboard!');
+            });
+        }
+        
+        // Auto-expand errors in the active tab
+        const activeTab = document.querySelector('.tab-content.active');
+        const errorSection = activeTab?.querySelector('.section.errors');
+        if (errorSection) errorSection.classList.add('open');
+    </script>
+</body>
+</html>

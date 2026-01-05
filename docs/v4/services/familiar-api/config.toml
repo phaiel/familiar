@@ -1,0 +1,38 @@
+# Familiar API Configuration
+# Environment variables override these values (use APP_ prefix)
+
+[database]
+url = "postgres://familiar:familiarpass@localhost:5433/familiar"
+
+[windmill]
+url = "http://localhost:8000"
+workspace = "familiar"
+token = "HyNC8vEupABLF0UkwWXuNOQ5OT7OvY1W"
+agentic_flow = "f/agentic/main"
+
+[media_store]
+endpoint = "http://localhost:9000"
+access_key = "familiar"
+secret_key = "familiarpass"
+bucket = "familiar-media"
+region = "us-east-1"
+
+[kafka]
+bootstrap_servers = "localhost:19092"
+client_id = "familiar-api"
+group_id = "familiar-api-group"
+commands_topic = "course.commands"
+events_topic = "course.events"
+trace_topic = "course.trace"
+envelope_schema_id = 1
+
+[server]
+port = 3001
+
+
+
+
+
+
+
+

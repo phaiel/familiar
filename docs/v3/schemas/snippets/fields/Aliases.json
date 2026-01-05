@@ -1,0 +1,5 @@
+{
+  "description": "A list of alternative names for this Thread (e.g., nicknames).",
+  "type": "array",
+  "items": { "type": "string" }
+}

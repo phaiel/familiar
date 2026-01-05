@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/workflow/WorkflowState.v1.json",
+  "title": "Workflow State",
+  "description": "Represents the state of a long-running, orchestrated workflow.",
+  "category": "snippets",
+  "source_file": "snippets/types/workflow/WorkflowState.json",
+  "type": "object",
+  "properties": {
+    "status": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+      "title": "Status Field",
+      "description": "The current status of a task or process.",
+      "type": "string",
+      "enum": [
+        "Pending",
+        "InProgress",
+        "Completed",
+        "Cancelled"
+      ],
+      "default": "Pending"
+    },
+    "current_step": {
+      "type": "string"
+    },
+    "error_message": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_updated": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NullableTimestamp.v1.json",
+      "title": "Nullable Timestamp",
+      "description": "A canonical definition for an optional ISO 8601 timestamp with timezone.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "status",
+    "current_step",
+    "last_updated"
+  ]
+}

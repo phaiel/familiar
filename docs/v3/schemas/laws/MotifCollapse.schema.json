@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [{ "$ref": "../_base/BaseLaw.schema.json" }],
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/laws/MotifCollapse.v1.schema.json",
+  "title": "Motif Collapse Law",
+  "description": "Performs a quantum measurement on a Motif entity, collapsing its superposition into a single classical state. This is a high-priority, user-responsive law.",
+  "schema_version": "1.0.0",
+  "physics_properties": {
+    "engine": "quantum",
+    "is_quantum": true,
+    "collapse_sensitive": true
+  },
+  "execution_envelope": {
+    "trigger": "observation",
+    "priority": 2,
+    "timeout_ms": 200
+  },
+  "affected_components": [
+    "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/QuantumState.v1.schema.json",
+    "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json"
+  ]
+}

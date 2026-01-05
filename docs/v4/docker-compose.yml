@@ -1,0 +1,262 @@
+# Familiar Infrastructure
+# 
+# Unified docker-compose for all services:
+# - TigerData (TimescaleDB + pgvector) - Main application database
+# - Qdrant - Vector search for RAG
+# - Windmill - Workflow orchestration (multi-workspace: familiar, familiar-eng)
+# - MinIO - Object storage for media
+# - Redpanda - Message broker with Schema Registry
+#
+# Usage:
+#   docker compose up -d          # Start all services
+#   docker compose logs -f        # View logs
+#   docker compose down           # Stop services
+#   docker compose down -v        # Stop and remove volumes (DESTROYS DATA)
+
+services:
+  # ===========================================================================
+  # TigerData (TimescaleDB + pgvector)
+  # ===========================================================================
+  # Main application database for Familiar
+  # - TimescaleDB for time-series physics data
+  # - pgvector for embeddings (optional, Qdrant is primary)
+  
+  tigerdata:
+    image: timescale/timescaledb-ha:pg16
+    container_name: familiar-tigerdata
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: familiar
+      POSTGRES_PASSWORD: familiarpass
+      POSTGRES_DB: familiar
+    volumes:
+      - tigerdata:/home/postgres/pgdata
+      - ./scripts/init-tigerdata.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U familiar -d familiar"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===========================================================================
+  # Qdrant (Vector Database)
+  # ===========================================================================
+  # Primary vector search for RAG and semantic similarity
+  
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: familiar-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # REST API
+      - "6334:6334"  # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__GRPC_PORT: 6334
+
+  # ===========================================================================
+  # Windmill (Workflow Orchestration)
+  # ===========================================================================
+  # Single Windmill instance serving multiple workspaces:
+  # - familiar: App user flows (onboarding/*, agentic/main)
+  # - familiar-eng: Engineering tools (analyzer/*)
+  # Windmill has its own PostgreSQL database (separate from TigerData)
+  
+  windmill_db:
+    image: postgres:15
+    container_name: familiar-windmill-db
+    restart: unless-stopped
+    volumes:
+      - windmill_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: windmill
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  windmill_server:
+    image: ghcr.io/windmill-labs/windmill:main
+    container_name: familiar-windmill-server
+    pull_policy: always
+    restart: unless-stopped
+    ports:
+      - "8000:8000"   # Canonical Windmill port
+    environment:
+      - DATABASE_URL=postgres://postgres:changeme@windmill_db/windmill?sslmode=disable
+      - MODE=server
+      - BASE_URL=http://localhost:8000
+    depends_on:
+      windmill_db:
+        condition: service_healthy
+
+  windmill_worker:
+    image: ghcr.io/windmill-labs/windmill:main
+    container_name: familiar-windmill-worker
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgres://postgres:changeme@windmill_db/windmill?sslmode=disable
+      - MODE=worker
+      - WORKER_GROUP=default
+    depends_on:
+      - windmill_server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  windmill_lsp:
+    image: ghcr.io/windmill-labs/windmill-lsp:latest
+    container_name: familiar-windmill-lsp
+    pull_policy: always
+    restart: unless-stopped
+    volumes:
+      - lsp_cache:/root/.cache
+
+  # ===========================================================================
+  # MinIO (Object Storage)
+  # ===========================================================================
+  # S3-compatible storage for media files (images, audio, etc.)
+  
+  minio:
+    image: minio/minio:latest
+    container_name: familiar-minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # API (canonical port)
+      - "9001:9001"   # Console
+    environment:
+      MINIO_ROOT_USER: familiar
+      MINIO_ROOT_PASSWORD: familiarpass
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  # ===========================================================================
+  # Redpanda (Message Broker with Schema Registry)
+  # ===========================================================================
+  # Kafka-compatible message broker for event-driven architecture
+  # - Kafka API: 19092 (external), 9092 (internal)
+  # - Schema Registry: 18081 (external), 8081 (internal)
+  # - HTTP Proxy: 18082 (external)
+  # - Admin API: 19644 (external)
+  
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.1.1
+    container_name: familiar-redpanda
+    command:
+      - redpanda start
+      - --smp 1
+      - --memory 1G
+      - --overprovisioned
+      - --node-id 0
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr internal://redpanda:8082,external://localhost:18082
+      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+      - --rpc-addr redpanda:33145
+      - --advertise-rpc-addr redpanda:33145
+    ports:
+      - "18081:18081"  # Schema Registry
+      - "18082:18082"  # HTTP Proxy
+      - "19092:19092"  # Kafka API
+      - "19644:9644"   # Admin API
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health | grep -E 'Healthy:.+true' || exit 1"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  redpanda_console:
+    image: docker.redpanda.com/redpandadata/console:v2.4.5
+    container_name: familiar-redpanda-console
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_BROKERS: redpanda:9092
+      KAFKA_SCHEMAREGISTRY_ENABLED: "true"
+      KAFKA_SCHEMAREGISTRY_URLS: http://redpanda:8081
+    restart: unless-stopped
+
+# ===========================================================================
+  # Temporal (Workflow Orchestration - High Performance)
+  # ===========================================================================
+  # Temporal server for durable workflow execution
+  # - gRPC API: 7233 (workers connect here)
+  # - Web UI: 8088 (not 8080, conflicts with Redpanda Console)
+  # Uses existing TigerData PostgreSQL for persistence
+  #
+  # Note: auto-setup only creates "default" namespace.
+  # For custom namespace: docker exec temporal-admin tctl --ns familiar namespace register
+
+  temporal:
+    image: temporalio/auto-setup:latest
+    container_name: familiar-temporal
+    restart: unless-stopped
+    ports:
+      - "7233:7233"   # gRPC frontend (workers poll here)
+    environment:
+      - DB=postgres12
+      - DB_PORT=5432
+      - POSTGRES_USER=familiar
+      - POSTGRES_PWD=familiarpass
+      - POSTGRES_SEEDS=tigerdata
+    depends_on:
+      tigerdata:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "tctl", "--address", "temporal:7233", "cluster", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  temporal-ui:
+    image: temporalio/ui:latest
+    container_name: familiar-temporal-ui
+    restart: unless-stopped
+    ports:
+      - "8088:8080"   # UI accessible at localhost:8088
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000,http://localhost:8088
+    depends_on:
+      - temporal
+
+# ===========================================================================
+# Volumes
+# ===========================================================================
+
+volumes:
+  tigerdata:
+    name: familiar-tigerdata
+  qdrant_data:
+    name: familiar-qdrant
+  windmill_db:
+    name: familiar-windmill-db
+  lsp_cache:
+    name: familiar-windmill-lsp
+  minio_data:
+    name: familiar-minio
+  redpanda_data:
+    name: familiar-redpanda
+
+# ===========================================================================
+# Networks (optional - all services use default bridge)
+# ===========================================================================
+# Uncomment if you need service isolation:
+#
+# networks:
+#   familiar:
+#     name: familiar-network

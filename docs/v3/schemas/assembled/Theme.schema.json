@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Theme.v1.json",
+  "title": "Theme Field",
+  "description": "A concise statement of a focus, goal, or pattern.",
+  "category": "snippets",
+  "source_file": "snippets/fields/Theme.json",
+  "type": "string"
+}

@@ -1,0 +1,140 @@
+[package]
+name = "familiar-core"
+version = "0.1.0"
+edition = "2021"
+description = "Schema-first enforcement engine for Familiar - types, entities, and persistence with compile-time drift checking"
+
+[features]
+default = ["schema-registry", "protobuf"]
+ts = []           # Enable TypeScript generation (reserved for future use)
+protobuf = ["prost", "prost-types"]  # Enable Protobuf serialization for Kafka
+password-hashing = ["argon2"]  # Enable password hashing (optional)
+schema-registry = ["reqwest"]  # Enable Schema Registry integration
+kafka-codegen = ["rdkafka", "tokio", "tokio-stream", "tracing"]  # Enable Kafka codegen CLI
+skip-schema-embed = []  # Skip embedding schemas (for initial development)
+mcp = ["tokio"]  # Enable MCP server binary
+codegen = []  # Enable codegen module for xtask
+
+[dependencies]
+# Internal dependencies
+familiar-primitives = { path = "../familiar-primitives", features = ["full"] }
+familiar-contracts = { path = "../familiar-contracts" }
+familiar-core-macros = { path = "macros" }
+familiar-drift-internals = { path = "../familiar-drift-internals" }
+familiar-schemas = { git = "https://github.com/phaiel/familiar-schemas", branch = "main" }
+
+# Password hashing (optional)
+argon2 = { version = "0.5", optional = true }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Contract Validation (Opaque Envelope pattern)
+simd-json = "0.14"                                      # SIMD-accelerated JSON parsing
+jsonschema = "0.26"                                     # JSON Schema validation
+include_dir = "0.7"                                     # Compile-time schema embedding
+schemars = { workspace = true }                         # JSON Schema generation from Rust types
+uuid = { version = "1.0", features = ["serde", "v4"] }
+ulid = { version = "1.1", features = ["serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+# Protobuf serialization for Kafka
+prost = { version = "0.13", optional = true }
+prost-types = { version = "0.13", optional = true }
+
+# Kafka client for codegen CLI
+rdkafka = { version = "0.36", features = ["cmake-build"], optional = true }
+tokio-stream = { version = "0.1", optional = true }
+tracing = { version = "0.1", optional = true }
+thiserror = "1.0"
+rand = "0.8"
+sha2 = "0.10"
+
+# Newtype derive macros for cleaner primitive definitions
+nutype = { version = "0.5", features = ["serde", "regex"] }
+derive_more = { version = "1.0", features = ["full"] }
+
+# Vector math for physics
+num-complex = { version = "0.4", features = ["serde"] }
+hecs = { version = "0.10", features = ["macros"] }
+
+# Fast CLI tools (ripgrep-style performance)
+rayon = "1.10"
+clap = { version = "4", features = ["derive", "color"] }
+anyhow = "1.0"
+ignore = "0.4"
+indicatif = "0.17"
+console = "0.15"
+owo-colors = "4"
+
+# Report generation
+askama = "0.12"
+tabled = { version = "0.17", features = ["std"] }
+
+# Schema analysis tools
+walkdir = "2.4"
+regex = "1.10"
+syn = { version = "2.0", features = ["full", "parsing"] }
+sqlparser = "0.50"
+toml = "0.8"
+petgraph = "0.6"
+
+# MCP Server (moved from familiar-schemas)
+mcp-attr = "0.0.7"
+indextree = "4.7"
+fuzzy-matcher = "0.3"
+
+# HTTP client (optional)
+reqwest = { version = "0.12", features = ["json", "blocking"], optional = true }
+tokio = { version = "1.0", features = ["full"], optional = true }
+
+# Database layer
+sqlx = { version = "0.8", features = ["runtime-tokio-native-tls", "postgres", "uuid", "chrono", "json"] }
+pgvector = { version = "0.4", features = ["sqlx"] }
+sea-orm = { version = "1.0", features = ["sqlx-postgres", "runtime-tokio-native-tls", "macros"] }
+
+aws-config = "1.8.11"
+aws-sdk-s3 = "1.116.0"
+config = "0.14"
+shortcuts-tui = "0.2"
+
+# Async runtime support
+async-trait = "0.1"
+
+[build-dependencies]
+familiar-drift-internals = { path = "../familiar-drift-internals" }
+prost-build = "0.13"
+toml = "0.8"
+sha2 = "0.10"
+walkdir = "2.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+petgraph = "0.6"
+# Git dependency for schemas - now used as regular dependency too (see [dependencies])
+
+[dev-dependencies]
+tokio = { version = "1.0", features = ["full"] }
+tempfile = "3.10"
+sea-orm-migration = { version = "1.0", features = ["sqlx-postgres"] }
+
+[[bin]]
+name = "analyze_schema"
+path = "src/bin/analyze_schema.rs"
+
+[[bin]]
+name = "protobuf_codegen"
+path = "src/bin/protobuf_codegen.rs"
+required-features = ["kafka-codegen", "protobuf"]
+
+[[bin]]
+name = "drift_report"
+path = "src/bin/drift_report.rs"
+
+[[bin]]
+name = "schema_export"
+path = "src/bin/schema_export.rs"
+
+[[bin]]
+name = "familiar-mcp"
+path = "src/bin/familiar_mcp.rs"
+required-features = ["mcp"]
+

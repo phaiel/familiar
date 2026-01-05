@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TenantIdentity.v1.schema.json",
+  "title": "Tenant Identity Component",
+  "description": "Defines the core identity and metadata for a Tenant.",
+  "category": "components",
+  "source_file": "components/TenantIdentity.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tenant_name": {
+          "title": "Name Field",
+          "description": "The primary, human-readable name of an entity.",
+          "type": "string"
+        },
+        "subscription_plan": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/SubscriptionPlan.v1.json",
+          "title": "Subscription Plan",
+          "description": "A canonical enum of all available subscription plans for a Tenant.",
+          "type": "string",
+          "enum": [
+            "Free",
+            "Personal",
+            "FamilyPlus",
+            "Enterprise"
+          ]
+        }
+      },
+      "required": [
+        "tenant_name",
+        "subscription_plan"
+      ],
+      "title": "TenantIdentityFields"
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.1.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  }
+}

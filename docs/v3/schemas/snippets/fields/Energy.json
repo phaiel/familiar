@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "description": "The current energy level of an entity.",
+  "properties": {
+    "value": {
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.1
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}

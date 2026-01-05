@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/AgentOutput.v1.schema.json",
+  "title": "Base Agent Output",
+  "description": "Defines the structured output an agent must produce. Enforces Rule 3 by separating deterministic metadata from human-readable narrative.",
+  "category": "_base",
+  "source_file": "_base/BaseAgentOutput.schema.json",
+  "type": "object",
+  "properties": {
+    "metadata_for_physics": {
+      "description": "The structured, strongly-typed data that will be used deterministically by the physics engine. This data MUST NOT contain any free-form text from the LLM.",
+      "type": "object",
+      "additionalProperties": false,
+      "title": "BaseAgentOutputMetadataForPhysics"
+    },
+    "narrative_for_user": {
+      "description": "The human-readable explanation of the agent's reasoning. This field MUST NOT be used for any physics calculations.",
+      "type": "string"
+    },
+    "citations": {
+      "description": "A list of memory and knowledge sources used to generate the response.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string"
+          },
+          "source_type": {
+            "enum": [
+              "memory",
+              "knowledge_base",
+              "research_paper"
+            ]
+          }
+        },
+        "required": [
+          "source_id",
+          "source_type"
+        ],
+        "title": "BaseagentoutputmetadataforphysicsItems"
+      }
+    },
+    "confidence_score": {
+      "description": "The agent's confidence in its analysis, used for HITL escalation.",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "metadata_for_physics",
+    "narrative_for_user",
+    "confidence_score"
+  ]
+}

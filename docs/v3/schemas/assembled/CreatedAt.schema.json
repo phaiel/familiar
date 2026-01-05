@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+  "title": "Timestamp",
+  "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+  "category": "snippets",
+  "source_file": "snippets/fields/CreatedAt.json",
+  "type": "string"
+}

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Taxonomy.v1.schema.json",
+  "title": "Physics Profile Taxonomy",
+  "description": "The 4-level classification system for assigning a physics profile to a cognitive entity based on its semantic content.",
+  "schema_version": "1.1.0",
+  "taxonomy_id": "physics_profile_v1",
+  "levels": [
+    "cognitive_complexity",
+    "social_scope",
+    "temporal_frame",
+    "domain_context"
+  ],
+  "nodes": [
+    {
+      "id": "simple",
+      "level": "cognitive_complexity",
+      "label": "Simple",
+      "description": "Direct factual logging with minimal processing.",
+      "embedding_context": "Simple factual recording of events. Basic logging of what happened without analysis or interpretation. Direct observation and documentation. Straightforward data capture. Recording facts and activities like 'ate lunch' or 'slept for 3 hours'."
+    },
+    {
+      "id": "moderate",
+      "level": "cognitive_complexity",
+      "label": "Moderate",
+      "description": "Pattern recognition and correlation analysis.",
+      "embedding_context": "Pattern recognition and correlation analysis. Noticing connections between events. Identifying trends and relationships. Moderate cognitive processing. Comparing experiences and finding similarities, like 'I always feel tired on Tuesdays' or 'the baby seems happier after a long nap'."
+    },
+    {
+      "id": "complex",
+      "level": "cognitive_complexity",
+      "label": "Complex",
+      "description": "Self-reflection, introspection, and meta-cognition.",
+      "embedding_context": "Deep self-reflection and introspection. Meta-cognitive analysis and self-awareness. Complex emotional processing. Understanding personal motivations and behaviors. Analyzing thoughts about thoughts. Deep psychological insight and self-examination, like 'I wonder why I react that way' or 'I realized my anxiety is connected to work'."
+    },
+    {
+      "id": "individual",
+      "level": "social_scope",
+      "label": "Individual",
+      "description": "Actions or states concerning a single person.",
+      "embedding_context": "An individual's personal experience, thought, or action. Something done alone or concerning only one person. Solitary activities, personal reflections, and self-contained states. I, me, my, myself, he, she, they (singular)."
+    },
+    {
+      "id": "dyadic",
+      "level": "social_scope",
+      "label": "Dyadic",
+      "description": "Interactions or relationships between two people.",
+      "embedding_context": "An interaction between two people. A dyad. A one-on-one conversation, activity, or relationship. We (two people), us, you and I, they (two people)."
+    },
+    {
+      "id": "group",
+      "level": "social_scope",
+      "label": "Group",
+      "description": "Activities or states involving a group of three or more people.",
+      "embedding_context": "A group activity or dynamic. Involving multiple people, a family, a team, or a social gathering. We (a group), they (a group), everyone, the family, the team."
+    },
+    {
+      "id": "immediate",
+      "level": "temporal_frame",
+      "label": "Immediate",
+      "description": "Events that happened just now or in the very recent past (minutes to hours).",
+      "embedding_context": "An event that just occurred. Immediate actions, recent happenings, things that took place in the last few hours. Real-time, now, present moment, just a moment ago, this morning."
+    },
+    {
+      "id": "recent",
+      "level": "temporal_frame",
+      "label": "Recent",
+      "description": "Events from the recent past, typically within the last few days to a week.",
+      "embedding_context": "Something that happened recently. In the past few days, this past week. Not immediate, but not long ago. Recent history. Yesterday, a few days ago."
+    },
+    {
+      "id": "extended",
+      "level": "temporal_frame",
+      "label": "Extended",
+      "description": "Patterns or events that span a longer duration, from weeks to months or more.",
+      "embedding_context": "A long-term pattern or event. Something that has been happening for a while, over several weeks or months. An extended period of time. A long-running situation. Over the last year, this past month."
+    },
+    {
+      "id": "sleep",
+      "level": "domain_context",
+      "label": "Sleep",
+      "description": "Related to sleep, naps, bedtime, and rest.",
+      "embedding_context": "Sleep, napping, bedtime routines, rest, circadian rhythms, waking up, feeling tired or rested. All aspects of sleeping.",
+      "metadata": { "physics_profile_affinity": "low_energy_classical" }
+    },
+    {
+      "id": "feeding",
+      "level": "domain_context",
+      "label": "Feeding",
+      "description": "Related to eating, meals, breastfeeding, bottles.",
+      "embedding_context": "Eating, meals, feeding, breastfeeding, bottle feeding, nutrition, food, hunger, being full. All aspects of nourishment.",
+      "metadata": { "physics_profile_affinity": "moderate_energy_classical" }
+    },
+    {
+      "id": "health",
+      "level": "domain_context",
+      "label": "Health",
+      "description": "Related to health, wellness, illness, and medical events.",
+      "embedding_context": "Health, wellness, sickness, illness, doctor visits, medication, symptoms, checkups, medical procedures. All aspects of physical health.",
+      "metadata": { "physics_profile_affinity": "high_energy_classical" }
+    },
+    {
+      "id": "relationship",
+      "level": "domain_context",
+      "label": "Relationship",
+      "description": "Related to social interactions, bonding, and conflicts.",
+      "embedding_context": "Social interaction, relationships, bonding, conflict, arguments, playing together, family time, friendship, love. All aspects of interpersonal connection.",
+      "metadata": { "physics_profile_affinity": "high_energy_quantum" }
+    },
+    {
+      "id": "development",
+      "level": "domain_context",
+      "label": "Development",
+      "description": "Related to developmental milestones, learning, and achievements.",
+      "embedding_context": "Learning, development, milestones, achievements, practicing a skill, crawling, walking, talking, firsts. All aspects of personal growth.",
+      "metadata": { "physics_profile_affinity": "very_high_energy_quantum" }
+    },
+    {
+      "id": "routine",
+      "level": "domain_context",
+      "label": "Routine",
+      "description": "Related to daily routines, habits, and chores.",
+      "embedding_context": "Daily routines, habits, chores, schedules, repeated actions, automatic behaviors. All aspects of regular, predictable life.",
+      "metadata": { "physics_profile_affinity": "low_energy_classical" }
+    }
+  ]
+}

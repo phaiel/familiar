@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondTension.v1.schema.json",
+  "title": "Bond Tension Component",
+  "description": "Models the classical physics of a relationship Bond, including its strength, tension, and resonance properties. This is managed by the Particular engine.",
+  "category": "components",
+  "source_file": "components/BondTension.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.1.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false,
+    "collapse_sensitive": false
+  },
+  "fields": {
+    "bond_strength": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NormalizedValue.v1.json",
+      "title": "Normalized Value",
+      "description": "A reusable definition for a floating-point number normalized between 0.0 and 1.0.",
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "torsional_stress": {
+      "description": "The cognitive dissonance or strain on the bond. Can be positive (creative tension) or negative (draining conflict).",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.0
+    },
+    "spring_constant": {
+      "description": "The 'stiffness' of the bond, representing its resistance to change.",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 10.0
+    },
+    "damping_coefficient": {
+      "description": "The 'inertia' of the bond, representing how quickly it returns to equilibrium after a perturbation.",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.5
+    },
+    "resonance_phase": {
+      "description": "The phase angle for resonance calculations with other bonds.",
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.0
+    }
+  }
+}

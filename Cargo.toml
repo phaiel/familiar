@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "familiar-contracts",
+    "familiar-verify",
+    "familiar-config",
+    "familiar-router",
+    "xtask"
+]
+resolver = "2"

@@ -1,0 +1,22 @@
+summary: LlamaIndex Tools (Fates)
+description: >-
+  LlamaIndex Tool wrappers for Familiar Fates pipeline. Tools: decima_classify
+  (classification), physics (emotional dimensions), rag_search (memory).
+lock: '!inline f/agentic/tools/llamaindex_tools.script.lock'
+kind: script
+no_main_func: true
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties: {}
+  required: []
+
+
+
+
+
+
+
+
+
+

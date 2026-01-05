@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Stitch.v1.schema.json",
+  "title": "Stitch Entity",
+  "description": "A system entity that represents a cognitive dissonance or ambiguity that requires resolution, often through a Human-in-the-Loop workflow.",
+  "category": "entities",
+  "source_file": "entities/Stitch.schema.json",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "description": "The canonical type of the system entity.",
+      "type": "string",
+      "enum": [
+        "Stitch",
+        "Course",
+        "Shuttle",
+        "Tenant",
+        "WorkflowTask"
+      ],
+      "const": "Stitch"
+    },
+    "workflow_state": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/workflow/WorkflowState.v1.json",
+      "title": "Workflow State",
+      "description": "Represents the state of a long-running, orchestrated workflow.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Status.v1.json",
+          "title": "Status Field",
+          "description": "The current status of a task or process.",
+          "type": "string",
+          "enum": [
+            "Pending",
+            "InProgress",
+            "Completed",
+            "Cancelled"
+          ],
+          "default": "Pending"
+        },
+        "current_step": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "last_updated": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NullableTimestamp.v1.json",
+          "title": "Nullable Timestamp",
+          "description": "A canonical definition for an optional ISO 8601 timestamp with timezone.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "current_step",
+        "last_updated"
+      ]
+    },
+    "components": {
+      "type": "object",
+      "properties": {
+        "dissonance_details": {
+          "description": "Details about the cognitive conflict.",
+          "type": "object",
+          "properties": {
+            "dissonance_type": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/DissonanceType.v1.json",
+              "title": "Dissonance Type",
+              "description": "A canonical enum for the types of cognitive dissonance the system can detect.",
+              "type": "string",
+              "enum": [
+                "TemporalOverlap",
+                "LogicalContradiction",
+                "LowConfidencePattern",
+                "UnresolvedEntity"
+              ]
+            },
+            "source_entities": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/EntityIdList.v1.json",
+              "title": "Entity ID List",
+              "description": "A canonical definition for a list of unique entity identifiers (UUIDs).",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "severity": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0
+            }
+          },
+          "required": [
+            "dissonance_type",
+            "source_entities",
+            "severity"
+          ]
+        }
+      },
+      "required": [
+        "dissonance_details"
+      ]
+    },
+    "infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/WorkflowOrchestrator.v1.json",
+      "title": "Workflow Orchestrator",
+      "description": "Infrastructure stack for workflow orchestration and execution, including Windmill workflows, event processing, and state management.",
+      "type": "object",
+      "properties": {
+        "workflow_engine": {
+          "type": "string",
+          "description": "The workflow execution engine.",
+          "default": "windmill"
+        },
+        "database_module": {
+          "type": "string",
+          "description": "The Terraform module for workflow state storage.",
+          "default": "timescaledb"
+        },
+        "event_processors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of event processors for workflow triggers.",
+          "default": [
+            "workflow-trigger",
+            "state-change",
+            "completion-handler"
+          ]
+        },
+        "streaming_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Redpanda topics for workflow events.",
+          "default": [
+            "workflow-events",
+            "workflow-state",
+            "workflow-completion"
+          ]
+        },
+        "observability_dashboard": {
+          "type": "string",
+          "description": "Path to the Grafana dashboard for workflow monitoring.",
+          "default": "grafana/dashboards/stitch-resolution-funnel.json"
+        },
+        "trigger_topics": {
+          "default": [
+            "system.dissonance.detected"
+          ]
+        },
+        "status_topics": {
+          "default": [
+            "workflow.stitch.resolution.updates"
+          ]
+        }
+      },
+      "required": [
+        "workflow_engine",
+        "database_module",
+        "event_processors",
+        "streaming_topics",
+        "observability_dashboard"
+      ]
+    }
+  },
+  "required": [
+    "entity_type",
+    "components"
+  ],
+  "not": {
+    "description": "Rule 17.2: System entities MUST NOT have physics components.",
+    "required": [
+      "physics_state"
+    ]
+  }
+}

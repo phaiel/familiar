@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TenantMembers.v1.schema.json",
+  "title": "Tenant Members Component",
+  "description": "Manages the users and their roles within a Tenant.",
+  "category": "components",
+  "source_file": "components/TenantMembers.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.0.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  },
+  "fields": {
+    "members": {
+      "description": "A list of users who are members of this tenant.",
+      "type": "array",
+      "items": {
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/security/Member.v1.json",
+        "title": "Tenant Member",
+        "description": "Represents a single user within a tenant, explicitly linking their user identity to their cognitive PersonThread entity.",
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+            "title": "UUID",
+            "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+            "type": "string"
+          },
+          "thread_id": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+            "title": "Entity ID Field",
+            "description": "A reusable definition for a unique entity identifier.",
+            "type": "string"
+          },
+          "role": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/Role.v1.json",
+            "title": "Tenant Member Role",
+            "description": "Defines the roles a user can have within a tenant.",
+            "type": "string",
+            "enum": [
+              "Admin",
+              "Member",
+              "Child",
+              "Guardian",
+              "ReadOnly"
+            ]
+          },
+          "permissions": {
+            "description": "A list of specific permissions granted to this member.",
+            "type": "array",
+            "items": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/TenantPermission.v1.json",
+              "title": "Tenant Permission",
+              "description": "A canonical enum of permissions a user can have within a Tenant.",
+              "type": "string",
+              "enum": [
+                "Read",
+                "Write",
+                "Contribute",
+                "Administer"
+              ]
+            }
+          },
+          "joined_at": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+            "title": "Timestamp",
+            "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "thread_id",
+          "role",
+          "joined_at"
+        ]
+      }
+    }
+  }
+}

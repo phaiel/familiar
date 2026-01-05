@@ -1,0 +1,648 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Bond.v1.schema.json",
+  "title": "Bond Entity",
+  "description": "A classical entity representing a persistent relationship between two Thread entities.",
+  "category": "entities",
+  "source_file": "entities/Bond.schema.json",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/classification/EntityType.v1.json",
+      "title": "Entity Type",
+      "description": "A canonical enum of all 7 cognitive entity types.",
+      "type": "string",
+      "enum": [
+        "Focus",
+        "Filament",
+        "Motif",
+        "Intent",
+        "Moment",
+        "Bond",
+        "Thread"
+      ],
+      "const": "Bond"
+    },
+    "components": {
+      "title": "BondComponents",
+      "description": "A container for the definitional components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object",
+      "properties": {
+        "content": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondContent.v1.schema.json",
+          "title": "Bond Content Component",
+          "description": "Defines the descriptive content and history of a relationship Bond.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "relationship_type": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/social/RelationshipType.v1.json",
+                  "title": "Relationship Type",
+                  "description": "A canonical enum of all possible relationship types between Threads.",
+                  "type": "string",
+                  "enum": [
+                    "Family",
+                    "Friend",
+                    "Romantic",
+                    "Professional",
+                    "Acquaintance",
+                    "Adversarial"
+                  ]
+                },
+                "description": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+                  "title": "Description Field",
+                  "description": "A canonical, reusable definition for a human-readable description field.",
+                  "type": "string",
+                  "default": ""
+                },
+                "history": {
+                  "type": "array",
+                  "items": {
+                    "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/social/BondEvent.v1.json",
+                    "title": "Bond Event Type",
+                    "description": "Represents a significant event that impacted a bond's strength or state.",
+                    "type": "object",
+                    "properties": {
+                      "moment_id": {
+                        "type": "string"
+                      },
+                      "impact": {
+                        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/SignedNormalizedValue.v1.json",
+                        "title": "Signed Normalized Value",
+                        "description": "A reusable definition for a floating-point number normalized between -1.0 and 1.0.",
+                        "type": "number",
+                        "minimum": -1.0,
+                        "maximum": 1.0
+                      },
+                      "timestamp": {
+                        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+                        "title": "Timestamp",
+                        "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "moment_id",
+                      "impact",
+                      "timestamp"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "relationship_type"
+              ],
+              "title": "BondContentFields"
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.1.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          }
+        },
+        "permissions": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondPermissions.v1.schema.json",
+          "title": "Bond Permissions Component",
+          "description": "Defines the access control and privacy rules for a Bond and its associated Moments.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.1.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          },
+          "fields": {
+            "owner_permissions": {
+              "description": "Permissions for the owner of the bond (the user in the current tenant).",
+              "type": "array",
+              "items": {
+                "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/BondPermission.v1.json",
+                "title": "Bond Permission",
+                "description": "A canonical enum of permissions related to a Bond.",
+                "type": "string",
+                "enum": [
+                  "Read",
+                  "Write",
+                  "Delete",
+                  "Share"
+                ]
+              },
+              "default": [
+                "Read",
+                "Write",
+                "Delete",
+                "Share"
+              ]
+            },
+            "subject_permissions": {
+              "description": "Permissions for the other person in the bond.",
+              "type": "array",
+              "items": {
+                "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/TenantPermission.v1.json",
+                "title": "Tenant Permission",
+                "description": "A canonical enum of permissions a user can have within a Tenant.",
+                "type": "string",
+                "enum": [
+                  "Read",
+                  "Write",
+                  "Contribute",
+                  "Administer"
+                ]
+              },
+              "default": [
+                "Read",
+                "Contribute"
+              ]
+            },
+            "min_age_for_viewing": {
+              "description": "The minimum age a child Thread must be for this bond's moments to be visible to them. Supports age-aware privacy.",
+              "type": "integer",
+              "minimum": 0,
+              "default": 13
+            },
+            "allow_cross_tenant_view": {
+              "description": "If true, allows linked users from other tenants to view data according to their permissions.",
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "physics_config": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondPhysicsConfig.v1.schema.json",
+          "title": "Bond Physics Config Component",
+          "description": "Configuration that defines the physics model for a Bond (Dynamic or Static).",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.0.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false
+          },
+          "fields": {
+            "bond_model": {
+              "description": "The physics model to apply to this bond.",
+              "type": "string",
+              "enum": [
+                "Dynamic",
+                "Static"
+              ]
+            },
+            "dynamic_params": {
+              "description": "Parameters for the spring-damper model, used only if bond_model is 'Dynamic'.",
+              "type": "object",
+              "properties": {
+                "base_spring_constant": {
+                  "type": "number"
+                },
+                "base_damping_coefficient": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "base_spring_constant",
+                "base_damping_coefficient"
+              ],
+              "title": "BondPhysicsConfigDynamicParams"
+            },
+            "static_params": {
+              "description": "Parameters for the associative model, used only if bond_model is 'Static'.",
+              "type": "object",
+              "properties": {
+                "consolidation_boost": {
+                  "type": "number"
+                },
+                "emotional_anchor_strength": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "consolidation_boost",
+                "emotional_anchor_strength"
+              ],
+              "title": "BondPhysicsConfigStaticParams"
+            }
+          }
+        }
+      },
+      "required": [
+        "content",
+        "permissions",
+        "physics_config"
+      ]
+    },
+    "physics_state": {
+      "title": "BondPhysicsState",
+      "description": "A container for the mutable physics state components of the entity. The specific required components are defined by the inheriting schema.",
+      "type": "object",
+      "properties": {
+        "universal": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json",
+          "title": "Universal Physics State Component",
+          "description": "The transient, mutable physics state of an entity.",
+          "schema_version": "3.0.0",
+          "type": "object",
+          "properties": {
+            "fields": {
+              "type": "object",
+              "properties": {
+                "energy": {
+                  "type": "object",
+                  "description": "The current energy level of an entity.",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "default": 0.1
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "momentum": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/Vec6.v1.json",
+                  "title": "6D Physics Vector",
+                  "description": "A reusable data type for a vector of six f64 numbers, used for momentum and forces in the 6 spatial dimensions of the manifold.",
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 6,
+                  "maxItems": 6
+                },
+                "cognitive_perspective": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/CognitivePerspective.v1.schema.json",
+                  "title": "Cognitive Perspective Field",
+                  "description": "The intrinsic 'spin' or 'flavor' of the entity, which generates cognitive dissonance (torsion).",
+                  "ui_label": "Cognitive Perspective"
+                },
+                "decay_rate": {
+                  "description": "The base rate of energy or coherence decay for an entity, before multipliers are applied.",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "default": 0.01
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "consolidation_rate": {
+                  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/fields/ConsolidationRate.v1.json",
+                  "title": "Consolidation Rate Field",
+                  "type": "object",
+                  "description": "The base rate of memory consolidation for an entity, before multipliers are applied. Represents how quickly an unstable memory becomes stable.",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "format": "double",
+                      "x-rust-type": "f64",
+                      "x-python-type": "float",
+                      "minimum": 0.0,
+                      "maximum": 1.0,
+                      "default": 0.0
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "quantum_coherence": {
+                  "description": "The quantum coherence level of the entity, representing its degree of superposition. Null for classical entities.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "default": null
+                },
+                "entanglement_strength": {
+                  "description": "The overall entanglement strength of this entity with others. Null for classical entities.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0.0,
+                  "maximum": 1.0,
+                  "default": null
+                }
+              },
+              "required": [
+                "energy",
+                "momentum",
+                "cognitive_perspective",
+                "decay_rate",
+                "consolidation_rate",
+                "quantum_coherence",
+                "entanglement_strength"
+              ],
+              "additionalProperties": false,
+              "title": "UniversalPhysicsStateFields"
+            }
+          }
+        },
+        "tension": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondTension.v1.schema.json",
+          "title": "Bond Tension Component",
+          "description": "Models the classical physics of a relationship Bond, including its strength, tension, and resonance properties. This is managed by the Particular engine.",
+          "type": "object",
+          "properties": {
+            "physics_properties": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+              "title": "Base Physics Properties",
+              "description": "Defines the common physics-related properties for components and laws.",
+              "type": "object",
+              "required": [
+                "engine",
+                "is_quantum"
+              ],
+              "properties": {
+                "collapse_sensitive": {
+                  "description": "Indicates if the object is affected by or triggers quantum collapse.",
+                  "type": "boolean"
+                },
+                "engine": {
+                  "description": "The physics engine responsible for this object.",
+                  "enum": [
+                    "quantum",
+                    "classical",
+                    "hybrid"
+                  ]
+                },
+                "is_quantum": {
+                  "description": "Indicates if the object has quantum properties.",
+                  "type": "boolean"
+                }
+              }
+            },
+            "fields": {
+              "description": "Component-specific fields",
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "physics_properties",
+            "fields"
+          ],
+          "schema_version": "1.1.0",
+          "physics_properties": {
+            "engine": "classical",
+            "is_quantum": false,
+            "collapse_sensitive": false
+          },
+          "fields": {
+            "bond_strength": {
+              "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/NormalizedValue.v1.json",
+              "title": "Normalized Value",
+              "description": "A reusable definition for a floating-point number normalized between 0.0 and 1.0.",
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "torsional_stress": {
+              "description": "The cognitive dissonance or strain on the bond. Can be positive (creative tension) or negative (draining conflict).",
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "default": 0.0
+            },
+            "spring_constant": {
+              "description": "The 'stiffness' of the bond, representing its resistance to change.",
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "default": 10.0
+            },
+            "damping_coefficient": {
+              "description": "The 'inertia' of the bond, representing how quickly it returns to equilibrium after a perturbation.",
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "default": 0.5
+            },
+            "resonance_phase": {
+              "description": "The phase angle for resonance calculations with other bonds.",
+              "type": "number",
+              "format": "double",
+              "x-rust-type": "f64",
+              "x-python-type": "float",
+              "default": 0.0
+            }
+          }
+        }
+      },
+      "required": [
+        "universal",
+        "tension"
+      ]
+    },
+    "thread_a_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "thread_b_id": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+      "title": "Entity ID Field",
+      "description": "A reusable definition for a unique entity identifier.",
+      "type": "string"
+    },
+    "infrastructure": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/StandardApiServiceStack.v1.json",
+      "title": "Standard API Service Stack",
+      "description": "The canonical infrastructure stack for a standard entity service, including a Poem API, TimescaleDB with vector support, and basic event topics.",
+      "type": "object",
+      "properties": {
+        "service_template": {
+          "type": "string",
+          "description": "The Backstage template for the service.",
+          "default": "familiar-poem-api-service"
+        },
+        "database_module": {
+          "type": "string",
+          "description": "The Terraform module for the database.",
+          "default": "timescaledb"
+        },
+        "required_extensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Required database extensions.",
+          "default": [
+            "pgvector",
+            "vectorscale"
+          ]
+        },
+        "streaming_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of Redpanda topics this service interacts with.",
+          "default": [
+            "entity.bond.lifecycle.events",
+            "physics.bond.tension.updates"
+          ]
+        },
+        "observability_dashboard": {
+          "type": "string",
+          "description": "Path to the Grafana dashboard for this service.",
+          "default": "grafana/dashboards/bond-entity-overview.json"
+        }
+      },
+      "required": [
+        "service_template",
+        "database_module",
+        "streaming_topics",
+        "observability_dashboard"
+      ]
+    }
+  },
+  "required": [
+    "entity_type",
+    "components",
+    "physics_state",
+    "thread_a_id",
+    "thread_b_id"
+  ]
+}

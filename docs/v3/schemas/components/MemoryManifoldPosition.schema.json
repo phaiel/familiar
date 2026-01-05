@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/MemoryManifoldPosition.v1.schema.json",
+  "title": "Memory Manifold Position Component",
+  "description": "The entity's position in the 6 spatial dimensions of the cognitive manifold. The temporal coordinate is derived from the TemporalAnchor component, not stored here.",
+  "allOf": [{ "$ref": "../_base/BaseComponent.schema.json" }],
+  "schema_version": "1.2.0",
+  "physics_properties": { "engine": "classical", "is_quantum": false },
+  "fields": {
+    "semantic_coordinate": { "description": "Quantized coordinate for Abstract <-> Concrete.", "type": "integer" },
+    "emotional_coordinate": { "description": "Quantized coordinate for Negative <-> Positive.", "type": "integer" },
+    "salience_coordinate": { "description": "Quantized coordinate for Background <-> Foreground.", "type": "integer" },
+    "coherence_coordinate": { "description": "Quantized coordinate for Fragmented <-> Unified.", "type": "integer" },
+    "episodic_coordinate": { "description": "Quantized coordinate for General <-> Specific.", "type": "integer" },
+    "autobiographical_coordinate": { "description": "Quantized coordinate for External <-> Self-related.", "type": "integer" }
+  }
+}

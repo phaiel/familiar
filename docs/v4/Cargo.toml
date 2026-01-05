@@ -1,0 +1,57 @@
+[workspace]
+resolver = "2"
+members = [
+    "familiar-primitives",
+    "familiar-contracts",
+    "familiar-core",
+    "familiar-core/macros",
+    "familiar-drift-internals",
+    "services/familiar-api",
+    "services/familiar-worker",
+    "services/familiar-daemon",
+    "xtask",
+]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+
+[workspace.dependencies]
+# Shared dependencies across workspace members
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.0", features = ["serde", "v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1.0"
+anyhow = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+tracing = "0.1"
+
+# Schema generation - unified across all crates
+schematic = { version = "0.19", features = ["schema", "typescript", "json"] }
+schemars = { version = "0.8", features = ["uuid1", "chrono"] }
+ts-rs = { version = "11.1", features = ["uuid-impl", "chrono-impl", "serde-json-impl"] }
+
+# Optimized release profile for production builds
+[profile.release]
+opt-level = 3          # Maximum optimization
+lto = "fat"            # Full link-time optimization
+codegen-units = 1      # Single codegen unit for better optimization
+panic = "abort"        # Smaller binary, faster unwinding
+strip = "symbols"      # Strip symbols for smaller binary
+
+# Profile for PGO-optimized builds (use with build-pgo.sh)
+[profile.release-pgo]
+inherits = "release"
+lto = "fat"
+codegen-units = 1
+
+# Fast debug builds for development
+[profile.dev]
+opt-level = 0
+debug = true
+
+# Faster dev builds for dependencies
+[profile.dev.package."*"]
+opt-level = 2
+

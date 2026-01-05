@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/SocialEnergyFactor.v1.json",
+  "title": "Social Energy Factor",
+  "description": "The degree to which social interactions energize the system. Affects how much energy is gained or lost from forming and interacting with Bonds. (UI Label: Social Energy)",
+  "category": "snippets",
+  "source_file": "snippets/fields/SocialEnergyFactor.json",
+  "type": "number",
+  "minimum": 0.8,
+  "maximum": 1.2,
+  "default": 1.0
+}

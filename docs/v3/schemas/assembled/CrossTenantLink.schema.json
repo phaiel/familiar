@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/CrossTenantLink.v1.schema.json",
+  "title": "Cross-Tenant Link Component",
+  "description": "Manages a link to a Thread in another tenant, enabling federated relationships.",
+  "category": "components",
+  "source_file": "components/CrossTenantLink.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "remote_tenant_id": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/UUID.v1.json",
+          "title": "UUID",
+          "description": "A canonical definition for a Universally Unique Identifier (UUID).",
+          "type": "string"
+        },
+        "remote_thread_id": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EntityId.v1.json",
+          "title": "Entity ID Field",
+          "description": "A reusable definition for a unique entity identifier.",
+          "type": "string"
+        },
+        "link_status": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/LinkStatus.v1.json",
+          "title": "Link Status",
+          "description": "A canonical enum for the status of a cross-tenant link.",
+          "type": "string",
+          "enum": [
+            "PendingApproval",
+            "Approved",
+            "Revoked",
+            "Declined"
+          ]
+        },
+        "permissions_granted": {
+          "description": "A list of permissions granted by the remote user for this link.",
+          "type": "array",
+          "items": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/security/BondPermission.v1.json",
+            "title": "Bond Permission",
+            "description": "A canonical enum of permissions related to a Bond.",
+            "type": "string",
+            "enum": [
+              "Read",
+              "Write",
+              "Delete",
+              "Share"
+            ]
+          }
+        }
+      },
+      "required": [
+        "remote_tenant_id",
+        "remote_thread_id",
+        "link_status"
+      ],
+      "title": "Cross-tenantLinkFields"
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.1.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  }
+}

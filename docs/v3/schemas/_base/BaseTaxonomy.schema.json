@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Taxonomy.v1.schema.json",
+  "title": "Base Taxonomy",
+  "description": "Defines the structure for a complete, named classification taxonomy, such as for physics profiles or emotional valence.",
+  "type": "object",
+  "allOf": [{ "$ref": "./BaseMetadata.schema.json" }],
+  "properties": {
+    "taxonomy_id": {
+      "description": "A unique, machine-readable ID for this taxonomy (e.g., 'physics_profile_v1').",
+      "type": "string",
+      "pattern": "^[a-z_0-9]+$"
+    },
+    "levels": {
+      "description": "An ordered list of the levels in this taxonomy.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nodes": {
+      "description": "A list of all possible nodes within this taxonomy.",
+      "type": "array",
+      "items": { "$ref": "./BaseTaxonomyNode.schema.json" }
+    }
+  },
+  "required": ["taxonomy_id", "levels", "nodes"]
+}

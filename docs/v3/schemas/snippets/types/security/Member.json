@@ -1,0 +1,30 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/security/Member.v1.json",
+  "title": "Tenant Member",
+  "description": "Represents a single user within a tenant, explicitly linking their user identity to their cognitive PersonThread entity.",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "description": "The global unique identifier for the user from the authentication system (e.g., Auth0 user ID).",
+      "$ref": "../primitives/UUID.json"
+    },
+    "thread_id": {
+      "description": "The entity_id of the PersonThread that represents this user within the cognitive manifold. This is the crucial link between identity and cognition.",
+      "$ref": "../../fields/EntityId.json"
+    },
+    "role": {
+      "$ref": "./Role.json"
+    },
+    "permissions": {
+      "description": "A list of specific permissions granted to this member.",
+      "type": "array",
+      "items": {
+        "$ref": "./TenantPermission.json"
+      }
+    },
+    "joined_at": {
+      "$ref": "../primitives/Timestamp.json"
+    }
+  },
+  "required": ["user_id", "thread_id", "role", "joined_at"]
+}

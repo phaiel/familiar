@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TemporalAnchor.v1.schema.json",
+  "title": "Temporal Anchor Component",
+  "description": "Provides an immutable, fixed timestamp for a Moment entity, anchoring it to a specific point in the Growing Block Universe.",
+  "category": "components",
+  "source_file": "components/TemporalAnchor.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "event_timestamp": {
+          "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/primitives/Timestamp.v1.json",
+          "title": "Timestamp",
+          "description": "A canonical definition for an ISO 8601 timestamp with timezone.",
+          "type": "string"
+        },
+        "duration_seconds": {
+          "description": "The duration of the event in seconds, if applicable.",
+          "type": "number",
+          "minimum": 0,
+          "default": 0
+        }
+      },
+      "required": [
+        "event_timestamp"
+      ]
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.3.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  }
+}

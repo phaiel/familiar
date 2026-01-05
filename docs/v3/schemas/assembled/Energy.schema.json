@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familiar.dev/schemas/Energy.v1.schema.json",
+  "title": "Energy",
+  "description": "The current energy level of an entity.",
+  "category": "snippets",
+  "source_file": "snippets/fields/Energy.json",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number",
+      "format": "double",
+      "x-rust-type": "f64",
+      "x-python-type": "float",
+      "default": 0.1
+    }
+  },
+  "required": [
+    "value"
+  ],
+  "additionalProperties": false
+}

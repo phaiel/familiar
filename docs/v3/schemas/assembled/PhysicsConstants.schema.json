@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/PhysicsConstants.v1.json",
+  "title": "Physics Constants Schema",
+  "description": "Schema defining the structure of physics constants used in the cognitive physics engine.",
+  "category": "snippets",
+  "source_file": "snippets/types/physics/PhysicsConstants.json",
+  "type": "object",
+  "properties": {
+    "bond_physics": {
+      "type": "object",
+      "properties": {
+        "spring_constants": {
+          "type": "object",
+          "properties": {
+            "base_spring_constant": {
+              "type": "number"
+            },
+            "max_spring_constant": {
+              "type": "number"
+            },
+            "min_spring_constant": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base_spring_constant",
+            "max_spring_constant",
+            "min_spring_constant"
+          ]
+        },
+        "damping_constants": {
+          "type": "object",
+          "properties": {
+            "base_damping_coefficient": {
+              "type": "number"
+            },
+            "max_damping_coefficient": {
+              "type": "number"
+            },
+            "min_damping_coefficient": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base_damping_coefficient",
+            "max_damping_coefficient",
+            "min_damping_coefficient"
+          ]
+        },
+        "length_constants": {
+          "type": "object",
+          "properties": {
+            "rest_length_default": {
+              "type": "number"
+            },
+            "max_bond_length": {
+              "type": "number"
+            },
+            "min_bond_length": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "rest_length_default",
+            "max_bond_length",
+            "min_bond_length"
+          ]
+        },
+        "tension_constants": {
+          "type": "object",
+          "properties": {
+            "max_tension_threshold": {
+              "type": "number"
+            },
+            "tension_decay_rate": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "max_tension_threshold",
+            "tension_decay_rate"
+          ]
+        }
+      },
+      "required": [
+        "spring_constants",
+        "damping_constants",
+        "length_constants",
+        "tension_constants"
+      ]
+    },
+    "static_bond_physics": {
+      "type": "object",
+      "properties": {
+        "consolidation_boost_base": {
+          "type": "number"
+        },
+        "emotional_anchor_base": {
+          "type": "number"
+        },
+        "familiarity_growth_base": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "consolidation_boost_base",
+        "emotional_anchor_base",
+        "familiarity_growth_base"
+      ]
+    },
+    "cognitive_baseline": {
+      "type": "object",
+      "properties": {
+        "emotional_volatility_default": {
+          "type": "number"
+        },
+        "consolidation_rate_default": {
+          "type": "number"
+        },
+        "exploration_bias_default": {
+          "type": "number"
+        },
+        "social_energy_default": {
+          "type": "number"
+        },
+        "bond_damping_default": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "emotional_volatility_default",
+        "consolidation_rate_default",
+        "exploration_bias_default",
+        "social_energy_default",
+        "bond_damping_default"
+      ]
+    },
+    "quantum_physics": {
+      "type": "object",
+      "properties": {
+        "coherence_thresholds": {
+          "type": "object",
+          "properties": {
+            "collapse_threshold_default": {
+              "type": "number"
+            },
+            "max_coherence_score": {
+              "type": "number"
+            },
+            "min_coherence_score": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "collapse_threshold_default",
+            "max_coherence_score",
+            "min_coherence_score"
+          ]
+        },
+        "decoherence_rates": {
+          "type": "object",
+          "properties": {
+            "base_decoherence_rate": {
+              "type": "number"
+            },
+            "accelerated_decoherence": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "base_decoherence_rate",
+            "accelerated_decoherence"
+          ]
+        }
+      },
+      "required": [
+        "coherence_thresholds",
+        "decoherence_rates"
+      ]
+    }
+  },
+  "required": [
+    "bond_physics",
+    "static_bond_physics",
+    "cognitive_baseline",
+    "quantum_physics"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/CompletedAt.v1.json",
+  "title": "Completed At Field",
+  "description": "The timestamp when a task or process was marked as completed.",
+  "$ref": "../types/primitives/NullableTimestamp.json"
+}

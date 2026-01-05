@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/EventProcessors.v1.json",
+  "title": "Event Processors Stack",
+  "description": "The infrastructure stack for serverless event processors using Lambda/Functions for event processing.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/EventProcessors.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for event processors deployment.",
+      "default": "familiar-event-processors"
+    },
+    "runtime": {
+      "type": "string",
+      "enum": [
+        "rust",
+        "python",
+        "nodejs",
+        "go"
+      ],
+      "description": "Runtime for the event processors.",
+      "default": "rust"
+    },
+    "processors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "trigger_events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output_events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "processing_type": {
+            "type": "string",
+            "enum": [
+              "transform",
+              "filter",
+              "aggregate",
+              "enrich",
+              "validate"
+            ]
+          },
+          "memory_mb": {
+            "type": "integer",
+            "default": 256
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        "required": [
+          "name",
+          "trigger_events",
+          "processing_type"
+        ]
+      },
+      "description": "Event processor function configurations."
+    },
+    "triggers": {
+      "type": "object",
+      "properties": {
+        "kafka_triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "topic": {
+                "type": "string"
+              },
+              "batch_size": {
+                "type": "integer",
+                "default": 10
+              },
+              "starting_position": {
+                "type": "string",
+                "enum": [
+                  "TRIM_HORIZON",
+                  "LATEST"
+                ],
+                "default": "LATEST"
+              }
+            }
+          }
+        },
+        "sqs_triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "queue_name": {
+                "type": "string"
+              },
+              "batch_size": {
+                "type": "integer",
+                "default": 10
+              }
+            }
+          }
+        }
+      }
+    },
+    "error_handling": {
+      "type": "object",
+      "properties": {
+        "dead_letter_queue": {
+          "type": "boolean",
+          "default": true
+        },
+        "retry_attempts": {
+          "type": "integer",
+          "default": 3
+        },
+        "retry_delay_seconds": {
+          "type": "integer",
+          "default": 60
+        }
+      }
+    },
+    "scaling": {
+      "type": "object",
+      "properties": {
+        "concurrent_executions": {
+          "type": "integer",
+          "default": 100
+        },
+        "reserved_concurrency": {
+          "type": "integer",
+          "default": 10
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for event processors metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "processors",
+    "observability_dashboard"
+  ]
+}

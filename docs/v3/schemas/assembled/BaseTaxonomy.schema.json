@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Taxonomy.v1.schema.json",
+  "title": "Base Taxonomy",
+  "description": "Defines the structure for a complete, named classification taxonomy, such as for physics profiles or emotional valence.",
+  "category": "_base",
+  "source_file": "_base/BaseTaxonomy.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The human-readable, PascalCase name of the object (e.g., 'UniversalPhysicsState').",
+      "type": "string"
+    },
+    "description": {
+      "description": "A clear, complete sentence explaining the object's purpose and function within the system.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "The semantic version of this schema definition (e.g., '1.0.0').",
+      "type": "string"
+    },
+    "taxonomy_id": {
+      "description": "A unique, machine-readable ID for this taxonomy (e.g., 'physics_profile_v1').",
+      "type": "string"
+    },
+    "levels": {
+      "description": "An ordered list of the levels in this taxonomy.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nodes": {
+      "description": "A list of all possible nodes within this taxonomy.",
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/TaxonomyNode.v1.schema.json",
+        "title": "Base Taxonomy Node",
+        "description": "Defines the structure for a single node within any given taxonomy.",
+        "type": "object",
+        "required": [
+          "id",
+          "level",
+          "label",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "description": "The unique ID for this node within its level (e.g., 'simple', 'individual', 'sleep').",
+            "type": "string"
+          },
+          "level": {
+            "description": "The name of the taxonomy level this node belongs to (e.g., 'cognitive_complexity').",
+            "type": "string"
+          },
+          "label": {
+            "description": "The human-readable label (e.g., 'Simple', 'Individual', 'Sleep').",
+            "type": "string"
+          },
+          "description": {
+            "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/Description.v1.json",
+            "title": "Description Field",
+            "description": "A canonical, reusable definition for a human-readable description field.",
+            "type": "string",
+            "default": ""
+          },
+          "embedding_context": {
+            "description": "OPTIONAL: Rich text fed into a Sentence Transformer to generate the canonical embedding for this concept. Omit for rule-based classifications.",
+            "type": "string"
+          },
+          "metadata": {
+            "description": "Optional key-value metadata for this node, such as a physics profile affinity or rule-based triggers.",
+            "type": "object",
+            "additionalProperties": true,
+            "title": "BaseTaxonomyNodeMetadata"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "taxonomy_id",
+    "levels",
+    "nodes"
+  ]
+}

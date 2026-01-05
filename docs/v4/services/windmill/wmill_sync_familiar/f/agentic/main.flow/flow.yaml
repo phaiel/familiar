@@ -1,0 +1,75 @@
+summary: 'Agentic: LlamaIndex Fates Pipeline'
+description: >-
+  Main agentic flow using LlamaIndex with Fates-themed agents.
+  Pipeline: Gate (intent) → Morta (segmentation) → Decima (classification) → Nona (response).
+  Windmill owns the DAG; LlamaIndex handles reasoning/tool-calling.
+value:
+  modules:
+    - id: run_fates_pipeline
+      summary: Run LlamaIndex Fates pipeline
+      value:
+        type: script
+        input_transforms:
+          input:
+            type: javascript
+            expr: |
+              {
+                state: flow_input.state || { tenant_id: flow_input.tenant_id || 'default', thread_id: flow_input.thread_id },
+                user_message: flow_input.content || flow_input.user_message,
+                request_id: flow_input.request_id || `req-${Date.now()}`,
+                is_first_message: flow_input.is_first_message || false
+              }
+        path: f/agentic/llamaindex_runner
+schema:
+  $schema: 'http://json-schema.org/draft-07/schema#'
+  type: object
+  properties:
+    content:
+      type: string
+      description: User message content
+    user_message:
+      type: string
+      description: Alternative field for user message
+    tenant_id:
+      type: string
+      description: Tenant ID for the conversation
+    thread_id:
+      type: string
+      description: Thread ID for conversation continuity
+    state:
+      type: object
+      description: Full agent state (if continuing conversation)
+    request_id:
+      type: string
+      description: Request correlation ID
+    is_first_message:
+      type: boolean
+      description: Whether this is the first message in the conversation
+      default: false
+    conversation_history:
+      type: array
+      description: Previous conversation turns
+      items:
+        type: object
+        properties:
+          role:
+            type: string
+          content:
+            type: string
+    blocks:
+      type: array
+      description: UI blocks (Block Kit format)
+      items:
+        type: object
+  required: []
+
+
+
+
+
+
+
+
+
+
+

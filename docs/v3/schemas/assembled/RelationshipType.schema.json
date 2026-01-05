@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/social/RelationshipType.v1.json",
+  "title": "Relationship Type",
+  "description": "A canonical enum of all possible relationship types between Threads.",
+  "category": "snippets",
+  "source_file": "snippets/types/social/RelationshipType.json",
+  "type": "string",
+  "enum": [
+    "Family",
+    "Friend",
+    "Romantic",
+    "Professional",
+    "Acquaintance",
+    "Adversarial"
+  ]
+}

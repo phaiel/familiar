@@ -1,0 +1,14 @@
+        Ok(User {
+            meta: SystemEntityMeta {
+                id: id.into(),
+                timestamps: Timestamps::from_db(now, now),
+            },
+            email: input.email,
+            email_verified: false,
+            name: input.name,
+            avatar_url: input.avatar_url,
+            primary_tenant_id: input.primary_tenant_id,
+            settings: serde_json::json!({}),
+            gdpr_consents: serde_json::json!({}),
+            deletion_requested_at: None,
+        })

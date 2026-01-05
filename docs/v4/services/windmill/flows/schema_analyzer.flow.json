@@ -1,0 +1,53 @@
+{
+  "summary": "Schema Analyzer: LLM Analysis",
+  "description": "Uses Claude to analyze Rust structs for schema compliance and migration recommendations.",
+  "schema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["analysis_type", "code", "name", "file_path"],
+    "properties": {
+      "analysis_type": {
+        "type": "string",
+        "enum": ["entity_classification", "generate_migration", "compliance_check"],
+        "description": "Type of analysis to perform"
+      },
+      "code": {
+        "type": "string",
+        "description": "Rust code to analyze"
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the struct/type"
+      },
+      "file_path": {
+        "type": "string",
+        "description": "Path to the source file"
+      },
+      "context": {
+        "type": "string",
+        "description": "Additional context (conventions, target pattern)"
+      }
+    }
+  },
+  "value": {
+    "modules": [
+      {
+        "id": "analyze",
+        "summary": "Call Claude for analysis",
+        "value": {
+          "type": "rawscript",
+          "language": "python3",
+          "content": "import json\nfrom anthropic import Anthropic\nimport wmill\n\nFAMILIAR_CONVENTIONS = \"\"\"\n# Familiar Schema Conventions\n\n## Entity Types\n\n1. **Domain Entities** (most types): Use `EntityMeta<{Type}Id>` with `#[serde(flatten)]`\n   - Has: id, tenant_id, created_at, updated_at\n   - Example: Channel, Message, FamiliarEntity\n\n2. **System Entities** (User, Tenant): Use `SystemEntityMeta<{Type}Id>`\n   - Has: id, created_at, updated_at (NO tenant_id)\n   - Only for: User, Tenant\n\n3. **DTOs/Inputs** (CreateXInput, UpdateXInput): Do NOT use EntityMeta\n   - These are request payloads, not stored entities\n\n4. **UI Types** (UIChannel, UIMessage): Do NOT use EntityMeta  \n   - These are frontend DTOs with different field types (String dates)\n\n5. **Components** (Timestamps, EntityPhysics): Do NOT use EntityMeta\n   - These are composable pieces, not standalone entities\n\n## Semantic Primitives\n\n- Use `UserId`, `TenantId`, `ChannelId` instead of raw `Uuid`\n- Create new primitives with `define_uuid_id!` macro\n\"\"\"\n\nENTITY_CLASSIFICATION_PROMPT = \"\"\"You are a Rust schema architecture expert analyzing code for the \"familiar\" project.\n\nClassify structs into these categories:\n\n1. **domain_entity**: Has id, tenant_id, created_at, updated_at → should use EntityMeta<{Type}Id>\n2. **system_entity**: Has id, created_at, updated_at but NO tenant_id → should use SystemEntityMeta<{Type}Id>\n   (Only for User and Tenant types)\n3. **dto**: Input/output types (CreateXInput, UpdateXInput, XResponse) → do NOT use EntityMeta\n4. **ui_type**: Frontend types (UI* prefix, string dates) → do NOT use EntityMeta\n5. **component**: Composable pieces (Timestamps, Physics) → do NOT use EntityMeta\n\nRespond with JSON only:\n{\n  \"classification\": \"domain_entity|system_entity|dto|ui_type|component\",\n  \"should_migrate\": true/false,\n  \"priority\": 1-5,\n  \"reasoning\": \"brief explanation\",\n  \"suggested_fix\": \"code snippet or null\",\n  \"dependencies\": [\"files that need updates\"]\n}\"\"\"\n\nMIGRATION_PROMPT = \"\"\"You are a Rust code generator. Generate migrated struct code.\n\nRules:\n1. For EntityMeta: Replace id, tenant_id, created_at, updated_at with:\n   #[serde(flatten)]\n   pub meta: EntityMeta<{Type}Id>,\n\n2. For SystemEntityMeta: Replace id, created_at, updated_at with:\n   #[serde(flatten)]\n   pub meta: SystemEntityMeta<{Type}Id>,\n\n3. Add imports: use crate::types::base::{EntityMeta, SystemEntityMeta};\n4. Keep ALL other fields unchanged\n5. Preserve all derives and attributes\n\nRespond with JSON:\n{\n  \"classification\": \"domain_entity|system_entity\",\n  \"should_migrate\": true,\n  \"priority\": 5,\n  \"reasoning\": \"Migration generated\",\n  \"suggested_fix\": \"full rust code here\",\n  \"dependencies\": [\"store.rs if entity is persisted\"]\n}\"\"\"\n\nCOMPLIANCE_PROMPT = \"\"\"You are a Rust schema compliance checker for the \"familiar\" project.\n\nCheck for:\n1. Raw Uuid usage where semantic primitives exist (UserId, TenantId, etc.)\n2. Inline timestamp fields instead of using Timestamps component\n3. Missing derives (Serialize, Deserialize, JsonSchema, TS)\n4. Inconsistent naming patterns\n\nRespond with JSON:\n{\n  \"classification\": \"compliant|non_compliant\",\n  \"should_migrate\": true/false,\n  \"priority\": 1-5,\n  \"reasoning\": \"list of violations\",\n  \"suggested_fix\": \"how to fix\",\n  \"dependencies\": []\n}\"\"\"\n\ndef main(\n    analysis_type: str,\n    code: str,\n    name: str,\n    file_path: str,\n    context: str = None,\n):\n    # Get API key from Windmill resource\n    api_key = wmill.get_resource(\"u/phaiel/anthropic_analyzer\")\n    client = Anthropic(api_key=api_key)\n    \n    # Select prompt based on analysis type\n    if analysis_type == \"entity_classification\":\n        system_prompt = ENTITY_CLASSIFICATION_PROMPT\n        user_prompt = f\"\"\"Analyze this Rust struct from `{file_path}`:\n\n```rust\n{code}\n```\n\n{FAMILIAR_CONVENTIONS}\n\n{context or ''}\n\nShould this struct use EntityMeta or SystemEntityMeta? Classify it and explain.\"\"\"\n\n    elif analysis_type == \"generate_migration\":\n        system_prompt = MIGRATION_PROMPT\n        user_prompt = f\"\"\"Generate a migration for this struct:\n\n```rust\n{code}\n```\n\n{context or ''}\n\nProvide the FULL migrated struct with all necessary imports.\"\"\"\n\n    elif analysis_type == \"compliance_check\":\n        system_prompt = COMPLIANCE_PROMPT\n        user_prompt = f\"\"\"Check this struct for schema compliance:\n\n```rust\n{code}\n```\n\n{FAMILIAR_CONVENTIONS}\n\n{context or ''}\n\nList any violations and suggested fixes.\"\"\"\n\n    else:\n        return {\n            \"classification\": None,\n            \"should_migrate\": False,\n            \"priority\": 0,\n            \"reasoning\": f\"Unknown analysis type: {analysis_type}\",\n            \"suggested_fix\": None,\n            \"dependencies\": [],\n            \"error\": f\"Unknown analysis type: {analysis_type}\",\n        }\n\n    # Call Claude\n    try:\n        response = client.messages.create(\n            model=\"claude-sonnet-4-20250514\",\n            max_tokens=2048,\n            system=system_prompt,\n            messages=[{\"role\": \"user\", \"content\": user_prompt}],\n        )\n        \n        response_text = response.content[0].text\n        \n        # Extract JSON from response\n        try:\n            if \"```json\" in response_text:\n                json_start = response_text.find(\"```json\") + 7\n                json_end = response_text.find(\"```\", json_start)\n                response_text = response_text[json_start:json_end].strip()\n            elif \"```\" in response_text:\n                json_start = response_text.find(\"```\") + 3\n                json_end = response_text.find(\"```\", json_start)\n                response_text = response_text[json_start:json_end].strip()\n            \n            result = json.loads(response_text)\n            return {\n                \"classification\": result.get(\"classification\"),\n                \"should_migrate\": result.get(\"should_migrate\", False),\n                \"priority\": result.get(\"priority\", result.get(\"migration_priority\", 0)),\n                \"reasoning\": result.get(\"reasoning\", \"\"),\n                \"suggested_fix\": result.get(\"suggested_fix\"),\n                \"dependencies\": result.get(\"dependencies\", []),\n                \"error\": None,\n            }\n        except json.JSONDecodeError:\n            return {\n                \"classification\": None,\n                \"should_migrate\": False,\n                \"priority\": 0,\n                \"reasoning\": response_text,\n                \"suggested_fix\": None,\n                \"dependencies\": [],\n                \"error\": None,\n            }\n            \n    except Exception as e:\n        return {\n            \"classification\": None,\n            \"should_migrate\": False,\n            \"priority\": 0,\n            \"reasoning\": \"\",\n            \"suggested_fix\": None,\n            \"dependencies\": [],\n            \"error\": str(e),\n        }",
+          "input_transforms": {
+            "analysis_type": { "type": "javascript", "expr": "flow_input.analysis_type" },
+            "code": { "type": "javascript", "expr": "flow_input.code" },
+            "name": { "type": "javascript", "expr": "flow_input.name" },
+            "file_path": { "type": "javascript", "expr": "flow_input.file_path" },
+            "context": { "type": "javascript", "expr": "flow_input.context" }
+          }
+        }
+      }
+    ]
+  }
+}
+

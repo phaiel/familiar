@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "SegmentClassification": {
+      "description": "Classification for a single segment",
+      "properties": {
+        "entity_type": {
+          "allOf": [
+            {
+              "$ref": "../primitives/HeddleEntityType.schema.json"
+            }
+          ],
+          "description": "The entity type (MOMENT, PULSE, INTENT) - relevant for LOG purpose"
+        },
+        "physics": {
+          "anyOf": [
+            {
+              "$ref": "../types/ClassificationPhysics.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Physics hints for entity spawning (only for LOG purpose)"
+        },
+        "confidence": {
+          "description": "Confidence in classification (0.0 to 1.0)",
+          "format": "double",
+          "type": "number"
+        },
+        "segment_id": {
+          "description": "ID of the segment this classification applies to",
+          "type": "string"
+        }
+      },
+      "required": [
+        "entity_type",
+        "confidence",
+        "segment_id"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "Response from content classification service",
+  "properties": {
+    "classifications": {
+      "description": "List of segment classifications",
+      "items": {
+        "$ref": "#/definitions/SegmentClassification"
+      },
+      "type": "array"
+    },
+    "request_id": {
+      "description": "Request identifier for tracking",
+      "type": "string"
+    }
+  },
+  "required": [
+    "classifications",
+    "request_id"
+  ],
+  "title": "ContentClassificationResponse",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Component.meta.schema.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-daemon.node.json"
+  }
+}

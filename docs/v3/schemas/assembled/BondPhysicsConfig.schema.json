@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/BondPhysicsConfig.v1.schema.json",
+  "title": "Bond Physics Config Component",
+  "description": "Configuration that defines the physics model for a Bond (Dynamic or Static).",
+  "category": "components",
+  "source_file": "components/BondPhysicsConfig.schema.json",
+  "type": "object",
+  "properties": {
+    "physics_properties": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/PhysicsProperties.v1.schema.json",
+      "title": "Base Physics Properties",
+      "description": "Defines the common physics-related properties for components and laws.",
+      "type": "object",
+      "required": [
+        "engine",
+        "is_quantum"
+      ],
+      "properties": {
+        "collapse_sensitive": {
+          "description": "Indicates if the object is affected by or triggers quantum collapse.",
+          "type": "boolean"
+        },
+        "engine": {
+          "description": "The physics engine responsible for this object.",
+          "enum": [
+            "quantum",
+            "classical",
+            "hybrid"
+          ]
+        },
+        "is_quantum": {
+          "description": "Indicates if the object has quantum properties.",
+          "type": "boolean"
+        }
+      }
+    },
+    "fields": {
+      "description": "Component-specific fields",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "physics_properties",
+    "fields"
+  ],
+  "schema_version": "1.0.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false
+  },
+  "fields": {
+    "bond_model": {
+      "description": "The physics model to apply to this bond.",
+      "type": "string",
+      "enum": [
+        "Dynamic",
+        "Static"
+      ]
+    },
+    "dynamic_params": {
+      "description": "Parameters for the spring-damper model, used only if bond_model is 'Dynamic'.",
+      "type": "object",
+      "properties": {
+        "base_spring_constant": {
+          "type": "number"
+        },
+        "base_damping_coefficient": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "base_spring_constant",
+        "base_damping_coefficient"
+      ],
+      "title": "BondPhysicsConfigDynamicParams"
+    },
+    "static_params": {
+      "description": "Parameters for the associative model, used only if bond_model is 'Static'.",
+      "type": "object",
+      "properties": {
+        "consolidation_boost": {
+          "type": "number"
+        },
+        "emotional_anchor_strength": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "consolidation_boost",
+        "emotional_anchor_strength"
+      ],
+      "title": "BondPhysicsConfigStaticParams"
+    }
+  }
+}

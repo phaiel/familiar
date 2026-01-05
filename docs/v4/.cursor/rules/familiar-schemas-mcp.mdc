@@ -1,0 +1,97 @@
+---
+description: Use the familiar-schemas MCP for schema and type queries
+globs:
+  - "**/*.rs"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.json"
+  - "**/familiar-schemas/**"
+  - "**/familiar-core/**"
+alwaysApply: true
+---
+
+# Familiar Schemas MCP Usage
+
+When working with this codebase, **always use the `familiar-schemas` MCP tools** for questions about:
+- Schema types and their relationships
+- Generated Rust/TypeScript types
+- Type dependencies and dependents
+- Import statements
+- Codegen and derive explanations
+
+## Available MCP Tools
+
+### Quick Lookups (O(1))
+- `status` - Registry health check (schema count, artifact count, bundle hash)
+- `resolve` - Convert type name to canonical schema ID
+- `get_type` - Get schema metadata, fields, and reference counts
+- `get_artifacts` - Find generated Rust/TS code location (file + line number)
+
+### Graph Traversal
+- `get_refs` - What does this schema depend on? (outgoing edges)
+- `get_dependents` - What depends on this schema? (incoming edges)
+- `closure` - Transitive dependencies/dependents (full tree)
+- `impact` - Blast radius analysis for schema changes
+- `affected_artifacts` - What generated files would change?
+
+### Code Generation Help
+- `imports_for` - Generate correct import statements for a type
+- `explain_boxing` - Why does a type need `Box<T>`?
+- `explain_derives` - What derives are applied and why?
+- `policy_for` - Codegen policy settings for a type
+
+### Graph Analysis
+- `scc_report` - Find circular references (cycles)
+- `hub_report` - Find high-degree types (architectural hubs)
+- `graph_stats` - Full statistics including artifact coverage
+
+## When to Use MCP vs File Search
+
+| Question | Use MCP | Don't Use |
+|----------|---------|-----------|
+| "What is TenantId?" | ✅ `get_type` | ❌ grep |
+| "Where is TenantId generated?" | ✅ `get_artifacts` | ❌ file search |
+| "What uses TenantId?" | ✅ `get_dependents` | ❌ grep references |
+| "What would break if I change X?" | ✅ `impact` | ❌ manual trace |
+| "How do I import CourseResponse?" | ✅ `imports_for` | ❌ guess |
+
+## Common Workflows
+
+### Before Modifying a Schema
+```
+1. get_dependents("SchemaName") - See what would be affected
+2. impact("SchemaName") - Full blast radius
+3. affected_artifacts("SchemaName") - What files need regeneration
+```
+
+### Understanding a Type
+```
+1. resolve("TypeName") - Get canonical ID
+2. get_type("TypeName") - Get metadata and fields
+3. get_refs("TypeName") - See dependencies
+```
+
+### Finding Generated Code
+```
+1. get_artifacts("TypeName", lang="rust") - Get file:line
+2. file_artifacts("path/to/generated.rs") - See all types in file
+```
+
+### Adding New Types
+```
+1. search("similar concept") - Find related schemas
+2. get_type("RelatedSchema") - Understand the pattern
+3. list_kinds() - Choose appropriate x-familiar-kind
+```
+
+## Important Notes
+
+1. **Always check `status` first** if artifact count is 0 - artifacts may not be loaded yet.
+
+2. **Use `get_type` before `schema_raw`** - it's faster and usually sufficient.
+
+3. **For hub types (TenantId, Email, etc.)**, changes have wide blast radius - always use `impact`.
+
+4. **After schema changes**, run: `cargo xtask codegen generate`
+
+5. **Artifact line numbers are accurate** - you can jump directly to generated code.

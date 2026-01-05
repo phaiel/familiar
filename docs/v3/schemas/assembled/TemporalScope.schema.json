@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/TemporalScope.v1.json",
+  "title": "Temporal Scope Field",
+  "description": "The temporal scope or duration of an entity or process.",
+  "category": "snippets",
+  "source_file": "snippets/fields/TemporalScope.json",
+  "type": "string",
+  "enum": [
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Quarterly",
+    "Yearly",
+    "Ongoing"
+  ]
+}

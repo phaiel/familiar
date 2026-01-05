@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Workflow.v1.schema.json",
+  "title": "Base Workflow (DAG)",
+  "description": "The base schema for defining a Windmill DAG.",
+  "type": "object",
+  "allOf": [{ "$ref": "./BaseMetadata.schema.json" }],
+  "properties": {
+    "tasks": { "$ref": "../snippets/types/primitives/TaskList.json" }
+  },
+  "required": ["tasks"]
+}

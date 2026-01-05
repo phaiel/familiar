@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/fields/EmotionalVolatility.v1.json",
+  "title": "Emotional Volatility",
+  "description": "How strongly emotional events affect this person. High values lead to larger energy transfers and more significant bond tension changes. (UI Label: Emotional Reactivity)",
+  "category": "snippets",
+  "source_file": "snippets/fields/EmotionalVolatility.json",
+  "type": "number",
+  "minimum": 0.5,
+  "maximum": 2.0,
+  "default": 1.0
+}

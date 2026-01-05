@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/entities/Course.v1.schema.json",
+  "title": "Course Entity",
+  "description": "A system entity that tracks the end-to-end lifecycle of a single cognitive task.",
+  "allOf": [
+    { "$ref": "./_base/BaseSystemEntity.schema.json" },
+    {
+      "properties": {
+        "entity_type": { "const": "Course" },
+        "components": {
+          "properties": { "details": { "$ref": "../components/CourseDetails.schema.json" } },
+          "required": ["details"]
+        },
+        "infrastructure": {
+          "allOf": [{ "$ref": "../snippets/types/infrastructure/WorkflowOrchestrator.json" }],
+          "properties": {
+            "trigger_topics": { "default": ["api.user.query.received"] },
+            "status_topics": { "default": ["workflow.course.status.updates"] }
+          }
+        }
+      }
+    }
+  ]
+}

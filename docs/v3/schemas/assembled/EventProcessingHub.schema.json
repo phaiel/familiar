@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/snippets/types/infrastructure/EventProcessingHub.v1.json",
+  "title": "Event Processing Hub Stack",
+  "description": "The infrastructure stack for an event processing hub with Redpanda-based event processing and schema validation.",
+  "category": "snippets",
+  "source_file": "snippets/types/infrastructure/EventProcessingHub.json",
+  "type": "object",
+  "properties": {
+    "service_template": {
+      "type": "string",
+      "description": "The Backstage template for the event processing hub.",
+      "default": "familiar-event-processing-hub"
+    },
+    "primary_datastore": {
+      "type": "string",
+      "description": "Primary datastore for event processing.",
+      "default": "redpanda_topics"
+    },
+    "event_schemas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of event schemas this hub processes."
+    },
+    "processing_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "stream_processing",
+          "batch_processing",
+          "event_sourcing",
+          "cqrs",
+          "saga"
+        ]
+      },
+      "description": "Event processing patterns supported.",
+      "default": [
+        "stream_processing",
+        "event_sourcing"
+      ]
+    },
+    "input_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Input Redpanda topics for event consumption."
+    },
+    "output_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Output Redpanda topics for processed events."
+    },
+    "dead_letter_queue": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "topic_name": {
+          "type": "string",
+          "default": "event-processing-dlq"
+        },
+        "retry_attempts": {
+          "type": "integer",
+          "default": 3
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "schema_validation": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "validation_level": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "permissive",
+            "disabled"
+          ],
+          "default": "strict"
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "scaling": {
+      "type": "object",
+      "properties": {
+        "min_replicas": {
+          "type": "integer",
+          "default": 2
+        },
+        "max_replicas": {
+          "type": "integer",
+          "default": 10
+        },
+        "cpu_threshold": {
+          "type": "integer",
+          "default": 70
+        }
+      }
+    },
+    "observability_dashboard": {
+      "type": "string",
+      "description": "Path to the Grafana dashboard for event processing metrics."
+    }
+  },
+  "required": [
+    "service_template",
+    "event_schemas",
+    "input_topics",
+    "output_topics",
+    "observability_dashboard"
+  ]
+}

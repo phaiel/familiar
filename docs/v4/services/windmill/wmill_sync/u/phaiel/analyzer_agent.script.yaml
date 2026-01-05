@@ -1,0 +1,50 @@
+summary: ''
+description: ''
+lock: '!inline u/phaiel/analyzer_agent.script.lock'
+kind: script
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties:
+    name:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    analysis_type:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    ast_grep_mcp_url:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    code:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    context:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    file_path:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    project_path:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - analysis_type
+    - code
+    - name
+    - file_path
+    - project_path
+    - ast_grep_mcp_url

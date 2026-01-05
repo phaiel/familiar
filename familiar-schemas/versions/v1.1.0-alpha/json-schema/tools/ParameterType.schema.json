@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Supported parameter types",
+  "oneOf": [
+    {
+      "enum": [
+        "string",
+        "integer",
+        "float",
+        "boolean",
+        "array",
+        "object"
+      ],
+      "type": "string"
+    },
+    {
+      "description": "Reference to another entity",
+      "enum": [
+        "entity_ref"
+      ],
+      "type": "string"
+    },
+    {
+      "description": "Base64 encoded binary data",
+      "enum": [
+        "binary"
+      ],
+      "type": "string"
+    }
+  ],
+  "title": "ParameterType",
+  "x-familiar-casing": "snake_case",
+  "x-familiar-enum-repr": "simple_enum",
+  "x-familiar-kind": "tool",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Tool.meta.schema.json"
+  },
+  "x-familiar-queue": {
+    "$ref": "../infrastructure/queues/worker-queue.queue.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-worker.node.json"
+  },
+  "x-familiar-variants": {
+    "array": "Array",
+    "binary": "Binary",
+    "boolean": "Boolean",
+    "entity_ref": "EntityRef",
+    "float": "Float",
+    "integer": "Integer",
+    "object": "Object",
+    "string": "String"
+  }
+}

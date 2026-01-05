@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/base/Infrastructure.v1.schema.json",
+  "title": "Base Infrastructure",
+  "description": "The base schema for defining the infrastructure components required to support a specific data entity or service.",
+  "type": "object",
+  "properties": {
+    "x-infrastructure": {
+      "description": "Defines the infrastructure components required to support this entity.",
+      "$ref": "../snippets/types/infrastructure/InfrastructureBlock.json"
+    }
+  },
+  "required": ["x-infrastructure"]
+}

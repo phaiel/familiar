@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/system/ConnectionStatus.v1.json",
+  "title": "Connection Status",
+  "description": "A canonical enum for connection states.",
+  "category": "snippets",
+  "source_file": "snippets/types/system/ConnectionStatus.json",
+  "type": "string",
+  "enum": [
+    "Connected",
+    "Disconnected"
+  ]
+}

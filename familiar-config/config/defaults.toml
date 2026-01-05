@@ -1,0 +1,171 @@
+# Familiar Platform Configuration Defaults
+# This file contains all the "magic numbers" that were previously hardcoded in schemas.
+# These values serve as the operational baseline for the platform.
+
+# =============================================================================
+# Node Resource Allocations
+# =============================================================================
+
+[nodes.familiar_daemon.resources]
+cpu = "2000m"
+memory = "8Gi"
+storage = "50Gi"
+
+[nodes.familiar_daemon.constraints]
+memory_threshold = 2000000
+cpu_threshold = 0.8
+schema_version = "1.2.0"
+queue_depth_threshold = 100
+error_rate_threshold = 0.05
+
+[nodes.familiar_daemon.constraints.active_job_limits]
+llm_jobs = 8
+
+[nodes.familiar_worker.resources]
+cpu = "4000m"
+memory = "16Gi"
+storage = "200Gi"
+
+[nodes.familiar_worker.constraints]
+memory_threshold = 1000000
+cpu_threshold = 0.9
+io_capacity = 50
+
+[nodes.classifier.resources]
+cpu = "8000m"
+memory = "32Gi"
+gpu = 2
+
+[nodes.classifier.constraints]
+memory_threshold = 4000000
+gpu_memory_available = 2000000
+ml_ready = true
+load = 8
+
+# =============================================================================
+# System Timeouts and Retries
+# =============================================================================
+
+[systems.fates_gate.timeouts]
+weave = "30s"
+search = "60s"
+classify = "120s"
+
+[systems.fates_gate.retries]
+weave = 3
+search = 2
+classify = 1
+
+[systems.fates_gate.routing]
+memory_threshold = 10000
+complexity_threshold = 0.8
+
+[systems.classifier_system.timeouts]
+classification = "120s"
+entity_segment = "30s"
+purpose_classification = "60s"
+
+[systems.classifier_system.retries]
+classification = 2
+entity_segment = 3
+purpose_classification = 2
+
+[systems.classifier_system.routing]
+urgency_threshold = "high"
+gpu_pool_threshold = "gpu-pool"
+
+# =============================================================================
+# Observability Configuration
+# =============================================================================
+
+[observability.circuit_breaker]
+failure_threshold = 5
+success_threshold = 3
+recovery_timeout = "30s"
+health_check_interval = "10s"
+failure_detection_window = "60s"
+slow_call_duration_threshold = "5s"
+slow_call_rate_threshold = 0.5
+
+[observability.load_shedding]
+cpu_threshold = 0.8
+memory_threshold = 0.9
+queue_depth_threshold = 1000
+request_rate_threshold = 1000
+shedding_strategy = "adaptive"
+shedding_rate = 0.1
+recovery_cooldown = "30s"
+
+[observability.metrics]
+collection_interval = "15s"
+max_batch_size = 512
+max_queue_size = 2048
+export_timeout = "30s"
+schedule_delay = "5s"
+
+[observability.alerting]
+for_duration = "5m"
+
+[observability.tracing]
+sampling_ratio = 0.1
+max_attributes_per_span = 128
+max_events_per_span = 128
+max_links_per_span = 128
+attribute_value_length_limit = 4096
+attribute_count_limit = 128
+
+[observability.health_check]
+liveness_initial_delay = "5s"
+liveness_period = "30s"
+liveness_timeout = "3s"
+readiness_initial_delay = "10s"
+readiness_period = "10s"
+readiness_timeout = "3s"
+checks_timeout = "5s"
+checks_interval = "30s"
+failure_threshold = 3
+success_threshold = 1
+
+[observability.resilience]
+max_attempts = 3
+initial_delay = "100ms"
+max_delay = "30s"
+backoff_multiplier = 2.0
+request_timeout = "30s"
+connection_timeout = "10s"
+idle_timeout = "60s"
+max_concurrent_calls = 10
+max_wait_queue_size = 100
+wait_duration = "10s"
+
+[observability.resource_monitoring]
+collection_interval = "30s"
+aggregation = "avg"
+connection_pool_exhaustion = 0.9
+response_time_degradation = "5s"
+error_rate_threshold = 0.05
+capacity_warning = 0.8
+
+[observability.queue_monitoring]
+max_queue_depth = 10000
+max_processing_latency = "30s"
+max_consumer_lag = "5m"
+rebalance_alert_threshold = 0.1
+balance_check_interval = "60s"
+evaluation_period = "5m"
+
+# =============================================================================
+# Infrastructure Configuration
+# =============================================================================
+
+[infra.queues]
+classifier_retention = "7d"
+feature_retention = "1d"
+
+[infra.scaling]
+cooldown_period = "5m"
+default_timeout = "30s"
+
+[infra.timeouts]
+default_activity_timeout = "5m"
+default_workflow_timeout = "1h"

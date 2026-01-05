@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [{ "$ref": "../_base/BaseLaw.schema.json" }],
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/laws/MemoryConsolidation.v1.schema.json",
+  "title": "Memory Consolidation Law",
+  "description": "Strengthens the stability of a Moment entity based on access frequency and its relationship to other coherent patterns, modeling the process of memory consolidation.",
+  "schema_version": "1.0.0",
+  "physics_properties": {
+    "engine": "classical",
+    "is_quantum": false,
+    "collapse_sensitive": false
+  },
+  "execution_envelope": {
+    "trigger": "event",
+    "priority": 6
+  },
+  "affected_components": [
+    "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/UniversalPhysicsState.v1.schema.json",
+    "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/components/TemporalAnchor.v1.schema.json"
+  ]
+}

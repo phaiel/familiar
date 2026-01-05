@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/DensityMatrix.v1.json",
+  "title": "Density Matrix",
+  "description": "A 2x2 matrix of complex numbers representing a quantum state.",
+  "category": "snippets",
+  "source_file": "snippets/types/physics/DensityMatrix.json",
+  "type": "array",
+  "items": {
+    "type": "array",
+    "items": {
+      "$id": "https://raw.githubusercontent.com/phaiel/familiar-schema/main/docs/v3/schemas/types/physics/ComplexNumber.v1.json",
+      "title": "Complex Number",
+      "description": "Represents a complex number with real and imaginary parts.",
+      "type": "object",
+      "properties": {
+        "real": {
+          "type": "number"
+        },
+        "imaginary": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "real",
+        "imaginary"
+      ]
+    },
+    "minItems": 2,
+    "maxItems": 2
+  },
+  "minItems": 2,
+  "maxItems": 2
+}
