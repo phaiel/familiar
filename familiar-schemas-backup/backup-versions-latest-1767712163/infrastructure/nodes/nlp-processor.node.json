@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../architecture/meta/Node.meta.schema.json",
+  "$id": "infrastructure/nodes/nlp-processor.node.json",
+  "id": "nlp-processor",
+  "title": "NLP Processing Node",
+  "description": "CPU-optimized node for linguistic analysis and semantic processing",
+  "x-familiar-kind": "node",
+  "constraints": {
+    "cpu": "node.cpu_cores >= config://nodes.nlp_processor.constraints.min_cpu_cores",
+    "memory": "node.available_memory >= config://nodes.nlp_processor.constraints.min_memory_gb",
+    "storage": "node.available_storage >= config://nodes.nlp_processor.constraints.min_storage_gb"
+  },
+  "resources": {
+    "cpu": "config://nodes.nlp_processor.resources.cpu_cores",
+    "memory": "config://nodes.nlp_processor.resources.memory_gb",
+    "storage": "config://nodes.nlp_processor.resources.storage_gb"
+  },
+  "systems": [
+    { "$ref": "../systems/NLPProcessingSystem.system.json" }
+  ]
+}

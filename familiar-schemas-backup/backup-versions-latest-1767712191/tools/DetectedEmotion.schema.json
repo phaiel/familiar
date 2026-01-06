@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "A detected emotion in the content",
+  "properties": {
+    "emotion": {
+      "description": "Emotion name",
+      "type": "string"
+    },
+    "evidence": {
+      "description": "Evidence for detection",
+      "type": "string"
+    },
+    "intensity": {
+      "description": "Intensity (0.0 to 1.0)",
+      "format": "double",
+      "type": "number"
+    }
+  },
+  "required": [
+    "emotion",
+    "evidence",
+    "intensity"
+  ],
+  "title": "DetectedEmotion",
+  "type": "object",
+  "x-familiar-kind": "tool",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Tool.meta.schema.json"
+  },
+  "x-familiar-queue": {
+    "$ref": "../infrastructure/queues/worker-queue.queue.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-worker.node.json"
+  }
+}

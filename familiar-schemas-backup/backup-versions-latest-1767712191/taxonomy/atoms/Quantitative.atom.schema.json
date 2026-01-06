@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/taxonomy/atoms/Quantitative.atom.schema.json",
+  "title": "Quantitative Atom",
+  "description": "The measurement/quantity atom ($). Maps quantitative expressions to standardized units and significance levels.",
+  "x-familiar-kind": "taxonomy_atom",
+  "x-familiar-description": "Quantitative dimension - how much/how many",
+
+  "type": "object",
+  "required": ["quantity_type", "normalized_value"],
+  "properties": {
+    "quantity_type": {
+      "type": "string",
+      "description": "The type of quantity being measured",
+      "enum": ["duration", "count", "mass", "distance", "temperature", "frequency", "percentage", "other"],
+      "examples": ["duration", "count", "mass"]
+    },
+
+    "normalized_value": {
+      "type": "number",
+      "description": "Value normalized to standard units (e.g., minutes for time, grams for mass)"
+    },
+
+    "original_expression": {
+      "type": "string",
+      "description": "The original text expression (e.g., '11 hours', 'five minutes')",
+      "examples": ["11 hours", "a few minutes", "several times"]
+    },
+
+    "unit_standardization": {
+      "type": "object",
+      "description": "How the original units were converted to normalized form",
+      "properties": {
+        "original_unit": { "type": "string" },
+        "conversion_factor": { "type": "number" },
+        "normalized_unit": { "type": "string" }
+      },
+      "examples": {
+        "original_unit": "hours",
+        "conversion_factor": 60,
+        "normalized_unit": "minutes"
+      }
+    },
+
+    "significance_level": {
+      "type": "string",
+      "description": "How significant this quantity is in context",
+      "enum": ["trivial", "normal", "significant", "extreme"],
+      "default": "normal"
+    },
+
+    "precision_qualifier": {
+      "type": "string",
+      "description": "How precise the measurement is",
+      "enum": ["exact", "approximate", "order_of_magnitude", "comparative"],
+      "examples": ["approximate", "exact", "comparative"]
+    }
+  },
+
+  "x-familiar-taxonomy": {
+    "root": "Quantity",
+    "structure": "tree",
+    "pruning_strategy": "quantity_domain_pruning",
+    "vae_dimensions": ["magnitude", "significance", "precision"],
+    "weight_config_key": "taxonomy.quantitative.weights"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "../architecture/meta/Type.meta.schema.json",
+  "$id": "types/NLPRequest.schema.json",
+  "title": "NLPRequest",
+  "description": "Request for natural language processing and semantic analysis",
+  "type": "object",
+  "x-familiar-kind": "type",
+  "required": ["text", "request_id"],
+  "properties": {
+    "request_id": {
+      "$ref": "../primitives/UUID.schema.json",
+      "description": "Unique identifier for this request"
+    },
+    "text": {
+      "type": "string",
+      "description": "The text to process"
+    },
+    "language": {
+      "type": "string",
+      "default": "en",
+      "description": "Language code (ISO 639-1)"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "critical"],
+      "default": "normal",
+      "description": "Processing priority"
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context for processing",
+      "additionalProperties": true
+    },
+    "model_config": {
+      "type": "object",
+      "description": "LLM model configuration overrides",
+      "additionalProperties": true
+    }
+  }
+}

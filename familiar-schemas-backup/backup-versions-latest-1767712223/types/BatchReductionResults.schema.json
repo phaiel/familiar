@@ -1,0 +1,43 @@
+{
+  "$schema": "../architecture/meta/Type.meta.schema.json",
+  "$id": "types/BatchReductionResults.schema.json",
+  "title": "BatchReductionResults",
+  "description": "Consolidated results from batch NLP processing and semantic reduction",
+  "type": "object",
+  "x-familiar-kind": "type",
+  "required": ["batch_id", "results"],
+  "properties": {
+    "batch_id": {
+      "$ref": "../primitives/UUID.schema.json",
+      "description": "Batch identifier from the request"
+    },
+    "results": {
+      "type": "array",
+      "items": { "$ref": "../components/ReductionResult.schema.json" },
+      "description": "Individual reduction results for each request"
+    },
+    "summary": {
+      "type": "object",
+      "description": "Batch processing summary statistics",
+      "properties": {
+        "total_requests": { "type": "integer" },
+        "successful_reductions": { "type": "integer" },
+        "failed_reductions": { "type": "integer" },
+        "average_processing_time_ms": { "type": "number" },
+        "batch_processing_time_ms": { "type": "number" }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Any errors that occurred during batch processing",
+      "items": {
+        "type": "object",
+        "properties": {
+          "request_index": { "type": "integer" },
+          "error": { "type": "string" },
+          "error_code": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "$schema": "../architecture/meta/Type.meta.schema.json",
+  "$id": "types/Object.schema.json",
+  "title": "Object",
+  "description": "Generic object type for key-value data structures",
+  "type": "object",
+  "x-familiar-kind": "type"
+}

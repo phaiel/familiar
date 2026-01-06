@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ConsentType": {
+      "enum": [
+        "TermsOfService",
+        "PrivacyPolicy",
+        "MarketingEmails",
+        "AiProcessing",
+        "DataSharing",
+        "Analytics"
+      ],
+      "type": "string"
+    }
+  },
+  "properties": {
+    "consent_type": {
+      "$ref": "../domains/auth/ConsentType.schema.json"
+    },
+    "created_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "granted": {
+      "type": "boolean"
+    },
+    "id": {
+      "$ref": "../primitives/ConsentRecordId.schema.json"
+    },
+    "ip_address": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "user_agent": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "user_id": {
+      "$ref": "../primitives/UserId.schema.json"
+    },
+    "version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "consent_type",
+    "created_at",
+    "granted",
+    "id",
+    "user_id"
+  ],
+  "title": "Model",
+  "type": "object",
+  "x-familiar-kind": "database",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Database.meta.schema.json"
+  },
+  "x-familiar-module": "auth",
+  "x-familiar-primary-key": "id",
+  "x-familiar-relations": [
+    {
+      "from": "user_id",
+      "target": "UserModel",
+      "to": "id",
+      "type": "belongs_to"
+    }
+  ],
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-daemon.node.json"
+  },
+  "x-familiar-table": "consent_records"
+}

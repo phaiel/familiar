@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/nlp/dependency-parse.action.json",
+  "id": "nlp.dependency-parse",
+  "title": "Dependency Parse",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": [],
+  "signature": {
+    "inputs": {
+      "text": {
+        "schema": { "$ref": "../../../../primitives/String.schema.json" },
+        "semantics": "borrow"
+      },
+      "language": {
+        "schema": { "$ref": "../../../../primitives/String.schema.json" },
+        "semantics": "borrow",
+        "default": "en"
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

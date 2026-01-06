@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/algebra/tensor-contract.action.json",
+  "id": "algebra.tensor-contract",
+  "title": "Tensor Contraction",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": [],
+  "signature": {
+    "inputs": {
+      "semantic_frame": {
+        "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+        "semantics": "borrow"
+      },
+      "physics_coefficients": {
+        "schema": { "$ref": "../../../components/FieldExcitation.schema.json" },
+        "semantics": "borrow"
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../components/ReductionResult.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

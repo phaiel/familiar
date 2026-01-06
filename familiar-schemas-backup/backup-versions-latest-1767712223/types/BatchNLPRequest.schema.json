@@ -1,0 +1,33 @@
+{
+  "$schema": "../architecture/meta/Type.meta.schema.json",
+  "$id": "types/BatchNLPRequest.schema.json",
+  "title": "BatchNLPRequest",
+  "description": "Batch request for processing multiple texts with NLP pipeline",
+  "type": "object",
+  "x-familiar-kind": "type",
+  "required": ["requests", "batch_id"],
+  "properties": {
+    "batch_id": {
+      "$ref": "../primitives/UUID.schema.json",
+      "description": "Unique identifier for this batch"
+    },
+    "requests": {
+      "type": "array",
+      "items": { "$ref": "NLPRequest.schema.json" },
+      "minItems": 1,
+      "maxItems": "config://nlp.batch.max_batch_size",
+      "description": "Array of NLP requests to process"
+    },
+    "processing_mode": {
+      "type": "string",
+      "enum": ["parallel", "sequential", "adaptive"],
+      "default": "parallel",
+      "description": "How to process the batch"
+    },
+    "consolidate_results": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to consolidate results into a single response"
+    }
+  }
+}

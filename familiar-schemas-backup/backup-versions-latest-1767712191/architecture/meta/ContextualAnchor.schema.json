@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/architecture/meta/ContextualAnchor.schema.json",
+  "title": "ContextualAnchor",
+  "description": "Local RAG cache entry for frequent atoms. Provides vacuum expectation values (VEV) to prevent LLM bias and enable fast hydration.",
+  "x-familiar-kind": "meta",
+  "x-familiar-description": "Anchor cache for semantic grounding and bias prevention",
+
+  "type": "object",
+  "required": ["atom_key", "last_observed_state", "stability_index", "updated_at"],
+  "properties": {
+    "atom_key": {
+      "type": "string",
+      "description": "Unique identifier for this atom (e.g., '#Twins', '!Self', '@MorningRoutine')",
+      "pattern": "^[!@#$%^&*~][A-Za-z][A-Za-z0-9_-]*$",
+      "examples": ["#Twins", "!Self", "@MorningRoutine", "$Age"]
+    },
+
+    "last_observed_state": {
+      "type": "object",
+      "description": "The most recent resolved state of this atom",
+      "properties": {
+        "semantic_summary": {
+          "type": "string",
+          "description": "Human-readable context summary",
+          "examples": ["6 months old, currently in sleep training", "High fatigue baseline, recovering from illness"]
+        },
+
+        "vae_coordinates": {
+          "type": "array",
+          "description": "Last known VAE position vector",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 4,
+          "examples": [[-0.7, -0.9, 0.8], [-0.5, 0.3, 0.7, 0.2]]
+        },
+
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "How confident we are in this state observation"
+        },
+
+        "resolution_metadata": {
+          "type": "object",
+          "description": "How this state was determined",
+          "properties": {
+            "source": {
+              "type": "string",
+              "enum": ["taxonomy_lookup", "llm_inference", "manual_override", "statistical_average"],
+              "examples": ["taxonomy_lookup", "llm_inference"]
+            },
+            "resolution_timestamp": { "$ref": "../../primitives/Timestamp.schema.json" }
+          }
+        }
+      },
+      "required": ["semantic_summary", "vae_coordinates"]
+    },
+
+    "stability_index": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "How resistant this anchor is to change (0.0 = highly volatile, 1.0 = immutable)",
+      "examples": [0.9, 0.3, 0.1]
+    },
+
+    "usage_statistics": {
+      "type": "object",
+      "description": "How frequently and recently this anchor has been accessed",
+      "properties": {
+        "access_count": { "type": "integer", "minimum": 0, "default": 0 },
+        "last_accessed": { "$ref": "../../primitives/Timestamp.schema.json" },
+        "average_access_frequency_days": { "type": "number", "minimum": 0 }
+      }
+    },
+
+    "bias_prevention": {
+      "type": "object",
+      "description": "Metadata to prevent baseline bias in LLM interpretations",
+      "properties": {
+        "baseline_type": {
+          "type": "string",
+          "enum": ["neutral", "positive", "negative", "contextual"],
+          "description": "Type of baseline this anchor represents"
+        },
+        "bias_warnings": {
+          "type": "array",
+          "description": "Known bias patterns to watch for",
+          "items": { "type": "string" },
+          "examples": ["depression_baseline", "fatigue_amplification"]
+        }
+      }
+    },
+
+    "updated_at": { "$ref": "../../primitives/Timestamp.schema.json" },
+    "created_at": { "$ref": "../../primitives/Timestamp.schema.json" },
+
+    "tenant_id": { "$ref": "../../primitives/UUID.schema.json" }
+  },
+
+  "x-familiar-persistence": {
+    "profile": "fast_access_cache",
+    "table_name": "contextual_anchors",
+    "primary_key": ["atom_key", "tenant_id"],
+    "indexes": [
+      "tenant_id",
+      "updated_at",
+      "usage_statistics.last_accessed"
+    ]
+  }
+}

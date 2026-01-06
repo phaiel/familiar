@@ -1,0 +1,32 @@
+{
+  "$schema": "../architecture/meta/Component.meta.schema.json",
+  "$id": "components/ReductionResult.schema.json",
+  "title": "ReductionResult",
+  "description": "Final VAE position after tensor contraction with full audit trail",
+  "x-familiar-kind": "component",
+  "allOf": [
+    { "$ref": "../architecture/meta/PhysicalEntity.meta.schema.json" }
+  ],
+  "properties": {
+    "semantic_frame": {
+      "$ref": "SemanticFrame.schema.json",
+      "description": "The original semantic frame used for reduction"
+    },
+    "contraction_steps": {
+      "type": "array",
+      "description": "Audit trail of tensor operations performed",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": { "type": "string" },
+          "operation": { "type": "string" },
+          "timestamp": { "$ref": "../primitives/Timestamp.schema.json" }
+        }
+      }
+    },
+    "surprise_metrics": {
+      "$ref": "Surprise.schema.json",
+      "description": "Semantic surprise analysis for this reduction"
+    }
+  }
+}

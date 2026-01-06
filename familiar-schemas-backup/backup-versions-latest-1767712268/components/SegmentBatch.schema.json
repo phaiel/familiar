@@ -1,0 +1,45 @@
+{
+  "$id": "primitives/SegmentBatch.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "A batch of segments for bulk processing",
+  "properties": {
+    "batch_id": {
+      "description": "Unique batch identifier",
+      "type": "string"
+    },
+    "callback_url": {
+      "description": "Optional callback URL for batch completion",
+      "format": "uri",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "priority": {
+      "default": "normal",
+      "description": "Batch processing priority",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ],
+      "type": "string"
+    },
+    "segments": {
+      "description": "Array of segments to process",
+      "items": {
+        "$ref": "Segment.schema.json"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "segments",
+    "batch_id"
+  ],
+  "title": "SegmentBatch",
+  "type": "object",
+  "x-familiar-kind": "component"
+}

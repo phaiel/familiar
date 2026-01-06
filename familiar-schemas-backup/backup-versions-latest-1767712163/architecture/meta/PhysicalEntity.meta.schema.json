@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/architecture/PhysicalEntity.meta.schema.json",
+  "title": "PhysicalEntity",
+  "description": "The fundamental physical properties that every entity in the VAE manifold must possess. This meta-schema defines the bridge between your Data Model and Physics Engine.",
+
+  "type": "object",
+  "required": [
+    "id",
+    "tenant_id",
+    "created_at",
+    "updated_at",
+    "physics",
+    "t_coord",
+    "is_latent"
+  ],
+
+  "properties": {
+    "id": {
+      "$ref": "../../primitives/UUID.schema.json",
+      "description": "Universal identifier across all entities"
+    },
+
+    "tenant_id": {
+      "$ref": "../../primitives/UUID.schema.json",
+      "description": "Multi-tenant isolation"
+    },
+
+    "created_at": {
+      "$ref": "../../primitives/Timestamp.schema.json",
+      "description": "Creation timestamp"
+    },
+
+    "updated_at": {
+      "$ref": "../../primitives/Timestamp.schema.json",
+      "description": "Last modification timestamp"
+    },
+
+    "physics": {
+      "$ref": "../../components/FieldExcitation.schema.json",
+      "description": "The VAE (Variational Autoencoder) coordinates and physical properties"
+    },
+
+    "t_coord": {
+      "$ref": "../../primitives/TemporalCoord.schema.json",
+      "description": "The temporal coordinate in the Growing Block Universe"
+    },
+
+    "is_latent": {
+      "type": "boolean",
+      "default": true,
+      "description": "True = exists in simulation space, False = committed to immutable memory block"
+    },
+
+    "quantum": {
+      "$ref": "../../components/QuantumState.schema.json",
+      "description": "Quantum wavefunction properties for superposition and interference"
+    },
+
+    "surprise": {
+      "$ref": "../../components/Surprise.schema.json",
+      "description": "Semantic surprise component for differential analysis and memory consolidation"
+    }
+  },
+
+  "x-familiar-kind": "meta",
+  "x-familiar-description": "Base physical properties for all entities in the VAE manifold",
+
+  "x-familiar-persistence": {
+    "profile": "timescaledb",
+    "hypertable": true,
+    "partition_column": "t_coord",
+    "chunk_time_interval": "config://physics.block.chunk_size",
+    "compression_policy": {
+      "after": "config://physics.block.compression_delay"
+    },
+    "primary_key": ["id", "t_coord"],
+    "indexes": [
+      "tenant_id",
+      "t_coord",
+      "physics.amplitude",
+      "physics.energy"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/taxonomy/atoms/Spatial.atom.schema.json",
+  "title": "Spatial Atom",
+  "description": "The location/position atom (^). Maps spatial expressions to attractor basins and coordinate anchors.",
+  "x-familiar-kind": "taxonomy_atom",
+  "x-familiar-description": "Spatial dimension - where something happens",
+
+  "type": "object",
+  "required": ["spatial_hierarchy", "anchor_type"],
+  "properties": {
+    "spatial_hierarchy": {
+      "type": "array",
+      "description": "Nested spatial scopes from general to specific",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "examples": ["home", "bedroom", "crib"]
+    },
+
+    "anchor_type": {
+      "type": "string",
+      "description": "What kind of spatial anchor this represents",
+      "enum": ["location", "region", "path", "boundary", "relative"],
+      "examples": ["location", "region", "relative"]
+    },
+
+    "coordinate_anchor": {
+      "type": "object",
+      "description": "VAE coordinate anchor for spatial positioning",
+      "properties": {
+        "x_anchor": { "type": "number", "description": "Spatial anchor X coordinate" },
+        "y_anchor": { "type": "number", "description": "Spatial anchor Y coordinate" },
+        "z_anchor": { "type": "number", "description": "Spatial anchor Z coordinate" },
+        "anchor_strength": { "type": "number", "minimum": 0.0, "maximum": 1.0, "description": "How strongly this location attracts similar memories" }
+      }
+    },
+
+    "movement_indicators": {
+      "type": "array",
+      "description": "Any movement or transition mentioned",
+      "items": {
+        "type": "string",
+        "enum": ["arrival", "departure", "transition", "circulation", "static"]
+      },
+      "examples": ["arrival", "transition"]
+    },
+
+    "spatial_qualifiers": {
+      "type": "array",
+      "description": "Additional spatial context",
+      "items": {
+        "type": "string",
+        "enum": ["familiar", "unfamiliar", "comfortable", "uncomfortable", "safe", "unsafe", "private", "public"]
+      },
+      "examples": ["familiar", "comfortable", "private"]
+    },
+
+    "boundary_crossing": {
+      "type": "boolean",
+      "description": "Whether this involves crossing a significant spatial boundary",
+      "default": false
+    }
+  },
+
+  "x-familiar-taxonomy": {
+    "root": "Space",
+    "structure": "tree",
+    "pruning_strategy": "attractor_basin_pruning",
+    "vae_dimensions": ["spatial_stability", "familiarity_index", "boundary_significance"],
+    "weight_config_key": "taxonomy.spatial.weights"
+  }
+}

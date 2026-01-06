@@ -1,0 +1,65 @@
+{
+  "$schema": "../../../architecture/meta/System.meta.schema.json",
+  "$id": "infrastructure/systems/NLPProcessingSystem.system.json",
+  "id": "nlp-processing-system",
+  "title": "NLP Processing System",
+  "description": "Complete linguistic-to-physics pipeline for semantic analysis and VAE positioning",
+  "x-familiar-kind": "system",
+
+  "dispatch": [
+    {
+      "trigger": "kafka:requests.nlp.process",
+      "input_key": "nlp_request",
+      "technique": { "$ref": "../../techniques/nlp/linguistic-physics.technique.json" },
+      "routing_policy": "input.priority == 'high' ? 'gpu-pool' : 'cpu-pool'",
+      "output": {
+        "schema": { "$ref": "../../../components/ReductionResult.schema.json" },
+        "queue": { "$ref": "../queues/nlp-results.queue.json" }
+      },
+      "constraints": {
+        "timeout": "config://systems.nlp_processing.timeouts.process",
+        "retries": "config://systems.nlp_processing.retries.process",
+        "priority": "input.priority"
+      }
+    },
+    {
+      "trigger": "kafka:requests.nlp.batch",
+      "input_key": "batch_request",
+      "technique": { "$ref": "../../techniques/nlp/batch-semantic.technique.json" },
+      "routing_policy": "'cpu-pool'",
+      "output": {
+        "schema": { "$ref": "../../../types/BatchReductionResults.schema.json" },
+        "queue": { "$ref": "../queues/nlp-batch-results.queue.json" }
+      },
+      "constraints": {
+        "timeout": "config://systems.nlp_processing.timeouts.batch",
+        "retries": "config://systems.nlp_processing.retries.batch"
+      }
+    }
+  ],
+
+  "inputs": {
+    "nlp_request": {
+      "schema": { "$ref": "../../../types/NLPRequest.schema.json" },
+      "queue": { "$ref": "../queues/nlp-requests.queue.json" }
+    },
+    "batch_request": {
+      "schema": { "$ref": "../../../types/BatchNLPRequest.schema.json" },
+      "queue": { "$ref": "../queues/nlp-batch.queue.json" }
+    }
+  },
+
+  "default_node": { "$ref": "../nodes/nlp-processor.node.json" },
+  "default_queue": { "$ref": "../queues/nlp-results.queue.json" },
+
+  "x-familiar-pgo": {
+    "enabled": true,
+    "priority": "high",
+    "workload_samples": [
+      { "$ref": "../../../samples/nlp/short-text.json" },
+      { "$ref": "../../../samples/nlp/complex-sentence.json" },
+      { "$ref": "../../../samples/nlp/batch-processing.json" }
+    ],
+    "optimization_goal": "latency"
+  }
+}

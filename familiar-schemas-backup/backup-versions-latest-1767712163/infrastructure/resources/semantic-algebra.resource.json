@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../architecture/meta/Resource.meta.schema.json",
+  "$id": "infrastructure/resources/semantic-algebra.resource.json",
+  "id": "semantic-algebra",
+  "title": "Semantic Algebra Engine",
+  "description": "Tensor mathematics engine for semantic reductions and VAE operations",
+  "x-familiar-kind": "resource",
+  "resource_type": "compute-library",
+  "framework": "nalgebra",
+  "capabilities": ["tensor-contraction", "vector-operations", "matrix-multiplication"],
+  "precision": "f64",
+  "optimization": "simd"
+}

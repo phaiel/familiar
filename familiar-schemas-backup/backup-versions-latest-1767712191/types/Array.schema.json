@@ -1,0 +1,8 @@
+{
+  "$schema": "../architecture/meta/Type.meta.schema.json",
+  "$id": "types/Array.schema.json",
+  "title": "Array",
+  "description": "Generic array type for collections of items",
+  "type": "array",
+  "x-familiar-kind": "type"
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../architecture/meta/Resource.meta.schema.json",
+  "$id": "infrastructure/resources/nlp-models.resource.json",
+  "id": "nlp-models",
+  "title": "NLP Models",
+  "description": "Local NLP models for dependency parsing and linguistic analysis",
+  "x-familiar-kind": "resource",
+  "resource_type": "ml-models",
+  "framework": "config://resources.nlp.framework",
+  "models": "config://resources.nlp.models",
+  "capabilities": ["dependency-parsing", "pos-tagging", "lemmatization"],
+  "performance_target_ms": "config://resources.nlp.performance_target_ms"
+}

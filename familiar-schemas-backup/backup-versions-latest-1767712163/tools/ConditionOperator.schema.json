@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Condition operators",
+  "enum": [
+    "equals",
+    "not_equals",
+    "greater_than",
+    "less_than",
+    "contains",
+    "not_contains",
+    "is_null",
+    "is_not_null",
+    "in"
+  ],
+  "title": "ConditionOperator",
+  "type": "string",
+  "x-familiar-kind": "tool",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Tool.meta.schema.json"
+  },
+  "x-familiar-queue": {
+    "$ref": "../infrastructure/queues/worker-queue.queue.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-worker.node.json"
+  }
+}

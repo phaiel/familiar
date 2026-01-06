@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/taxonomy/atoms/Evaluative.atom.schema.json",
+  "title": "Evaluative Atom",
+  "description": "The affective evaluation atom (!). Maps emotional language to PAD (Pleasure, Arousal, Dominance) space for VAE positioning and pruning.",
+  "x-familiar-kind": "taxonomy_atom",
+  "x-familiar-description": "Evaluative dimension - how 'good/bad' something feels",
+
+  "type": "object",
+  "required": ["classification_path", "intensity_modifier"],
+  "properties": {
+    "classification_path": {
+      "type": "array",
+      "description": "Hierarchical path through the evaluative taxonomy tree",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "examples": ["negative", "stress", "exhaustion"]
+    },
+
+    "intensity_modifier": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "default": 1.0,
+      "description": "How strongly this evaluation applies (0.0 = neutral, 2.0 = extreme)"
+    },
+
+    "contextual_notes": {
+      "type": "array",
+      "description": "Additional context that might affect interpretation",
+      "items": { "type": "string" },
+      "examples": ["unexpected", "chronic", "acute"]
+    }
+  },
+
+  "x-familiar-taxonomy": {
+    "root": "Affect",
+    "structure": "tree",
+    "pruning_strategy": "valence_polarization",
+    "vae_dimensions": ["valence", "arousal", "dominance"],
+    "weight_config_key": "taxonomy.evaluative.weights"
+  }
+}

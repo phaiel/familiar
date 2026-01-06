@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../architecture/meta/Queue.meta.schema.json",
+  "$id": "infrastructure/queues/nlp-results.queue.json",
+  "id": "nlp-results",
+  "title": "NLP Results Queue",
+  "description": "Queue for completed NLP processing results and semantic reductions",
+  "x-familiar-kind": "queue",
+  "queue_type": "kafka",
+  "topic_name": "familiar.nlp.results",
+  "max_throughput_per_second": "config://queues.nlp_results.max_throughput_per_second",
+  "retention_hours": "config://queues.nlp_results.retention_hours"
+}

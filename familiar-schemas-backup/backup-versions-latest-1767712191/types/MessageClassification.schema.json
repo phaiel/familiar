@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Complete message classification (intent + optional details)",
+  "properties": {
+    "confidence": {
+      "description": "Confidence in the classification (0.0 to 1.0)",
+      "format": "double",
+      "type": "number"
+    },
+    "intent": {
+      "allOf": [
+        {
+          "$ref": "../primitives/MessageIntent.schema.json"
+        }
+      ],
+      "description": "Primary intent of the message"
+    },
+    "query_target": {
+      "anyOf": [
+        {
+          "$ref": "../primitives/QueryTarget.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Target entity for queries"
+    },
+    "response_metadata": {
+      "anyOf": [
+        {
+          "$ref": "../components/ResponseMetadata.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Additional response details"
+    }
+  },
+  "required": [
+    "intent"
+  ],
+  "title": "MessageClassification",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Component.meta.schema.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-daemon.node.json"
+  }
+}

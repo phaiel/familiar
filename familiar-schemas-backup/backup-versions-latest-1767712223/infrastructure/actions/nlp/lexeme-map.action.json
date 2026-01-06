@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/nlp/lexeme-map.action.json",
+  "id": "nlp.lexeme-map",
+  "title": "Lexeme Mapping",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": [],
+  "signature": {
+    "inputs": {
+      "dependency_tree": {
+        "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+        "semantics": "borrow"
+      },
+      "lexeme_cache": {
+        "schema": { "$ref": "../../../../types/Object.schema.json" },
+        "semantics": "borrow",
+        "optional": true
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../components/LexemeMapping.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

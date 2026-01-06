@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/nlp/linguistic-physics-single.action.json",
+  "id": "nlp.linguistic-physics-single",
+  "title": "Single Linguistic Physics Processing",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": ["network"],
+  "signature": {
+    "inputs": {
+      "request": {
+        "schema": { "$ref": "../../../../types/NLPRequest.schema.json" },
+        "semantics": "borrow"
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../components/ReductionResult.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

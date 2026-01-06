@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/primitives/TemporalCoord.schema.json",
+  "title": "TemporalCoord",
+  "description": "A temporal coordinate in the Growing Block Universe where 0 = vacuum/latent space and positive values represent immutable block depth. Extends milliseconds since Unix epoch with universe positioning semantics.",
+  "allOf": [
+    { "$ref": "Milliseconds.schema.json" }
+  ],
+  "x-familiar-kind": "type"
+}

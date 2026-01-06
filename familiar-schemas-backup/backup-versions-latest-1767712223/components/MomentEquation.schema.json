@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/components/MomentEquation.schema.json",
+  "title": "MomentEquation",
+  "description": "Lambda calculus equation output from LLM for VAE composition. Defines how atoms combine to create semantic meaning.",
+  "x-familiar-kind": "component",
+  "x-familiar-description": "Functional equation for moment composition",
+
+  "type": "object",
+  "required": ["path", "verb", "atoms"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Attractor basin path (e.g., 'F.Bio.Sleep.D' for Family.Biological.Sleep.Deep)",
+      "pattern": "^[A-Z][a-zA-Z.]*$",
+      "examples": ["F.Bio.Sleep.D", "F.Social.Play.I", "P.Health.Fever"]
+    },
+
+    "verb": {
+      "type": "string",
+      "description": "Vector direction (Past, Now, Future)",
+      "enum": ["p", "n", "f"],
+      "examples": ["p", "n"]
+    },
+
+    "atoms": {
+      "type": "object",
+      "description": "Atom bindings for this equation",
+      "properties": {
+        "T": { "$ref": "../taxonomy/atoms/Temporal.atom.schema.json" },
+        "R": { "$ref": "../taxonomy/atoms/Relational.atom.schema.json" },
+        "E": { "$ref": "../taxonomy/atoms/Evaluative.atom.schema.json" },
+        "Q": { "$ref": "../taxonomy/atoms/Quantitative.atom.schema.json" },
+        "S": { "$ref": "../taxonomy/atoms/Spatial.atom.schema.json" },
+        "Y": { "$ref": "../taxonomy/atoms/Series.atom.schema.json" }
+      },
+      "minProperties": 1
+    },
+
+    "equation_metadata": {
+      "type": "object",
+      "description": "Additional context about equation derivation",
+      "properties": {
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "How confident the LLM is in this equation"
+        },
+        "alternative_paths": {
+          "type": "array",
+          "description": "Other attractor paths considered",
+          "items": { "type": "string" }
+        },
+        "pruning_applied": {
+          "type": "array",
+          "description": "Which pruning strategies were applied",
+          "items": {
+            "type": "string",
+            "enum": ["valence_polarization", "world_line_activation", "temporal_bucket_pruning", "quantity_domain_pruning", "attractor_basin_pruning", "state_machine_pruning"]
+          }
+        }
+      }
+    },
+
+    "resolution_instructions": {
+      "type": "object",
+      "description": "Hints for how to resolve this equation to VAE coordinates",
+      "properties": {
+        "priority_atoms": {
+          "type": "array",
+          "description": "Which atoms to resolve first for anchoring",
+          "items": { "type": "string", "enum": ["T", "R", "E", "Q", "S", "Y"] }
+        },
+        "expected_impact": {
+          "type": "string",
+          "description": "Expected significance of this moment",
+          "enum": ["trivial", "normal", "significant", "transformative"],
+          "default": "normal"
+        }
+      }
+    }
+  },
+
+  "x-familiar-persistence": {
+    "profile": "computed_cache",
+    "table_name": "moment_equations",
+    "primary_key": ["path", "verb"],
+    "indexes": [
+      "equation_metadata.confidence_score",
+      "resolution_instructions.expected_impact"
+    ]
+  }
+}

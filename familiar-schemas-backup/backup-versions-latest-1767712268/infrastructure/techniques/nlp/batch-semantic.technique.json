@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../../architecture/meta/Technique.meta.schema.json",
+  "$id": "infrastructure/techniques/nlp/batch-semantic.technique.json",
+  "id": "nlp.batch-semantic",
+  "title": "Batch Semantic Processing",
+  "description": "Batch processing technique for multiple texts through the linguistic-physics pipeline",
+  "x-familiar-kind": "technique",
+  "input": {
+    "$ref": "../../../../architecture/references/SchemaRef.meta.schema.json"
+  },
+  "output": {
+    "$ref": "../../../../architecture/references/SchemaRef.meta.schema.json"
+  },
+  "steps": [
+    {
+      "id": "expand_batch",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/nlp/batch-expand.action.json"
+      },
+      "args": {
+        "batch_request": "$.input"
+      }
+    },
+    {
+      "id": "parallel_process",
+      "kind": "parallel",
+      "iterations": "$.expand_batch.requests",
+      "action": {
+        "$ref": "../../actions/nlp/linguistic-physics-single.action.json"
+      },
+      "args": {
+        "request": "$.iteration"
+      }
+    },
+    {
+      "id": "consolidate_results",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/nlp/batch-consolidate.action.json"
+      },
+      "args": {
+        "individual_results": "$.parallel_process",
+        "batch_metadata": "$.expand_batch.metadata"
+      }
+    }
+  ],
+  "return": {
+    "batch_results": "$.consolidate_results",
+    "processing_stats": "$.parallel_process.stats"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/nlp/batch-expand.action.json",
+  "id": "nlp.batch-expand",
+  "title": "Batch Expand",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": [],
+  "signature": {
+    "inputs": {
+      "batch_request": {
+        "schema": { "$ref": "../../../../types/BatchNLPRequest.schema.json" },
+        "semantics": "borrow"
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../../types/BatchExpansion.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

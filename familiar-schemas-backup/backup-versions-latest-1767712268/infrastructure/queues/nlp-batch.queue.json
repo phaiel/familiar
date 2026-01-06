@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../architecture/meta/Queue.meta.schema.json",
+  "$id": "infrastructure/queues/nlp-batch.queue.json",
+  "id": "nlp-batch",
+  "title": "NLP Batch Queue",
+  "description": "Queue for batch NLP processing requests",
+  "x-familiar-kind": "queue",
+  "queue_type": "kafka",
+  "topic_name": "familiar.nlp.batch.requests",
+  "max_throughput_per_second": "config://queues.nlp_batch.max_throughput_per_second",
+  "retention_hours": "config://queues.nlp_batch.retention_hours"
+}

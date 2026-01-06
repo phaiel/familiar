@@ -1,0 +1,24 @@
+{
+  "$schema": "../architecture/meta/Component.meta.schema.json",
+  "$id": "components/SemanticFrame.schema.json",
+  "title": "SemanticFrame",
+  "description": "FraCoq-compatible semantic reduction frame with physics mapping",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "required": ["reduction", "constituents"],
+  "properties": {
+    "reduction": {
+      "type": "string",
+      "description": "Pregroup reduction string: e.g., n * (n.r * s) * (s.r * s)"
+    },
+    "constituents": {
+      "type": "array",
+      "items": { "$ref": "Constituent.schema.json" },
+      "description": "Lexical constituents in the reduction"
+    },
+    "physics_projection": {
+      "$ref": "FieldExcitation.schema.json",
+      "description": "The affective coefficients mapped to physics properties"
+    }
+  }
+}

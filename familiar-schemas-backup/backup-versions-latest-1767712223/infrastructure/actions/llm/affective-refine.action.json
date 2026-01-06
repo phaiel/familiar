@@ -1,0 +1,28 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/llm/affective-refine.action.json",
+  "id": "llm.affective-refine",
+  "title": "Affective Coefficient Refinement",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "ai",
+  "x-familiar-execution-model": "async",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": ["network", "llm_api"],
+  "signature": {
+    "inputs": {
+      "semantic_frame": {
+        "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+        "semantics": "borrow"
+      },
+      "model_config": {
+        "schema": { "$ref": "../../../../types/Object.schema.json" },
+        "semantics": "borrow",
+        "optional": true
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

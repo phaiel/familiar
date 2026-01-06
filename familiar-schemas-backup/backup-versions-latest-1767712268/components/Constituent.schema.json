@@ -1,0 +1,37 @@
+{
+  "$schema": "../architecture/meta/Component.meta.schema.json",
+  "$id": "components/Constituent.schema.json",
+  "title": "Constituent",
+  "description": "A lexeme mapped to physics components and taxonomy atoms",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "required": ["lexeme", "role", "taxonomy_atom"],
+  "properties": {
+    "lexeme": {
+      "type": "string",
+      "description": "The actual word or token"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["subject", "predicate", "modifier", "object"],
+      "description": "Syntactic role in the sentence"
+    },
+    "taxonomy_atom": {
+      "type": "string",
+      "description": "Which of our 6 taxonomy atoms this maps to: ! # @ $ ^ ~"
+    },
+    "physics_mapping": {
+      "type": "object",
+      "description": "How this constituent affects physics properties",
+      "properties": {
+        "field_excitation": { "$ref": "FieldExcitation.schema.json" },
+        "quantum_state": { "$ref": "QuantumState.schema.json" },
+        "tensor_rank": {
+          "type": "integer",
+          "enum": [0, 1, 2],
+          "description": "Mathematical rank for tensor operations"
+        }
+      }
+    }
+  }
+}

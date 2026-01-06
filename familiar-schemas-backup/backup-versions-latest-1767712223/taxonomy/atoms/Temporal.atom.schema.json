@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/taxonomy/atoms/Temporal.atom.schema.json",
+  "title": "Temporal Atom",
+  "description": "The time/duration atom (@). Maps temporal expressions to coordinate ranges for Growing Block positioning.",
+  "x-familiar-kind": "taxonomy_atom",
+  "x-familiar-description": "Temporal dimension - when something happens",
+
+  "type": "object",
+  "required": ["temporal_type", "reference_frame"],
+  "properties": {
+    "temporal_type": {
+      "type": "string",
+      "description": "Type of temporal expression",
+      "enum": ["point", "span", "relative", "recurring", "sequence"],
+      "examples": ["span", "relative", "point"]
+    },
+
+    "reference_frame": {
+      "type": "string",
+      "description": "What the time is relative to",
+      "enum": ["absolute", "event", "routine", "biological", "seasonal"],
+      "examples": ["event", "routine", "biological"]
+    },
+
+    "time_coordinates": {
+      "type": "object",
+      "description": "Temporal coordinates for block positioning",
+      "properties": {
+        "start_t": { "type": "integer", "description": "Starting temporal coordinate" },
+        "end_t": { "type": "integer", "description": "Ending temporal coordinate" },
+        "duration_minutes": { "type": "integer", "minimum": 0, "description": "Duration in minutes" }
+      }
+    },
+
+    "temporal_qualifiers": {
+      "type": "array",
+      "description": "Additional temporal context",
+      "items": {
+        "type": "string",
+        "enum": ["approximate", "exact", "habitual", "exceptional", "expected", "unexpected"]
+      },
+      "examples": ["approximate", "habitual"]
+    },
+
+    "resolution_confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "How confident we are in the temporal resolution"
+    }
+  },
+
+  "x-familiar-taxonomy": {
+    "root": "Time",
+    "structure": "tree",
+    "pruning_strategy": "temporal_bucket_pruning",
+    "vae_dimensions": ["temporal_depth", "rhythm_stability", "urgency_level"],
+    "weight_config_key": "taxonomy.temporal.weights"
+  }
+}

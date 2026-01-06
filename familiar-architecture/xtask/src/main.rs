@@ -1,5 +1,6 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use std::collections::HashMap;
+use std::path::{Path, PathBuf};
 use regex::Regex;
 
 // Internal modules for schema processing
@@ -14,6 +15,14 @@ pub enum PgoAction {
     Sample,
     /// Build optimized binary using collected profile data
     Optimize,
+}
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum RefactorAction {
+    /// Analyze current primitive classifications
+    Analyze,
+    /// Execute the primitive reclassification plan
+    Execute,
 }
 
 #[derive(Debug)]
@@ -220,6 +229,18 @@ enum Commands {
         #[arg(short, long, default_value = "versions/latest")]
         schema_dir: String,
     },
+    /// Programmatically refactor primitive classifications
+    Refactor {
+        /// Refactoring action to perform
+        #[arg(value_enum)]
+        action: RefactorAction,
+        /// Schema directory to refactor
+        #[arg(short, long, default_value = "versions/latest")]
+        schema_dir: String,
+        /// Run in dry-run mode (no actual changes)
+        #[arg(long)]
+        dry_run: bool,
+    },
     /// Generate config manifest from config crate
     GenerateManifest,
     /// Generate partial routing table from CEL expressions in schemas
@@ -378,6 +399,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         Commands::Pgo { action } => {
             pgo_action("versions/latest", action)?;
+        }
+        Commands::Refactor { action, schema_dir, dry_run } => {
+            refactor_schemas(&schema_dir, action, dry_run)?;
         }
     }
 
@@ -1322,12 +1346,17 @@ fn validate_familiar_extensions(schema: &serde_json::Value, schema_path: &str) -
     // Check for valid x-familiar-kind values
     if let Some(kind_value) = schema.get("x-familiar-kind") {
         if let Some(kind_str) = kind_value.as_str() {
-            let valid_kinds = ["primitive", "entity", "action", "system", "node", "queue", "resource", "meta", "windmill", "entities_api"];
+            let valid_kinds = ["primitive", "entity", "action", "technique", "system", "node", "queue", "resource", "meta", "windmill", "entities_api", "component", "contract"];
             if !valid_kinds.contains(&kind_str) {
                 errors.push(JsonSchemaValidationError {
                     schema_path: schema_path.to_string(),
                     message: format!("Invalid x-familiar-kind '{}'. Must be one of: {:?}", kind_str, valid_kinds),
                 });
+            }
+
+            // ISA Compliance: Validate technique schemas
+            if kind_str == "technique" {
+                validate_technique_isa(schema, schema_path, &mut errors);
             }
         } else {
             errors.push(JsonSchemaValidationError {
@@ -1366,6 +1395,71 @@ fn validate_familiar_extensions(schema: &serde_json::Value, schema_path: &str) -
     }
 }
 
+fn validate_technique_isa(schema: &serde_json::Value, schema_path: &str, errors: &mut Vec<JsonSchemaValidationError>) {
+    // ISA Requirement: Must have input field
+    if !schema.get("input").is_some() {
+        errors.push(JsonSchemaValidationError {
+            schema_path: schema_path.to_string(),
+            message: "Technique ISA violation: Missing required 'input' field".to_string(),
+        });
+    }
+
+    // ISA Requirement: Must have output field
+    if !schema.get("output").is_some() {
+        errors.push(JsonSchemaValidationError {
+            schema_path: schema_path.to_string(),
+            message: "Technique ISA violation: Missing required 'output' field".to_string(),
+        });
+    }
+
+    // ISA Requirement: Must have steps array
+    if let Some(steps) = schema.get("steps") {
+        if let Some(steps_array) = steps.as_array() {
+            for (i, step) in steps_array.iter().enumerate() {
+                // Each step must have id, kind, action
+                if !step.get("id").is_some() {
+                    errors.push(JsonSchemaValidationError {
+                        schema_path: schema_path.to_string(),
+                        message: format!("Technique ISA violation: Step {} missing required 'id' field", i),
+                    });
+                }
+
+                if !step.get("kind").is_some() {
+                    errors.push(JsonSchemaValidationError {
+                        schema_path: schema_path.to_string(),
+                        message: format!("Technique ISA violation: Step {} missing required 'kind' field", i),
+                    });
+                }
+
+                if !step.get("action").is_some() {
+                    errors.push(JsonSchemaValidationError {
+                        schema_path: schema_path.to_string(),
+                        message: format!("Technique ISA violation: Step {} missing required 'action' field", i),
+                    });
+                }
+            }
+        } else {
+            errors.push(JsonSchemaValidationError {
+                schema_path: schema_path.to_string(),
+                message: "Technique ISA violation: 'steps' must be an array".to_string(),
+            });
+        }
+    } else {
+        errors.push(JsonSchemaValidationError {
+            schema_path: schema_path.to_string(),
+            message: "Technique ISA violation: Missing required 'steps' array".to_string(),
+        });
+    }
+
+    // ISA Requirement: Must have return field
+    if !schema.get("return").is_some() {
+        errors.push(JsonSchemaValidationError {
+            schema_path: schema_path.to_string(),
+            message: "Technique ISA violation: Missing required 'return' field".to_string(),
+        });
+    }
+}
+
 fn load_config_manifest() -> Result<familiar_config::PolicyManifest, Box<dyn std::error::Error>> {
     use std::path::Path;
 
@@ -1383,6 +1477,597 @@ struct ConfigValidationError {
 struct JsonSchemaValidationError {
     schema_path: String,
     message: String,
+}
+
+fn refactor_schemas(schema_dir: &str, action: RefactorAction, dry_run: bool) -> Result<(), Box<dyn std::error::Error>> {
+    match action {
+        RefactorAction::Analyze => {
+            analyze_primitive_classifications(schema_dir)?;
+        }
+        RefactorAction::Execute => {
+            execute_primitive_reclassification(schema_dir, dry_run)?;
+        }
+    }
+    Ok(())
+}
+
+#[derive(Debug, Clone)]
+enum SchemaCategory {
+    KeepPrimitive,
+    MoveToType,
+    MoveToComponent,
+}
+
+#[derive(Debug, Clone)]
+struct DependencyInfo {
+    dependents: Vec<String>,
+    reference_paths: Vec<String>,
+    reference_count: usize,
+}
+
+#[derive(Debug, Clone)]
+struct MoveOperation {
+    schema_name: String,
+    from_path: PathBuf,
+    to_path: PathBuf,
+    new_category: SchemaCategory,
+    dependents: Vec<String>,
+    original_ref_count: usize,
+}
+
+fn analyze_primitive_classifications(schema_dir: &str) -> Result<(), Box<dyn std::error::Error>> {
+    println!("🔍 Analyzing primitive classifications in: {}", schema_dir);
+
+    let primitives_dir = Path::new("familiar-schemas/versions/latest/json-schema/primitives");
+    if !primitives_dir.exists() {
+        return Err(format!("Primitives directory not found: {}", primitives_dir.display()).into());
+    }
+
+    let mut analysis = HashMap::new();
+
+    // Read all primitive schemas
+    for entry in std::fs::read_dir(&primitives_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+
+        if path.extension() == Some(std::ffi::OsStr::new("json")) {
+            let schema_name = path.file_stem()
+                .and_then(|s| s.to_str())
+                .ok_or("Invalid filename")?;
+
+            let content = std::fs::read_to_string(&path)?;
+            let schema: serde_json::Value = serde_json::from_str(&content)?;
+
+            let category = classify_primitive_schema(&schema, schema_name);
+            analysis.insert(schema_name.to_string(), category);
+        }
+    }
+
+    // Display results
+    println!("\n📊 Primitive Classification Analysis:");
+    println!("{:<25} {:<15} {}", "Schema", "Category", "Status");
+
+    let mut keep_count = 0;
+    let mut move_type_count = 0;
+    let mut move_component_count = 0;
+
+    for (name, category) in &analysis {
+        let (category_str, status) = match category {
+            SchemaCategory::KeepPrimitive => {
+                keep_count += 1;
+                ("PRIMITIVE", "✅ KEEP")
+            }
+            SchemaCategory::MoveToType => {
+                move_type_count += 1;
+                ("TYPE", "🔄 MOVE to types/")
+            }
+            SchemaCategory::MoveToComponent => {
+                move_component_count += 1;
+                ("COMPONENT", "🔄 MOVE to components/")
+            }
+        };
+        println!("{:<25} {:<15} {}", name, category_str, status);
+    }
+
+    println!("\n📈 Summary:");
+    println!("  ✅ Keep as primitives: {}", keep_count);
+    println!("  🔄 Move to types: {}", move_type_count);
+    println!("  🔄 Move to components: {}", move_component_count);
+    println!("  📦 Total operations: {}", move_type_count + move_component_count);
+
+    Ok(())
+}
+
+fn classify_primitive_schema(schema: &serde_json::Value, schema_name: &str) -> SchemaCategory {
+    // True primitives that should stay as primitives
+    let true_primitives = [
+        "UUID", "Timestamp", "NormalizedFloat", "QuantizedCoord",
+        "Milliseconds", "Seconds", "String"
+    ];
+
+    if true_primitives.contains(&schema_name) {
+        return SchemaCategory::KeepPrimitive;
+    }
+
+    // Check if it's a simple type alias (just $ref or type + format)
+    if is_simple_type_alias(schema) {
+        return SchemaCategory::KeepPrimitive;
+    }
+
+    // Check for oneOf/anyOf (union types - should be component)
+    if schema.get("oneOf").is_some() || schema.get("anyOf").is_some() {
+        return SchemaCategory::MoveToComponent;
+    }
+
+    // Check if it's a complex object with many properties (should be component)
+    if let Some(properties) = schema.get("properties") {
+        if let Some(props_obj) = properties.as_object() {
+            if props_obj.len() > 2 {
+                return SchemaCategory::MoveToComponent;
+            }
+            // If it has properties, it's likely a type, not primitive
+            return SchemaCategory::MoveToType;
+        }
+    }
+
+    // Check for config-like properties (should be type)
+    if let Some(desc) = schema.get("description").and_then(|d| d.as_str()) {
+        if desc.to_lowercase().contains("config") ||
+           desc.to_lowercase().contains("setting") ||
+           desc.to_lowercase().contains("parameter") ||
+           desc.to_lowercase().contains("request") ||
+           desc.to_lowercase().contains("response") {
+            return SchemaCategory::MoveToType;
+        }
+    }
+
+    // ID types (should be types)
+    if schema_name.ends_with("Id") || schema_name.ends_with("ID") {
+        return SchemaCategory::MoveToType;
+    }
+
+    // Default: move to types (safer than components)
+    SchemaCategory::MoveToType
+}
+
+fn is_simple_type_alias(schema: &serde_json::Value) -> bool {
+    // Simple type aliases are just type/format or $ref with minimal other properties
+    let has_type = schema.get("type").is_some();
+    let _has_format = schema.get("format").is_some();
+    let has_ref = schema.get("$ref").is_some();
+    let _has_description = schema.get("description").is_some();
+
+    // If it's just type + format + maybe description, it's a simple alias
+    if has_type && !schema.get("properties").is_some() && !schema.get("oneOf").is_some() && !schema.get("anyOf").is_some() {
+        return true;
+    }
+
+    // If it's just a $ref, it's an alias
+    if has_ref && schema.as_object().map(|o| o.len()).unwrap_or(0) <= 2 {
+        return true;
+    }
+
+    false
+}
+
+fn execute_primitive_reclassification(schema_dir: &str, dry_run: bool) -> Result<(), Box<dyn std::error::Error>> {
+    if dry_run {
+        println!("🔍 DRY RUN MODE - No actual changes will be made");
+    }
+
+    println!("🚀 Executing primitive reclassification for: {}", schema_dir);
+
+    // Phase 1: Build dependency graph
+    println!("📊 Phase 1: Building dependency graph...");
+    let graph = build_dependency_graph(schema_dir)?;
+
+    // Phase 2: Analyze primitives and create move plan
+    println!("🔍 Phase 2: Analyzing primitives and creating move plan...");
+    let move_plan = create_move_plan(schema_dir, &graph)?;
+
+    if move_plan.is_empty() {
+        println!("✅ No primitives need reclassification");
+        return Ok(());
+    }
+
+    println!("📋 Found {} schemas to move:", move_plan.len());
+    for op in &move_plan {
+        let category = match op.new_category {
+            SchemaCategory::MoveToType => "types/",
+            SchemaCategory::MoveToComponent => "components/",
+            _ => unreachable!(),
+        };
+        println!("  🔄 {} → {}", op.schema_name, category);
+    }
+
+    if dry_run {
+        println!("🔍 Dry run complete - no changes made");
+        return Ok(());
+    }
+
+    // Phase 3: Create backup
+    println!("💾 Phase 3: Creating backup...");
+    let backup_path = create_backup(schema_dir)?;
+
+    // Phase 4: Execute moves
+    println!("🔄 Phase 4: Executing moves...");
+    let result = execute_moves(&move_plan, &graph);
+
+    match result {
+        Ok(_) => {
+            // Phase 5: Validate
+            println!("✅ Phase 5: Validating results...");
+            match validate_reclassification(schema_dir, &move_plan) {
+                Ok(_) => {
+                    println!("🎉 Primitive reclassification completed successfully!");
+                    println!("💡 Backup saved at: {}", backup_path.display());
+                    Ok(())
+                }
+                Err(e) => {
+                    println!("❌ Validation failed, rolling back...");
+                    restore_backup(&backup_path)?;
+                    Err(e)
+                }
+            }
+        }
+        Err(e) => {
+            println!("❌ Move execution failed, rolling back...");
+            restore_backup(&backup_path)?;
+            Err(e)
+        }
+    }
+}
+
+fn build_dependency_graph(schema_dir: &str) -> Result<HashMap<String, DependencyInfo>, Box<dyn std::error::Error>> {
+    // This is a simplified version - in practice we'd use the existing graph tools
+    // For now, we'll scan for $ref patterns
+    let mut graph = HashMap::new();
+
+    let schema_root = Path::new("familiar-schemas").join(schema_dir).join("json-schema");
+    let primitives_dir = schema_root.join("primitives");
+
+    if !primitives_dir.exists() {
+        return Err(format!("Primitives directory not found: {}", primitives_dir.display()).into());
+    }
+
+    // Scan all JSON files for references to primitives
+    for entry in walkdir::WalkDir::new(&schema_root) {
+        let entry = entry?;
+        if entry.file_type().is_file() && entry.path().extension() == Some(std::ffi::OsStr::new("json")) {
+            let content = std::fs::read_to_string(entry.path())?;
+            let schema: serde_json::Value = serde_json::from_str(&content)?;
+
+            // Find all $ref to primitives
+            find_primitive_refs(&schema, &mut graph, entry.path(), &primitives_dir)?;
+        }
+    }
+
+    Ok(graph)
+}
+
+fn find_primitive_refs(
+    schema: &serde_json::Value,
+    graph: &mut HashMap<String, DependencyInfo>,
+    file_path: &Path,
+    primitives_dir: &Path
+) -> Result<(), Box<dyn std::error::Error>> {
+    match schema {
+        serde_json::Value::Object(obj) => {
+            if let Some(ref_val) = obj.get("$ref") {
+                if let Some(ref_str) = ref_val.as_str() {
+                    if let Some(primitive_name) = extract_primitive_name(ref_str, primitives_dir) {
+                        let file_path_str = file_path.to_string_lossy().to_string();
+                        graph.entry(primitive_name.clone())
+                            .or_insert_with(|| DependencyInfo {
+                                dependents: Vec::new(),
+                                reference_paths: Vec::new(),
+                                reference_count: 0,
+                            })
+                            .dependents.push(file_path_str.clone());
+                        graph.get_mut(&primitive_name).unwrap().reference_paths.push(ref_str.to_string());
+                        graph.get_mut(&primitive_name).unwrap().reference_count += 1;
+                    }
+                }
+            }
+
+            // Recursively check all object values
+            for value in obj.values() {
+                find_primitive_refs(value, graph, file_path, primitives_dir)?;
+            }
+        }
+        serde_json::Value::Array(arr) => {
+            for item in arr {
+                find_primitive_refs(item, graph, file_path, primitives_dir)?;
+            }
+        }
+        _ => {}
+    }
+
+    Ok(())
+}
+
+fn extract_primitive_name(ref_path: &str, _primitives_dir: &Path) -> Option<String> {
+    if ref_path.contains("../primitives/") || ref_path.contains("primitives/") {
+        let path = Path::new(ref_path);
+        if let Some(file_stem) = path.file_stem() {
+            if let Some(name) = file_stem.to_str() {
+                return Some(name.to_string());
+            }
+        }
+    }
+    None
+}
+
+fn create_move_plan(schema_dir: &str, graph: &HashMap<String, DependencyInfo>) -> Result<Vec<MoveOperation>, Box<dyn std::error::Error>> {
+    let mut move_plan = Vec::new();
+
+    let primitives_dir = Path::new("familiar-schemas").join(schema_dir).join("json-schema").join("primitives");
+
+    for entry in std::fs::read_dir(&primitives_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+
+        if path.extension() == Some(std::ffi::OsStr::new("json")) {
+            let full_stem = path.file_stem()
+                .and_then(|s| s.to_str())
+                .ok_or("Invalid filename")?;
+
+            // Remove .schema suffix if present
+            let schema_name = if full_stem.ends_with(".schema") {
+                full_stem.strip_suffix(".schema").unwrap().to_string()
+            } else {
+                full_stem.to_string()
+            };
+
+            let content = std::fs::read_to_string(&path)?;
+            let schema: serde_json::Value = serde_json::from_str(&content)?;
+
+            let category = classify_primitive_schema(&schema, &schema_name);
+
+            if matches!(category, SchemaCategory::MoveToType | SchemaCategory::MoveToComponent) {
+                let (new_dir, _new_category) = match category {
+                    SchemaCategory::MoveToType => ("types", "type"),
+                    SchemaCategory::MoveToComponent => ("components", "component"),
+                    _ => unreachable!(),
+                };
+
+                let from_path = path.clone();
+                let to_path = Path::new("familiar-schemas")
+                    .join(schema_dir)
+                    .join("json-schema")
+                    .join(new_dir)
+                    .join(format!("{}.schema.json", schema_name));
+
+                let dependents = graph.get(&schema_name)
+                    .map(|info| info.dependents.clone())
+                    .unwrap_or_default();
+
+                let original_ref_count = graph.get(&schema_name)
+                    .map(|info| info.reference_count)
+                    .unwrap_or(0);
+
+                move_plan.push(MoveOperation {
+                    schema_name: schema_name.clone(),
+                    from_path,
+                    to_path,
+                    new_category: category,
+                    dependents,
+                    original_ref_count,
+                });
+            }
+        }
+    }
+
+    Ok(move_plan)
+}
+
+fn create_backup(schema_dir: &str) -> Result<PathBuf, Box<dyn std::error::Error>> {
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    let timestamp = SystemTime::now()
+        .duration_since(UNIX_EPOCH)?
+        .as_secs();
+
+    let backup_path = Path::new("familiar-schemas-backup").join(format!("backup-{}-{}", schema_dir.replace("/", "-"), timestamp));
+
+    // Create backup directory
+    std::fs::create_dir_all(&backup_path)?;
+
+    // Copy entire schema directory
+    let source = Path::new("familiar-schemas").join(schema_dir).join("json-schema");
+    copy_dir_recursive(&source, &backup_path)?;
+
+    println!("💾 Backup created at: {}", backup_path.display());
+    Ok(backup_path)
+}
+
+fn copy_dir_recursive(src: &Path, dst: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    std::fs::create_dir_all(dst)?;
+    for entry in std::fs::read_dir(src)? {
+        let entry = entry?;
+        let ty = entry.file_type()?;
+        let src_path = entry.path();
+        let dst_path = dst.join(entry.file_name());
+
+        if ty.is_dir() {
+            copy_dir_recursive(&src_path, &dst_path)?;
+        } else {
+            std::fs::copy(&src_path, &dst_path)?;
+        }
+    }
+    Ok(())
+}
+
+fn restore_backup(backup_path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let schema_root = Path::new("familiar-schemas/versions/latest/json-schema");
+
+    // Remove current schemas
+    if schema_root.exists() {
+        std::fs::remove_dir_all(&schema_root)?;
+    }
+
+    // Restore from backup
+    copy_dir_recursive(backup_path, &schema_root)?;
+    println!("🔄 Backup restored from: {}", backup_path.display());
+    Ok(())
+}
+
+fn execute_moves(move_plan: &[MoveOperation], graph: &HashMap<String, DependencyInfo>) -> Result<(), Box<dyn std::error::Error>> {
+    for move_op in move_plan {
+        println!("🔄 Moving {} to {}...", move_op.schema_name, move_op.to_path.display());
+
+        // Create destination directory
+        if let Some(parent) = move_op.to_path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
+
+        // Move the file
+        std::fs::rename(&move_op.from_path, &move_op.to_path)?;
+
+        // Update the schema's x-familiar-kind
+        update_schema_kind(&move_op.to_path, &move_op.new_category)?;
+
+        // Update all references
+        update_references(move_op, graph)?;
+    }
+
+    Ok(())
+}
+
+fn update_schema_kind(schema_path: &Path, new_category: &SchemaCategory) -> Result<(), Box<dyn std::error::Error>> {
+    let content = std::fs::read_to_string(schema_path)?;
+    let mut schema: serde_json::Value = serde_json::from_str(&content)?;
+
+    if let Some(obj) = schema.as_object_mut() {
+        let kind_str = match new_category {
+            SchemaCategory::MoveToType => "type",
+            SchemaCategory::MoveToComponent => "component",
+            _ => unreachable!(),
+        };
+        obj.insert("x-familiar-kind".to_string(), serde_json::Value::String(kind_str.to_string()));
+    }
+
+    let updated_content = serde_json::to_string_pretty(&schema)?;
+    std::fs::write(schema_path, updated_content)?;
+
+    Ok(())
+}
+
+fn update_references(move_op: &MoveOperation, _graph: &HashMap<String, DependencyInfo>) -> Result<(), Box<dyn std::error::Error>> {
+    for dependent in &move_op.dependents {
+        let _dependent_path = Path::new(dependent);
+
+        // Convert relative path back to absolute
+        let abs_path = if dependent.starts_with("../../") {
+            Path::new("familiar-schemas/versions/latest/json-schema").join(&dependent[6..])
+        } else {
+            Path::new("familiar-schemas/versions/latest/json-schema").join(dependent)
+        };
+
+        let content = std::fs::read_to_string(&abs_path)?;
+        let mut schema: serde_json::Value = serde_json::from_str(&content)?;
+
+        // Update $ref paths
+        update_ref_paths(&mut schema, &move_op.from_path, &move_op.to_path)?;
+
+        let updated_content = serde_json::to_string_pretty(&schema)?;
+        std::fs::write(&abs_path, updated_content)?;
+    }
+
+    Ok(())
+}
+
+fn update_ref_paths(schema: &mut serde_json::Value, old_path: &Path, new_path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    match schema {
+        serde_json::Value::Object(obj) => {
+            if let Some(ref_val) = obj.get_mut("$ref") {
+                if let Some(ref_str) = ref_val.as_str() {
+                    if ref_str.contains(&format!("primitives/{}.schema.json",
+                        old_path.file_stem().unwrap().to_string_lossy())) {
+
+                        let new_ref = match new_path.parent().unwrap().file_name().unwrap().to_str() {
+                            Some("types") => format!("../types/{}.schema.json",
+                                new_path.file_stem().unwrap().to_string_lossy()),
+                            Some("components") => format!("../components/{}.schema.json",
+                                new_path.file_stem().unwrap().to_string_lossy()),
+                            _ => return Err("Unknown destination directory".into()),
+                        };
+
+                        *ref_val = serde_json::Value::String(new_ref);
+                    }
+                }
+            }
+
+            // Recursively update nested objects
+            for value in obj.values_mut() {
+                update_ref_paths(value, old_path, new_path)?;
+            }
+        }
+        serde_json::Value::Array(arr) => {
+            for item in arr {
+                update_ref_paths(item, old_path, new_path)?;
+            }
+        }
+        _ => {}
+    }
+
+    Ok(())
+}
+
+fn validate_reclassification(schema_dir: &str, move_plan: &[MoveOperation]) -> Result<(), Box<dyn std::error::Error>> {
+    println!("🔍 Validating reclassification results...");
+
+    // Rebuild graph
+    let new_graph = build_dependency_graph(schema_dir)?;
+
+    // Verify all schemas moved correctly
+    for move_op in move_plan {
+        // Check file exists at new location
+        if !move_op.to_path.exists() {
+            return Err(format!("Schema not found at new location: {}", move_op.to_path.display()).into());
+        }
+
+        // Check old location is gone
+        if move_op.from_path.exists() {
+            return Err(format!("Schema still exists at old location: {}", move_op.from_path.display()).into());
+        }
+
+        // Check x-familiar-kind was updated
+        let content = std::fs::read_to_string(&move_op.to_path)?;
+        let schema: serde_json::Value = serde_json::from_str(&content)?;
+        let expected_kind = match move_op.new_category {
+            SchemaCategory::MoveToType => "type",
+            SchemaCategory::MoveToComponent => "component",
+            _ => unreachable!(),
+        };
+
+        if let Some(kind) = schema.get("x-familiar-kind").and_then(|k| k.as_str()) {
+            if kind != expected_kind {
+                return Err(format!("Incorrect x-familiar-kind for {}: expected {}, got {}",
+                    move_op.schema_name, expected_kind, kind).into());
+            }
+        } else {
+            return Err(format!("Missing x-familiar-kind for {}", move_op.schema_name).into());
+        }
+
+        // Check references are maintained
+        let new_ref_count = new_graph.get(&move_op.schema_name)
+            .map(|info| info.reference_count)
+            .unwrap_or(0);
+
+        if new_ref_count != move_op.original_ref_count {
+            return Err(format!("Reference count changed for {}: expected {}, got {}",
+                move_op.schema_name, move_op.original_ref_count, new_ref_count).into());
+        }
+    }
+
+    // Run JSON schema validation
+    if let Err(errors) = validate_json_schemas(schema_dir) {
+        return Err(format!("JSON schema validation failed: {} errors", errors.len()).into());
+    }
+
+    println!("✅ All validations passed!");
+    Ok(())
 }
 
 fn run_command(args: &[&str]) {

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../types/BatchNLPRequest.schema.json",
+  "batch_id": "550e8400-e29b-41d4-a716-446655440002",
+  "requests": [
+    {
+      "request_id": "550e8400-e29b-41d4-a716-446655440003",
+      "text": "Good morning",
+      "language": "en"
+    },
+    {
+      "request_id": "550e8400-e29b-41d4-a716-446655440004",
+      "text": "The cat sat on the mat",
+      "language": "en"
+    },
+    {
+      "request_id": "550e8400-e29b-41d4-a716-446655440005",
+      "text": "I love programming",
+      "language": "en"
+    }
+  ],
+  "processing_mode": "parallel",
+  "consolidate_results": true
+}

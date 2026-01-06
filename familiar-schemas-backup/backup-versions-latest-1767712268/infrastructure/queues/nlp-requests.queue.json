@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../architecture/meta/Queue.meta.schema.json",
+  "$id": "infrastructure/queues/nlp-requests.queue.json",
+  "id": "nlp-requests",
+  "title": "NLP Request Queue",
+  "description": "High-throughput queue for incoming NLP processing requests",
+  "x-familiar-kind": "queue",
+  "queue_type": "kafka",
+  "topic_name": "familiar.nlp.requests",
+  "max_throughput_per_second": "config://queues.nlp_requests.max_throughput_per_second",
+  "retention_hours": "config://queues.nlp_requests.retention_hours"
+}

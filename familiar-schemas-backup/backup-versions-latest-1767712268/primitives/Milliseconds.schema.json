@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/primitives/Milliseconds.schema.json",
+  "title": "Milliseconds",
+  "description": "Milliseconds since Unix epoch for physics temporal coordinates. Used exclusively for PhysicalEntity t_coord in the Growing Block Universe.",
+  "type": "integer",
+  "format": "int64",
+  "minimum": 0,
+  "x-familiar-kind": "primitive"
+}

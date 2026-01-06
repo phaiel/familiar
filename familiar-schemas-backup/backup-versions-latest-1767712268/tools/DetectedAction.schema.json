@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "A detected action in vision",
+  "properties": {
+    "action": {
+      "type": "string"
+    },
+    "actor": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "confidence": {
+      "format": "double",
+      "type": "number"
+    }
+  },
+  "required": [
+    "action",
+    "confidence"
+  ],
+  "title": "DetectedAction",
+  "type": "object",
+  "x-familiar-kind": "tool",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/Tool.meta.schema.json"
+  },
+  "x-familiar-queue": {
+    "$ref": "../infrastructure/queues/worker-queue.queue.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-worker.node.json"
+  }
+}

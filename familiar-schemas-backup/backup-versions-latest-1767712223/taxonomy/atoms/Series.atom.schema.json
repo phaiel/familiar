@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/taxonomy/atoms/Series.atom.schema.json",
+  "title": "Series Atom",
+  "description": "The sequence/state atom (~). Maps cyclical or sequential patterns to state machines for internal vibration modeling.",
+  "x-familiar-kind": "taxonomy_atom",
+  "x-familiar-description": "Series dimension - patterns, cycles, and sequences",
+
+  "type": "object",
+  "required": ["series_type", "current_state"],
+  "properties": {
+    "series_type": {
+      "type": "string",
+      "description": "The type of series or pattern",
+      "enum": ["biological_cycle", "behavioral_routine", "developmental_stage", "emotional_cycle", "activity_sequence", "other"],
+      "examples": ["biological_cycle", "behavioral_routine", "activity_sequence"]
+    },
+
+    "current_state": {
+      "type": "string",
+      "description": "The current state in the series",
+      "examples": ["deep_sleep", "feeding", "awake", "crying"]
+    },
+
+    "state_sequence": {
+      "type": "array",
+      "description": "The sequence of states in this series",
+      "items": {
+        "type": "object",
+        "required": ["state_name", "position"],
+        "properties": {
+          "state_name": { "type": "string" },
+          "position": { "type": "integer", "minimum": 0 },
+          "is_current": { "type": "boolean", "default": false },
+          "duration_minutes": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+
+    "transition_validity": {
+      "type": "object",
+      "description": "Whether the current transition follows expected patterns",
+      "properties": {
+        "expected_transition": { "type": "boolean", "default": true },
+        "transition_type": {
+          "type": "string",
+          "enum": ["normal", "accelerated", "delayed", "skipped", "repeated", "abnormal"],
+          "default": "normal"
+        },
+        "anomaly_score": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+
+    "cycle_metadata": {
+      "type": "object",
+      "description": "Information about the overall cycle",
+      "properties": {
+        "cycle_name": { "type": "string", "examples": ["sleep_cycle", "feeding_schedule", "daily_routine"] },
+        "cycle_duration_hours": { "type": "number", "minimum": 0 },
+        "cycle_position": { "type": "number", "minimum": 0.0, "maximum": 1.0, "description": "Position within the cycle (0.0 = start, 1.0 = end)" },
+        "is_complete": { "type": "boolean", "default": false }
+      }
+    },
+
+    "rhythm_stability": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "How stable/predictable this series pattern is"
+    }
+  },
+
+  "x-familiar-taxonomy": {
+    "root": "Sequence",
+    "structure": "graph",
+    "pruning_strategy": "state_machine_pruning",
+    "vae_dimensions": ["rhythm_stability", "transition_smoothness", "pattern_predictability"],
+    "weight_config_key": "taxonomy.series.weights"
+  }
+}

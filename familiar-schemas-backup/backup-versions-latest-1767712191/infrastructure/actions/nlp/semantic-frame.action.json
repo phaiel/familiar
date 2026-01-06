@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/nlp/semantic-frame.action.json",
+  "id": "nlp.semantic-frame",
+  "title": "Semantic Frame Construction",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": [],
+  "signature": {
+    "inputs": {
+      "parsed_tree": {
+        "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+        "semantics": "borrow"
+      },
+      "lexeme_mappings": {
+        "schema": { "$ref": "../../../components/LexemeMapping.schema.json" },
+        "semantics": "borrow"
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../components/SemanticFrame.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

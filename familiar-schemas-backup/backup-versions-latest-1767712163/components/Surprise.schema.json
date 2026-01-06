@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/components/Surprise.schema.json",
+  "title": "Surprise",
+  "description": "Differential semantic component measuring excitation vs. baseline. Enables selective memory consolidation and attention steering.",
+  "x-familiar-kind": "component",
+  "x-familiar-description": "Semantic surprise for memory consolidation",
+
+  "type": "object",
+  "required": ["expected_state", "observed_state", "surprise_vector"],
+  "properties": {
+    "expected_state": {
+      "type": "object",
+      "description": "The baseline state from RAG/history",
+      "properties": {
+        "vae_coordinates": {
+          "type": "array",
+          "description": "Expected VAE position (Vacuum Expectation Value)",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 4
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "How confident we are in the baseline"
+        },
+        "source": {
+          "type": "string",
+          "description": "Where this expectation came from",
+          "enum": ["anchor_cache", "historical_average", "statistical_model", "default_baseline"],
+          "examples": ["anchor_cache", "historical_average"]
+        }
+      },
+      "required": ["vae_coordinates"]
+    },
+
+    "observed_state": {
+      "type": "object",
+      "description": "The newly observed state from LLM equation resolution",
+      "properties": {
+        "vae_coordinates": {
+          "type": "array",
+          "description": "Observed VAE position after equation resolution",
+          "items": { "type": "number" },
+          "minItems": 3,
+          "maxItems": 4
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "How confident we are in the observation"
+        },
+        "resolution_method": {
+          "type": "string",
+          "description": "How this observation was derived",
+          "enum": ["taxonomy_lookup", "equation_resolution", "llm_direct", "statistical_inference"],
+          "examples": ["equation_resolution", "taxonomy_lookup"]
+        }
+      },
+      "required": ["vae_coordinates"]
+    },
+
+    "surprise_vector": {
+      "type": "object",
+      "description": "The delta between expected and observed states",
+      "required": ["delta_coordinates", "magnitude", "direction"],
+      "properties": {
+        "delta_coordinates": {
+          "type": "array",
+          "description": "Vector difference: observed - expected",
+          "items": { "type": "number" }
+        },
+        "magnitude": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "L2 norm of the surprise vector (how surprising this is)"
+        },
+        "direction": {
+          "type": "string",
+          "description": "Primary direction of surprise",
+          "enum": ["valence_shift", "arousal_change", "dominance_inversion", "neutral", "mixed"],
+          "examples": ["valence_shift", "arousal_change"]
+        }
+      }
+    },
+
+    "consolidation_decision": {
+      "type": "object",
+      "description": "Whether and how to consolidate this memory",
+      "properties": {
+        "should_consolidate": {
+          "type": "boolean",
+          "description": "Whether this surprise warrants memory consolidation",
+          "default": false
+        },
+        "consolidation_threshold": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "The threshold that was exceeded for consolidation"
+        },
+        "materialization_strategy": {
+          "type": "string",
+          "description": "How to materialize this memory if consolidating",
+          "enum": ["immediate_block", "latent_amplification", "attention_boost", "no_action"],
+          "default": "no_action"
+        },
+        "retention_priority": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "How important this memory should be for long-term retention"
+        }
+      }
+    },
+
+    "attention_mechanism": {
+      "type": "object",
+      "description": "How this surprise affects attention and focus",
+      "properties": {
+        "attention_gravity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "How strongly this pulls focus (0.0 = ignore, 1.0 = immediate attention)"
+        },
+        "focus_displacement": {
+          "type": "array",
+          "description": "How this affects other active focuses",
+          "items": {
+            "type": "object",
+            "properties": {
+              "focus_id": { "$ref": "../primitives/UUID.schema.json" },
+              "displacement_strength": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+            }
+          }
+        }
+      }
+    },
+
+    "computed_at": { "$ref": "../primitives/Timestamp.schema.json" },
+    "moment_id": { "$ref": "../primitives/UUID.schema.json" }
+  },
+
+  "x-familiar-persistence": {
+    "profile": "analytical_cache",
+    "table_name": "semantic_surprises",
+    "primary_key": ["moment_id", "computed_at"],
+    "indexes": [
+      "surprise_vector.magnitude",
+      "consolidation_decision.should_consolidate",
+      "attention_mechanism.attention_gravity"
+    ],
+    "partition_key": "computed_at"
+  }
+}

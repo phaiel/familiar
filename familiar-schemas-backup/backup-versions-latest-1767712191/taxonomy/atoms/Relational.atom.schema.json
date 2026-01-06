@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familiar.dev/schemas/taxonomy/atoms/Relational.atom.schema.json",
+  "title": "Relational Atom",
+  "description": "The social/relational atom (#). Maps interpersonal and group dynamics for identity resolution and world-line pruning.",
+  "x-familiar-kind": "taxonomy_atom",
+  "x-familiar-description": "Relational dimension - who/what is involved and how they connect",
+
+  "type": "object",
+  "required": ["entity_references", "relationship_type"],
+  "properties": {
+    "entity_references": {
+      "type": "array",
+      "description": "References to entities involved in this relationship",
+      "items": {
+        "type": "object",
+        "required": ["entity_id", "role"],
+        "properties": {
+          "entity_id": { "$ref": "../../primitives/UUID.schema.json" },
+          "role": { "type": "string", "description": "Role in the relationship (subject, object, witness, etc.)" },
+          "contextual_name": { "type": "string", "description": "How this entity is referred to in context" }
+        }
+      },
+      "minItems": 1
+    },
+
+    "relationship_type": {
+      "type": "string",
+      "description": "The type of relationship being expressed",
+      "enum": ["family", "friendship", "professional", "authority", "romantic", "group_membership", "ownership", "other"],
+      "examples": ["family", "professional", "group_membership"]
+    },
+
+    "relationship_strength": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Strength of the relationship (0.0 = distant, 1.0 = intimate/core)"
+    },
+
+    "social_context": {
+      "type": "string",
+      "description": "Social setting or context for the relationship",
+      "examples": ["home", "work", "public", "private"]
+    }
+  },
+
+  "x-familiar-taxonomy": {
+    "root": "Social",
+    "structure": "graph",
+    "pruning_strategy": "world_line_activation",
+    "vae_dimensions": ["social_binding", "authority_gradient", "intimacy_level"],
+    "weight_config_key": "taxonomy.relational.weights"
+  }
+}

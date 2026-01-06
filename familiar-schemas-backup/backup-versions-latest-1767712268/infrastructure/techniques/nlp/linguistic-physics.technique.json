@@ -1,0 +1,76 @@
+{
+  "$schema": "../../../../architecture/meta/Technique.meta.schema.json",
+  "$id": "infrastructure/techniques/nlp/linguistic-physics.technique.json",
+  "id": "nlp.linguistic-physics",
+  "title": "Linguistic-to-Physics Pipeline",
+  "description": "Complete pipeline: Parse → Map → Frame → Refine → Contract",
+  "x-familiar-kind": "technique",
+  "input": {
+    "$ref": "../../../../architecture/references/SchemaRef.meta.schema.json"
+  },
+  "output": {
+    "$ref": "../../../../architecture/references/SchemaRef.meta.schema.json"
+  },
+  "steps": [
+    {
+      "id": "parse",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/nlp/dependency-parse.action.json"
+      },
+      "args": {
+        "text": "$.input.text",
+        "language": "$.input.language"
+      }
+    },
+    {
+      "id": "map",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/nlp/lexeme-map.action.json"
+      },
+      "args": {
+        "dependency_tree": "$.parse",
+        "lexeme_cache": "$.input.lexeme_cache"
+      }
+    },
+    {
+      "id": "frame",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/nlp/semantic-frame.action.json"
+      },
+      "args": {
+        "parsed_tree": "$.parse",
+        "lexeme_mappings": "$.map"
+      }
+    },
+    {
+      "id": "refine",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/llm/affective-refine.action.json"
+      },
+      "args": {
+        "semantic_frame": "$.frame",
+        "model_config": "$.input.model_config"
+      }
+    },
+    {
+      "id": "contract",
+      "kind": "call",
+      "action": {
+        "$ref": "../../actions/algebra/tensor-contract.action.json"
+      },
+      "args": {
+        "semantic_frame": "$.refine",
+        "physics_coefficients": "$.refine.physics_projection"
+      }
+    }
+  ],
+  "return": {
+    "semantic_frame": "$.frame",
+    "physics_position": "$.contract",
+    "reduction_trace": "$.refine.trace"
+  }
+}

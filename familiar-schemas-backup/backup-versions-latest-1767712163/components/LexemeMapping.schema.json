@@ -1,0 +1,29 @@
+{
+  "$schema": "../architecture/meta/Component.meta.schema.json",
+  "$id": "components/LexemeMapping.schema.json",
+  "title": "LexemeMapping",
+  "description": "Maps lexemes (words) to physics components and taxonomy atoms",
+  "type": "object",
+  "x-familiar-kind": "component",
+  "patternProperties": {
+    ".*": {
+      "type": "object",
+      "description": "Mapping for a specific lexeme",
+      "properties": {
+        "taxonomy_atom": {
+          "type": "string",
+          "description": "Which taxonomy atom: ! # @ $ ^ ~"
+        },
+        "physics_base": {
+          "$ref": "FieldExcitation.schema.json",
+          "description": "Base physics properties for this lexeme"
+        },
+        "quantum_base": {
+          "$ref": "QuantumState.schema.json",
+          "description": "Base quantum properties for this lexeme"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

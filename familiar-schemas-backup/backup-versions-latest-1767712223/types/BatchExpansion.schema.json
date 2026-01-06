@@ -1,0 +1,26 @@
+{
+  "$schema": "../architecture/meta/Type.meta.schema.json",
+  "$id": "types/BatchExpansion.schema.json",
+  "title": "BatchExpansion",
+  "description": "Expanded batch request with individual requests and metadata",
+  "type": "object",
+  "x-familiar-kind": "type",
+  "required": ["requests", "metadata"],
+  "properties": {
+    "requests": {
+      "type": "array",
+      "items": { "$ref": "NLPRequest.schema.json" },
+      "description": "Individual NLP requests from the batch"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Batch processing metadata",
+      "properties": {
+        "batch_id": { "$ref": "../primitives/UUID.schema.json" },
+        "total_requests": { "type": "integer" },
+        "processing_mode": { "type": "string" },
+        "created_at": { "$ref": "../primitives/Timestamp.schema.json" }
+      }
+    }
+  }
+}

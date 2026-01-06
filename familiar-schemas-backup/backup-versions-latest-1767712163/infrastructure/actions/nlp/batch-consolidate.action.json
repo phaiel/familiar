@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../../architecture/meta/Action.meta.schema.json",
+  "$id": "infrastructure/actions/nlp/batch-consolidate.action.json",
+  "id": "nlp.batch-consolidate",
+  "title": "Batch Result Consolidation",
+  "x-familiar-kind": "action",
+  "x-familiar-compute-category": "cpu",
+  "x-familiar-execution-model": "sync",
+  "x-familiar-reliability": "idempotent",
+  "x-familiar-side-effects": [],
+  "signature": {
+    "inputs": {
+      "individual_results": {
+        "schema": { "$ref": "../../../../types/Array.schema.json" },
+        "semantics": "borrow"
+      },
+      "batch_metadata": {
+        "schema": { "$ref": "../../../../types/Object.schema.json" },
+        "semantics": "borrow"
+      }
+    },
+    "output": {
+      "schema": { "$ref": "../../../../types/BatchReductionResults.schema.json" },
+      "nature": "owned"
+    }
+  }
+}

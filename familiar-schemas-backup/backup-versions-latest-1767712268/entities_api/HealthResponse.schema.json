@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Response payload for GET /health",
+  "properties": {
+    "service": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "service",
+    "status",
+    "version"
+  ],
+  "title": "HealthResponse",
+  "type": "object",
+  "x-familiar-kind": "entities_api",
+  "x-familiar-meta-schema": {
+    "$ref": "../architecture/meta/EntitiesAPI.meta.schema.json"
+  },
+  "x-familiar-service": {
+    "$ref": "../infrastructure/nodes/familiar-worker.node.json"
+  }
+}
